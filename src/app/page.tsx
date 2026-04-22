@@ -60,7 +60,7 @@ export default function Dashboard() {
       {/* KPI Cards Superiores */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {kpis.map((stat, i) => (
-          <div key={i} className={`bg-white p-4 rounded-md border ${stat.border} shadow-sm relative overflow-hidden group`}>
+          <div key={i} className={`bg-white p-4 rounded-lg border ${stat.border} shadow-sm relative overflow-hidden group`}>
             <div className={`absolute -right-4 -top-4 w-16 h-16 rounded-full opacity-20 ${stat.bg} group-hover:scale-150 transition-transform duration-500`}></div>
             <div className="flex justify-between items-start mb-3 relative z-10">
               <div className={`w-9 h-9 rounded-full flex items-center justify-center ${stat.bg}`}>
@@ -82,7 +82,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Trend Chart */}
-        <div className="lg:col-span-2 bg-white rounded-md border border-slate-200 shadow-sm p-6">
+        <div className="lg:col-span-2 bg-white rounded-lg border border-slate-200 shadow-sm p-6">
           <h2 className="font-bold text-slate-800 mb-6 flex items-center gap-2 text-sm">
             <Activity className="w-4 h-4 text-primary" /> Tendencia de Carga vs Emisión (Últimos 30 días)
           </h2>
@@ -112,7 +112,7 @@ export default function Dashboard() {
         </div>
 
         {/* Trámite Donut */}
-        <div className="bg-white rounded-md border border-slate-200 shadow-sm p-6 flex flex-col">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 flex flex-col">
           <h2 className="font-bold text-slate-800 mb-2 text-sm">Distribución por Trámite</h2>
           <p className="text-[11px] text-slate-500 mb-4">Volumen activo actual</p>
           <div className="flex-1 w-full relative">
@@ -146,7 +146,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Embudo Operativo */}
-        <div className="bg-white rounded-md border border-slate-200 shadow-sm p-6">
+        <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6">
           <h2 className="font-bold text-slate-800 mb-6 text-sm">Embudo Operativo (Cuellos de Botella)</h2>
           <div className="h-[250px] w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -163,7 +163,7 @@ export default function Dashboard() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md flex gap-3">
+          <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg flex gap-3">
             <AlertCircle className="w-4 h-4 text-danger shrink-0 mt-0.5" />
             <p className="text-[11px] text-red-800 font-medium">
               Alerta de Productividad: Alta concentración de casos ({funnelData[1].casos}) en etapa Documental (DOCT). Se sugiere liberar validaciones.
@@ -172,7 +172,7 @@ export default function Dashboard() {
         </div>
 
         {/* Alertas Operativas y SLA */}
-        <div className="lg:col-span-2 bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+        <div className="lg:col-span-2 bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden flex flex-col">
           <div className="px-6 py-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
             <h2 className="font-bold text-slate-800 flex items-center gap-2 text-sm">
               <ShieldAlert className="w-4 h-4 text-danger" /> Action Center: Riesgos SLA y Bloqueos

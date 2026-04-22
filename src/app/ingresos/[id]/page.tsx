@@ -59,6 +59,44 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
         </div>
       </div>
 
+      {/* Macro Línea de Tiempo del Proceso */}
+      <div className="bg-white rounded-md border border-slate-200 shadow-sm p-5 overflow-x-auto hide-scrollbar">
+        <div className="flex items-center min-w-[800px]">
+          {[
+            { step: 1, label: "Recepción RAC", status: "completed" },
+            { step: 2, label: "Expediente DOCT", status: "completed" },
+            { step: 3, label: "Análisis (FFQQ/Micro)", status: "current" },
+            { step: 4, label: "Control STCC", status: "pending" },
+            { step: 5, label: "Aprobación DT/DG", status: "pending" },
+            { step: 6, label: "Emisión", status: "pending" }
+          ].map((item, index, arr) => (
+            <div key={index} className="flex-1 flex items-center relative">
+              <div className="flex flex-col items-center gap-2 relative z-10 w-full">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs border-2 transition-colors bg-white ${
+                  item.status === 'completed' ? 'border-success text-success' : 
+                  item.status === 'current' ? 'border-primary bg-primary text-white shadow-md' : 
+                  'border-slate-200 text-slate-400'
+                }`}>
+                  {item.status === 'completed' ? <CheckCircle2 className="w-4 h-4" /> : item.step}
+                </div>
+                <span className={`text-[11px] font-bold text-center absolute top-10 whitespace-nowrap ${
+                  item.status === 'completed' ? 'text-slate-700' : 
+                  item.status === 'current' ? 'text-primary' : 'text-slate-400'
+                }`}>
+                  {item.label}
+                </span>
+              </div>
+              {index < arr.length - 1 && (
+                <div className={`absolute top-4 left-1/2 w-full h-[2px] -z-0 ${
+                  item.status === 'completed' ? 'bg-success' : 'bg-slate-100'
+                }`}></div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="h-6"></div> {/* Spacer for absolute labels */}
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         
         {/* Bloque Central (Area de Trabajo) */}
