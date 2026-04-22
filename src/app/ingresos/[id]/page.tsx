@@ -280,53 +280,161 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
               {/* TAB: RAC */}
               {activeTab === "rac" && (
                 <div className="space-y-8 animate-in fade-in duration-300">
+                  {/* Action Bar */}
+                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                    <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><FileCheck className="w-4 h-4 text-primary" /> Expediente RAC — Control de Recepción</h3>
+                    <div className="flex gap-2">
+                      <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><Printer className="w-3.5 h-3.5" /> RG-13 (Etiquetas)</button>
+                      <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><Printer className="w-3.5 h-3.5" /> RG-72 (Ingreso)</button>
+                      <button className="bg-primary text-white px-3 py-1.5 rounded-md text-xs font-bold hover:bg-primary-dark shadow-sm flex items-center gap-1.5">Editar Registro Maestro</button>
+                    </div>
+                  </div>
+
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Columna Izquierda */}
                     <div className="space-y-6">
+                      
+                      {/* BLOQUE 1: Registro Maestro (RG-41) */}
                       <div>
-                        <h3 className="font-bold text-slate-800 text-sm mb-4">Datos del Registro Maestro (RG-41)</h3>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">1. Registro Maestro (RG-41)</h3>
                         <div className="grid grid-cols-2 gap-3">
                           <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">N° Recepción</p><p className="text-sm font-bold text-slate-900">REC-2024-00147</p></div>
-                          <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Prioridad</p><p className="text-sm font-bold text-slate-900">URGENTE</p></div>
+                          <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Prioridad</p><p className="text-sm font-bold text-orange-600">URGENTE</p></div>
+                          <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Fecha de Recepción</p><p className="text-sm font-bold text-slate-900">07/01/2024 08:14</p></div>
+                          <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Tipo de Trámite</p><p className="text-sm font-bold text-slate-900">Control de Calidad</p></div>
                         </div>
                       </div>
+
+                      {/* BLOQUE 2: Referencias Documentales */}
                       <div>
-                        <h3 className="font-bold text-slate-400 text-xs uppercase tracking-wider mb-4">Cantidades por Destino</h3>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">2. Referencias Institucionales</h3>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Oficio de Remisión</p><p className="text-sm font-bold text-primary hover:underline cursor-pointer">OF-SESAL-2024-089</p></div>
+                          <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">N° Licitación / Compra</p><p className="text-sm font-bold text-slate-900">LPN-SESAL-001-2023</p></div>
+                          <div className="bg-slate-50 border border-slate-100 rounded-md p-3 col-span-2"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Proforma de Pago</p><p className="text-sm font-bold text-slate-900 flex items-center gap-2">PROF-2024-0015 <span className="bg-green-100 text-success text-[9px] px-1.5 py-0.5 rounded">PAGADA</span></p></div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 3: Condiciones de Recepción */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">3. Condiciones Físicas de la Muestra</h3>
+                        <div className="bg-slate-50 border border-slate-100 rounded-md p-4">
+                          <div className="grid grid-cols-2 gap-4 mb-4">
+                            <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Temp. de Recepción</p><p className="text-sm font-bold text-slate-900">22.5 °C</p></div>
+                            <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Humedad Relativa</p><p className="text-sm font-bold text-slate-900">45%</p></div>
+                          </div>
+                          <div className="border-t border-slate-200 pt-3">
+                            <p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Estado del Embalaje</p>
+                            <div className="flex items-center gap-2 mt-1">
+                               <span className="bg-green-100 text-success border border-green-200 px-2 py-1 rounded text-xs font-bold">Óptimo</span>
+                               <span className="text-xs text-slate-600">Cajas selladas, sin roturas.</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 4: Responsabilidad / Toma de Muestra */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">4. Toma de Muestra</h3>
+                        <div className="bg-slate-50 border border-slate-100 rounded-md p-4">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Entidad Muestreadora</p><p className="text-sm font-bold text-slate-900">ARSA - Inspectoría</p></div>
+                            <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Acta de Toma</p><p className="text-sm font-bold text-primary hover:underline cursor-pointer">ACTA-089-24</p></div>
+                            <div className="col-span-2"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Sitio de Muestreo</p><p className="text-sm font-bold text-slate-900">Almacén Central de Medicamentos</p></div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {/* Columna Derecha */}
+                    <div className="space-y-6">
+                      
+                      {/* BLOQUE 5: Cantidades por Destino */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">5. Cuadro de Cantidades y Distribución</h3>
                         <table className="w-full text-sm text-left border border-slate-200 rounded-md overflow-hidden">
-                          <thead className="bg-slate-50 border-b border-slate-200 text-xs text-slate-500 uppercase font-bold">
-                            <tr><th className="px-4 py-2">DESTINO</th><th className="px-4 py-2">CANTIDAD</th></tr>
+                          <thead className="bg-slate-50 border-b border-slate-200 text-[10px] text-slate-500 uppercase font-bold">
+                            <tr><th className="px-4 py-2">Área / Destino</th><th className="px-4 py-2">Cant.</th><th className="px-4 py-2 text-right">Verificado</th></tr>
                           </thead>
                           <tbody className="divide-y divide-slate-100">
-                            <tr><td className="px-4 py-2 text-slate-600">Total Recibida RAC</td><td className="px-4 py-2 font-bold text-slate-900">240</td></tr>
-                            <tr><td className="px-4 py-2 text-slate-600">FFQQ (Análisis)</td><td className="px-4 py-2 font-bold text-slate-900">120</td></tr>
-                            <tr><td className="px-4 py-2 text-slate-600">Microbiología</td><td className="px-4 py-2 font-bold text-slate-900">60</td></tr>
-                            <tr><td className="px-4 py-2 text-slate-600">Muestra Biblioteca</td><td className="px-4 py-2 font-bold text-slate-900">60</td></tr>
+                            <tr><td className="px-4 py-2 text-slate-700 font-bold">Total Muestra Recibida</td><td className="px-4 py-2 font-black text-slate-900">240</td><td className="px-4 py-2 text-right"><CheckCircle2 className="w-4 h-4 text-success ml-auto" /></td></tr>
+                            <tr><td className="px-4 py-2 text-slate-600">Para Análisis FFQQ</td><td className="px-4 py-2 font-bold text-primary">120</td><td className="px-4 py-2 text-right"><CheckCircle2 className="w-4 h-4 text-success ml-auto" /></td></tr>
+                            <tr><td className="px-4 py-2 text-slate-600">Para Microbiología</td><td className="px-4 py-2 font-bold text-primary">60</td><td className="px-4 py-2 text-right"><CheckCircle2 className="w-4 h-4 text-success ml-auto" /></td></tr>
+                            <tr><td className="px-4 py-2 text-slate-600">Muestra de Retención (Biblio)</td><td className="px-4 py-2 font-bold text-purple-700">60</td><td className="px-4 py-2 text-right"><CheckCircle2 className="w-4 h-4 text-success ml-auto" /></td></tr>
                           </tbody>
                         </table>
                       </div>
-                    </div>
-                    <div className="space-y-6">
+
+                      {/* BLOQUE 6: Verificación Documental Mínima */}
                       <div>
-                        <h3 className="font-bold text-slate-800 text-sm mb-4">Verificación Documental Mínima</h3>
+                        <div className="flex justify-between items-center mb-3">
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">6. Verificación Documental Mínima</h3>
+                           <span className="text-[10px] font-bold text-danger bg-red-50 px-2 py-0.5 rounded border border-red-100">Incompleto</span>
+                        </div>
                         <div className="space-y-2">
                            {[
-                             { label: "Orden de Compra / Solicitud", status: "ok" },
-                             { label: "Acta de Toma de Muestra", status: "ok" },
-                             { label: "Carta / Oficio de Remisión", status: "ok" },
-                             { label: "Registro Sanitario Vigente", status: "ok" },
-                             { label: "Metodología Analítica", status: "missing" },
+                             { label: "Orden de Compra / Licitación", status: "ok" },
+                             { label: "Acta de Toma de Muestra original", status: "ok" },
+                             { label: "Oficio de Remisión de SESAL", status: "ok" },
+                             { label: "Certificado de Análisis del Fabricante", status: "ok" },
+                             { label: "Metodología Analítica declarada", status: "missing" },
+                             { label: "Certificado de Libre Venta / Reg. Sanitario", status: "ok" },
                            ].map((item, i) => (
                              <div key={i} className={`flex items-center justify-between p-3 rounded-md border ${
-                               item.status === 'ok' ? 'bg-green-50/50 border-green-200 text-green-800' : 'bg-red-50/50 border-red-200 text-red-800'
+                               item.status === 'ok' ? 'bg-green-50/50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'
                              }`}>
                                <div className="flex items-center gap-3">
                                  {item.status === 'ok' ? <CheckCircle2 className="w-4 h-4 text-success" /> : <XCircle className="w-4 h-4 text-danger" />}
-                                 <span className="text-sm font-medium">{item.label}</span>
+                                 <span className="text-xs font-bold">{item.label}</span>
                                </div>
-                               {item.status === 'missing' && <span className="text-[10px] text-danger hover:underline cursor-pointer font-bold">Adjuntar</span>}
+                               {item.status === 'missing' && <button className="text-[10px] bg-white border border-red-300 text-danger px-2 py-1 rounded hover:bg-red-50 transition-colors font-bold shadow-sm">Adjuntar</button>}
                              </div>
                            ))}
                         </div>
                       </div>
+
+                      {/* BLOQUE 7: Estado de Distribución */}
+                      <div className="bg-slate-50 border border-slate-200 rounded-lg p-5">
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-4">7. Estado de Distribución (RT-159)</h3>
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-success font-bold flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4"/> RAC — Emisión a Laboratorios</span>
+                            <div className="text-right">
+                              <span className="text-slate-500 mr-3 text-xs">08/01/2024</span>
+                              <span className="text-slate-700 font-bold text-xs">María Rodríguez</span>
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-center text-sm pt-2 border-t border-slate-100">
+                            <span className="text-success font-bold flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4"/> DOCT — Recibido (Expediente)</span>
+                            <div className="text-right">
+                              <span className="text-slate-500 mr-3 text-xs">09/01/2024</span>
+                              <span className="text-slate-700 font-bold text-xs">Ana Patricia Flores</span>
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-center text-sm pt-2 border-t border-slate-100">
+                            <span className="text-success font-bold flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4"/> FFQQ — Recibido (Muestra)</span>
+                            <div className="text-right">
+                              <span className="text-slate-500 mr-3 text-xs">17/01/2024</span>
+                              <span className="text-slate-700 font-bold text-xs">Karla Suazo</span>
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-center text-sm pt-2 border-t border-slate-100 opacity-50">
+                            <span className="text-slate-500 font-bold flex items-center gap-1.5"><Clock className="w-4 h-4"/> Micro — Pendiente Recepción</span>
+                            <div className="text-right text-xs">
+                              <span className="text-slate-400">Esperando...</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 8: Acciones de Recepción */}
+                      <div className="pt-2">
+                         <button className="w-full bg-primary hover:bg-primary-dark text-white font-bold py-3 rounded-md transition-colors shadow-sm flex justify-center items-center gap-2">
+                            Ver o Emitir Acta RT-159 Completa
+                         </button>
+                      </div>
+
                     </div>
                   </div>
                 </div>
