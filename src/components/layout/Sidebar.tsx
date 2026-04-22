@@ -27,8 +27,8 @@ export function Sidebar() {
     { icon: Microscope, label: "Microbiología", href: "/micro" },
     { icon: ShieldCheck, label: "Calidad STCC", href: "/stcc" },
     { icon: FileText, label: "Dirección Técnica", href: "/dt" },
-    { icon: Award, label: "Estándares (RG-44)", href: "/estandares" },
     { icon: Briefcase, label: "Dirección General", href: "/dg" },
+    { icon: Award, label: "Estándares (RG-44)", href: "/estandares" },
     { icon: BarChart, label: "Reportes SLA", href: "/reportes" },
     { icon: Settings, label: "Administración", href: "/admin" },
   ];
@@ -60,7 +60,7 @@ export function Sidebar() {
           ))}
           
           <div className="text-[10px] font-bold text-primary-light/70 uppercase tracking-wider px-3 mb-2 mt-4">Laboratorios y Áreas</div>
-          {menuItems.slice(3, 10).map((item) => (
+          {menuItems.slice(3, 11).map((item) => (
             <Link 
               key={item.href} 
               href={item.href}
@@ -72,7 +72,7 @@ export function Sidebar() {
           ))}
 
           <div className="text-[10px] font-bold text-primary-light/70 uppercase tracking-wider px-3 mb-2 mt-4">Gestión y Dirección</div>
-          {menuItems.slice(10).map((item) => (
+          {menuItems.slice(11).map((item) => (
             <Link 
               key={item.href} 
               href={item.href}
