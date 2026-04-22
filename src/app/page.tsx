@@ -1,139 +1,255 @@
-import { ArrowRight, Clock, CheckCircle2, AlertCircle, FileText } from "lucide-react";
+"use client";
+
+import { ArrowRight, Clock, CheckCircle2, AlertCircle, FileText, AlertTriangle, Activity, Beaker, ShieldAlert, CreditCard } from "lucide-react";
 import Link from "next/link";
+import { 
+  LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer,
+  PieChart, Pie, Cell, AreaChart, Area
+} from "recharts";
 
 export default function Dashboard() {
-  const stats = [
-    { label: "Ingresos del Mes", value: "142", icon: FileText, color: "text-blue-600", bg: "bg-blue-100" },
-    { label: "Pendientes RAC", value: "12", icon: Clock, color: "text-orange-600", bg: "bg-orange-100" },
-    { label: "En Análisis FFQQ", value: "34", icon: AlertCircle, color: "text-purple-600", bg: "bg-purple-100" },
-    { label: "Informes Emitidos", value: "89", icon: CheckCircle2, color: "text-success", bg: "bg-green-100" },
+  const kpis = [
+    { label: "Ingresos Activos", value: "142", trend: "+12%", icon: Activity, color: "text-blue-600", bg: "bg-blue-100", border: "border-blue-200" },
+    { label: "Pendientes de Pago", value: "18", trend: "-2%", icon: CreditCard, color: "text-orange-600", bg: "bg-orange-100", border: "border-orange-200" },
+    { label: "En Análisis (FFQQ/Micro)", value: "54", trend: "+5%", icon: Beaker, color: "text-purple-600", bg: "bg-purple-100", border: "border-purple-200" },
+    { label: "Reanálisis Activos", value: "3", trend: "+1", icon: AlertTriangle, color: "text-danger", bg: "bg-danger/10", border: "border-danger/20" },
+    { label: "Informes Emitidos (Mes)", value: "89", trend: "+24%", icon: CheckCircle2, color: "text-success", bg: "bg-green-100", border: "border-green-200" },
   ];
 
-  const recentActivity = [
-    { id: "REC-2024-1024", action: "Ingreso Registrado", user: "Aracely Sevilla", time: "Hace 10 min", status: "Borrador" },
-    { id: "REC-2024-1021", action: "Aprobado por STCC", user: "Karla Martínez", time: "Hace 45 min", status: "En revisión DT" },
-    { id: "REC-2024-1018", action: "Reanálisis Ordenado", user: "Dra. E. Ballesteros", time: "Hace 2 horas", status: "Reanálisis" },
-    { id: "REC-2024-0995", action: "Informe Emitido", user: "Dirección General", time: "Ayer", status: "Archivado" },
+  const trendData = [
+    { name: "Sem 1", ingresos: 45, emitidos: 30 },
+    { name: "Sem 2", ingresos: 52, emitidos: 38 },
+    { name: "Sem 3", ingresos: 38, emitidos: 45 },
+    { name: "Sem 4", ingresos: 65, emitidos: 50 },
   ];
+
+  const funnelData = [
+    { name: "1. RAC", casos: 142 },
+    { name: "2. DOCT", casos: 110 },
+    { name: "3. Ejecución", casos: 85 },
+    { name: "4. STCC/DT", casos: 42 },
+    { name: "5. Emisión", casos: 25 },
+  ];
+
+  const tramiteData = [
+    { name: "ARSA", value: 65 },
+    { name: "Renovación", value: 25 },
+    { name: "Particular", value: 10 },
+  ];
+  const COLORS = ['#025f85', '#a7c051', '#f59e0b'];
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="space-y-6 pb-12">
+      <div className="flex justify-between items-end">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Dashboard General</h1>
-          <p className="text-slate-500 text-sm mt-1">Resumen operativo del Laboratorio de Especialidades Farmacéuticas.</p>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Centro de Mando Operativo</h1>
+          <p className="text-slate-500 text-sm mt-1">Visión gerencial en tiempo real del Laboratorio de Especialidades Farmacéuticas.</p>
         </div>
-        <Link 
-          href="/rac/nuevo" 
-          className="bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-[20px] font-medium text-sm transition-colors shadow-sm flex items-center gap-2"
-        >
-          + Nuevo Ingreso (RAC)
-        </Link>
+        <div className="flex gap-3">
+          <Link href="/reportes" className="bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 px-5 py-2.5 rounded-[20px] font-medium text-sm transition-colors shadow-sm flex items-center gap-2">
+            <BarChart className="w-4 h-4" /> Centro de Reportes
+          </Link>
+          <Link href="/rac/nuevo" className="bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-[20px] font-medium text-sm transition-colors shadow-sm flex items-center gap-2">
+            + Nuevo Ingreso
+          </Link>
+        </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat, i) => (
-          <div key={i} className="bg-white p-5 rounded-[5px] border border-slate-200 shadow-sm flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${stat.bg}`}>
-              <stat.icon className={`w-6 h-6 ${stat.color}`} />
+      {/* KPI Cards Superiores */}
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        {kpis.map((stat, i) => (
+          <div key={i} className={`bg-white p-5 rounded-md border ${stat.border} shadow-sm relative overflow-hidden group`}>
+            <div className={`absolute -right-4 -top-4 w-16 h-16 rounded-full opacity-20 ${stat.bg} group-hover:scale-150 transition-transform duration-500`}></div>
+            <div className="flex justify-between items-start mb-4 relative z-10">
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center ${stat.bg}`}>
+                <stat.icon className={`w-5 h-5 ${stat.color}`} />
+              </div>
+              <span className={`text-xs font-bold ${stat.trend.startsWith('+') ? 'text-success' : 'text-danger'}`}>
+                {stat.trend}
+              </span>
             </div>
-            <div>
-              <p className="text-sm text-slate-500 font-medium">{stat.label}</p>
-              <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
+            <div className="relative z-10">
+              <p className="text-3xl font-bold text-slate-900">{stat.value}</p>
+              <p className="text-xs text-slate-500 font-medium mt-1">{stat.label}</p>
             </div>
           </div>
         ))}
       </div>
 
+      {/* Gráficos de Alto Impacto */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Panel */}
-        <div className="lg:col-span-2 bg-white rounded-[5px] border border-slate-200 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50/50">
-            <h2 className="font-semibold text-slate-800">Casos Prioritarios (SLA Crítico)</h2>
-            <Link href="/ingresos" className="text-sm text-primary hover:underline flex items-center gap-1">
-              Ver todos <ArrowRight className="w-4 h-4" />
-            </Link>
+        
+        {/* Trend Chart */}
+        <div className="lg:col-span-2 bg-white rounded-md border border-slate-200 shadow-sm p-6">
+          <h2 className="font-bold text-slate-800 mb-6 flex items-center gap-2">
+            <Activity className="w-5 h-5 text-primary" /> Tendencia de Carga vs Emisión (Últimos 30 días)
+          </h2>
+          <div className="h-[280px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={trendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorIngresos" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#025f85" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#025f85" stopOpacity={0}/>
+                  </linearGradient>
+                  <linearGradient id="colorEmitidos" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#a7c051" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#a7c051" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <RechartsTooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '20px' }} />
+                <Area type="monotone" name="Nuevos Ingresos" dataKey="ingresos" stroke="#025f85" strokeWidth={3} fillOpacity={1} fill="url(#colorIngresos)" />
+                <Area type="monotone" name="Informes Emitidos" dataKey="emitidos" stroke="#a7c051" strokeWidth={3} fillOpacity={1} fill="url(#colorEmitidos)" />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Trámite Donut */}
+        <div className="bg-white rounded-md border border-slate-200 shadow-sm p-6 flex flex-col">
+          <h2 className="font-bold text-slate-800 mb-2">Distribución por Trámite</h2>
+          <p className="text-xs text-slate-500 mb-4">Volumen activo actual</p>
+          <div className="flex-1 w-full relative">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={tramiteData} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
+                  {tramiteData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <RechartsTooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none flex-col">
+              <span className="text-3xl font-bold text-slate-800">100</span>
+              <span className="text-xs text-slate-500">Casos</span>
+            </div>
+          </div>
+          <div className="flex justify-center gap-4 mt-2">
+            {tramiteData.map((entry, index) => (
+              <div key={index} className="flex items-center gap-1.5">
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index] }}></div>
+                <span className="text-xs font-medium text-slate-600">{entry.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        {/* Embudo Operativo */}
+        <div className="bg-white rounded-md border border-slate-200 shadow-sm p-6">
+          <h2 className="font-bold text-slate-800 mb-6">Embudo Operativo (Cuellos de Botella)</h2>
+          <div className="h-[250px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart layout="vertical" data={funnelData} margin={{ top: 0, right: 20, left: 20, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e2e8f0" />
+                <XAxis type="number" hide />
+                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{fill: '#475569', fontSize: 12, fontWeight: 500}} width={80} />
+                <RechartsTooltip cursor={{fill: '#f1f5f9'}} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                <Bar dataKey="casos" fill="#025f85" radius={[0, 4, 4, 0]} barSize={24}>
+                  {funnelData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={index === 1 ? '#f59e0b' : '#025f85'} /> /* Highlight DOCT bottleneck */
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="mt-4 p-3 bg-orange-50 border border-orange-200 rounded-md flex gap-3">
+            <AlertCircle className="w-5 h-5 text-orange-600 shrink-0" />
+            <p className="text-xs text-orange-800 font-medium">
+              Alerta de Productividad: Alta concentración de casos ({funnelData[1].casos}) en etapa Documental (DOCT). Se sugiere liberar validaciones.
+            </p>
+          </div>
+        </div>
+
+        {/* Alertas Operativas y SLA */}
+        <div className="lg:col-span-2 bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+          <div className="px-6 py-4 border-b border-slate-200 bg-slate-50/50 flex justify-between items-center">
+            <h2 className="font-bold text-slate-800 flex items-center gap-2">
+              <ShieldAlert className="w-5 h-5 text-danger" /> Action Center: Riesgos SLA y Bloqueos
+            </h2>
           </div>
           <div className="p-0">
             <table className="w-full text-left text-sm">
               <thead className="bg-slate-50 text-slate-500 font-medium border-b border-slate-200">
                 <tr>
-                  <th className="px-6 py-3 font-medium">N° Recepción</th>
-                  <th className="px-6 py-3 font-medium">Producto</th>
-                  <th className="px-6 py-3 font-medium">Etapa Actual</th>
-                  <th className="px-6 py-3 font-medium">SLA</th>
-                  <th className="px-6 py-3 font-medium">Acción</th>
+                  <th className="px-6 py-3">N° Recepción</th>
+                  <th className="px-6 py-3">Área Responsable</th>
+                  <th className="px-6 py-3">Tipo de Riesgo / Bloqueo</th>
+                  <th className="px-6 py-3">SLA / Vencimiento</th>
+                  <th className="px-6 py-3 text-right">Acción</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                <tr className="hover:bg-slate-50 transition-colors h-[72px]">
-                  <td className="px-6 font-medium text-slate-900">REC-2024-1020</td>
-                  <td className="px-6">Paracetamol 500mg Tabletas</td>
+                <tr className="hover:bg-slate-50 transition-colors h-[64px]">
+                  <td className="px-6 font-bold text-slate-900">REC-2024-1020</td>
+                  <td className="px-6 font-medium text-slate-700">DOCT</td>
                   <td className="px-6">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 border border-orange-200">
-                      Pendiente Estándar
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-danger/10 text-danger border border-danger/20">
+                      FALTA ESTÁNDAR USP
                     </span>
                   </td>
-                  <td className="px-6 text-danger font-medium">Vence hoy</td>
-                  <td className="px-6">
-                    <Link href="/ingresos/REC-2024-1020" className="text-primary hover:underline font-medium">Revisar</Link>
+                  <td className="px-6 text-danger font-bold flex items-center gap-1"><Clock className="w-3 h-3"/> Vence Hoy</td>
+                  <td className="px-6 text-right">
+                    <Link href="/ingresos/REC-2024-1020" className="text-primary hover:underline font-medium text-xs">Gestionar</Link>
                   </td>
                 </tr>
-                <tr className="hover:bg-slate-50 transition-colors h-[72px]">
-                  <td className="px-6 font-medium text-slate-900">REC-2024-1015</td>
-                  <td className="px-6">Amoxicilina 250mg/5mL Susp.</td>
+                <tr className="hover:bg-slate-50 transition-colors h-[64px]">
+                  <td className="px-6 font-bold text-slate-900">REC-2024-0988</td>
+                  <td className="px-6 font-medium text-slate-700">FFQQ</td>
                   <td className="px-6">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">
-                      En Análisis FFQQ
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-orange-100 text-orange-800 border border-orange-200">
+                      REANÁLISIS OOS
+                    </span>
+                  </td>
+                  <td className="px-6 text-orange-600 font-bold">Queda 1 día</td>
+                  <td className="px-6 text-right">
+                    <Link href="/ingresos/REC-2024-0988" className="text-primary hover:underline font-medium text-xs">Gestionar</Link>
+                  </td>
+                </tr>
+                <tr className="hover:bg-slate-50 transition-colors h-[64px]">
+                  <td className="px-6 font-bold text-slate-900">REC-2024-0950</td>
+                  <td className="px-6 font-medium text-slate-700">Dirección General</td>
+                  <td className="px-6">
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-purple-100 text-purple-800 border border-purple-200">
+                      FIRMA ELECTRÓNICA
                     </span>
                   </td>
                   <td className="px-6 text-slate-600">Quedan 2 días</td>
-                  <td className="px-6">
-                    <Link href="/ingresos/REC-2024-1015" className="text-primary hover:underline font-medium">Revisar</Link>
+                  <td className="px-6 text-right">
+                    <Link href="/ingresos/REC-2024-0950" className="text-primary hover:underline font-medium text-xs">Firmar RT-39</Link>
                   </td>
                 </tr>
-                <tr className="hover:bg-slate-50 transition-colors h-[72px]">
-                  <td className="px-6 font-medium text-slate-900">REC-2024-0988</td>
-                  <td className="px-6">Loratadina 10mg Jbe.</td>
+                <tr className="hover:bg-slate-50 transition-colors h-[64px]">
+                  <td className="px-6 font-bold text-slate-900">REC-2024-1030</td>
+                  <td className="px-6 font-medium text-slate-700">RAC</td>
                   <td className="px-6">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border border-blue-200">
-                      En revisión STCC
+                    <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-600 border border-slate-200">
+                      PAGO PENDIENTE
                     </span>
                   </td>
-                  <td className="px-6 text-orange-600 font-medium">Queda 1 día</td>
-                  <td className="px-6">
-                    <Link href="/ingresos/REC-2024-0988" className="text-primary hover:underline font-medium">Revisar</Link>
+                  <td className="px-6 text-slate-500">-</td>
+                  <td className="px-6 text-right">
+                    <Link href="/rac" className="text-primary hover:underline font-medium text-xs">Ir a RAC</Link>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <div className="p-4 bg-slate-50 border-t border-slate-200 flex justify-center">
+            <Link href="/ingresos" className="text-sm text-primary font-medium hover:underline flex items-center gap-1">
+              Ver todos los 142 casos activos <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
         </div>
 
-        {/* Activity Panel */}
-        <div className="bg-white rounded-[5px] border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-          <div className="px-6 py-4 border-b border-slate-200 bg-slate-50/50">
-            <h2 className="font-semibold text-slate-800">Actividad Reciente</h2>
-          </div>
-          <div className="p-6 flex-1">
-            <div className="space-y-6">
-              {recentActivity.map((activity, i) => (
-                <div key={i} className="relative pl-6 before:absolute before:left-[9px] before:top-2 before:bottom-[-24px] before:w-px before:bg-slate-200 last:before:hidden">
-                  <div className="absolute left-0 top-1 w-[19px] h-[19px] bg-white border-2 border-primary rounded-full"></div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">
-                      {activity.action} <span className="text-primary">{activity.id}</span>
-                    </p>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      Por {activity.user} • {activity.time}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
