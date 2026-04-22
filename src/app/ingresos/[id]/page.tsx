@@ -442,28 +442,192 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
 
               {/* TAB: DOCUMENTACIÓN */}
               {activeTab === "documentacion" && (
-                <div className="space-y-6 animate-in fade-in duration-300">
-                  <div className="border border-slate-200 rounded-lg overflow-hidden flex flex-col md:flex-row">
-                    <div className="flex-1 p-6">
-                      <div className="flex justify-between items-center mb-6">
-                        <h3 className="font-bold text-slate-800 text-sm">RT-30 — Solicitud de Estándar/Metodología</h3>
-                        <span className="text-xs font-bold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full border border-orange-200 flex items-center gap-1.5">
-                          <Clock className="w-3 h-3" /> Pendiente Respuesta
-                        </span>
-                      </div>
-                      <h4 className="font-bold text-slate-800 text-xs mb-3">Ítems Solicitados</h4>
-                      <div className="space-y-2 text-sm">
-                        <p className="flex items-center gap-2 text-slate-600"><CheckCircle2 className="w-4 h-4 text-success" /> Estándar: Amoxicilina USP RS</p>
-                        <p className="flex items-center gap-2 text-slate-800 font-bold"><AlertCircle className="w-4 h-4 text-orange-500" /> Metodología analítica actualizada (HPLC)</p>
-                      </div>
+                <div className="space-y-8 animate-in fade-in duration-300">
+                  {/* Action Bar DOCT */}
+                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                    <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><Briefcase className="w-4 h-4 text-primary" /> Expediente DOCT — Gestión Documental Central</h3>
+                    <div className="flex gap-2">
+                      <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><FileDigit className="w-3.5 h-3.5" /> Generar RT-41</button>
+                      <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><FileText className="w-3.5 h-3.5" /> Nuevo Oficio</button>
+                      <button className="bg-primary text-white px-3 py-1.5 rounded-md text-xs font-bold hover:bg-primary-dark shadow-sm flex items-center gap-1.5">Emitir RT-30 (Req.)</button>
                     </div>
-                    <div className="w-full md:w-80 bg-slate-50 border-l border-slate-200 p-6 flex flex-col justify-center">
-                      <h4 className="font-bold text-slate-800 text-xs mb-4 text-center">Contador de Plazo (60 días)</h4>
-                      <div className="bg-white border border-orange-200 rounded-lg p-5 text-center mb-4 shadow-sm">
-                        <p className="text-4xl font-black text-orange-600 mb-1">7</p>
-                        <p className="text-xs text-slate-500 mb-4">días transcurridos</p>
-                        <div className="w-full bg-slate-200 rounded-full h-2.5 mb-2 overflow-hidden"><div className="bg-success h-2.5 rounded-full w-[12%]"></div></div>
+                  </div>
+
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                    {/* Columna Izquierda */}
+                    <div className="space-y-6">
+                      
+                      {/* BLOQUE 1: Recepción del Expediente Base (RT-75) */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">1. Recepción del Expediente (RT-75)</h3>
+                        <div className="bg-slate-50 border border-slate-100 rounded-md p-4">
+                          <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center border border-green-200">
+                                <CheckCircle2 className="w-4 h-4 text-success" />
+                              </div>
+                              <div>
+                                <p className="text-sm font-bold text-slate-900">Expediente Físico Recibido</p>
+                                <p className="text-[10px] text-slate-500">RAC → DOCT (María R. a Ana F.)</p>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-sm font-bold text-slate-900">09/01/2024</p>
+                              <p className="text-[10px] text-slate-500">08:05 AM</p>
+                            </div>
+                          </div>
+                          <div className="bg-white border border-slate-200 rounded p-3 text-xs text-slate-600 flex items-start gap-2 shadow-sm">
+                             <Check className="w-4 h-4 text-success shrink-0" />
+                             <span>Se verificó la totalidad de fojas enviadas por RAC según el índice inicial. Expediente base aperturado.</span>
+                          </div>
+                        </div>
                       </div>
+
+                      {/* BLOQUE 2: Contraste Histórico de Calidad (RT-41) */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                          <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">2. Contraste Histórico (RT-41)</h3>
+                          <span className="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded border border-blue-200">Ejecutado</span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3 mb-3">
+                          <div className="bg-slate-50 border border-slate-100 rounded-md p-3 text-center"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Registros Previos</p><p className="text-xl font-black text-slate-900">3</p></div>
+                          <div className="bg-slate-50 border border-slate-100 rounded-md p-3 text-center"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Alertas Históricas</p><p className="text-xl font-black text-success">0</p></div>
+                        </div>
+                        <table className="w-full text-[10px] text-left border border-slate-200 rounded-md overflow-hidden">
+                          <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 uppercase font-bold">
+                            <tr><th className="px-3 py-2">Fecha</th><th className="px-3 py-2">Lote</th><th className="px-3 py-2">Resultado</th><th className="px-3 py-2 text-right">RT-40</th></tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-100 bg-white text-xs">
+                            <tr><td className="px-3 py-2">09/2023</td><td className="px-3 py-2 font-medium">AM2309A</td><td className="px-3 py-2 text-success font-bold">Conforme</td><td className="px-3 py-2 text-right text-primary hover:underline cursor-pointer">Ver</td></tr>
+                            <tr><td className="px-3 py-2">02/2023</td><td className="px-3 py-2 font-medium">AM2302Z</td><td className="px-3 py-2 text-success font-bold">Conforme</td><td className="px-3 py-2 text-right text-primary hover:underline cursor-pointer">Ver</td></tr>
+                            <tr><td className="px-3 py-2">10/2022</td><td className="px-3 py-2 font-medium">AM2210B</td><td className="px-3 py-2 text-success font-bold">Conforme</td><td className="px-3 py-2 text-right text-primary hover:underline cursor-pointer">Ver</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      {/* BLOQUE 3: Requerimientos y Plazos (RT-30) */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">3. Requerimientos de Estándar/Método (RT-30)</h3>
+                           <span className="text-[10px] font-bold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full border border-orange-200 flex items-center gap-1">
+                             <Clock className="w-3 h-3" /> En Pausa Legal
+                           </span>
+                        </div>
+                        <div className="border border-orange-200 rounded-lg overflow-hidden flex flex-col sm:flex-row bg-white shadow-sm">
+                          <div className="flex-1 p-4">
+                            <h4 className="font-bold text-slate-800 text-sm mb-1">RT-30-2024-0012</h4>
+                            <p className="text-[10px] text-slate-500 mb-3">Emitido a Droguería Nacional S.A.</p>
+                            <div className="space-y-1.5 text-xs">
+                              <p className="flex items-start gap-2 text-slate-600"><CheckCircle2 className="w-4 h-4 text-success shrink-0" /> <span className="pt-0.5">Estándar primario de Amoxicilina USP</span></p>
+                              <p className="flex items-start gap-2 text-slate-800 font-bold"><AlertCircle className="w-4 h-4 text-orange-500 shrink-0" /> <span className="pt-0.5">Metodología HPLC validada por fabricante</span></p>
+                            </div>
+                          </div>
+                          <div className="w-full sm:w-32 bg-orange-50/50 border-l border-orange-100 p-4 flex flex-col justify-center items-center text-center">
+                            <p className="text-3xl font-black text-orange-600 mb-1">7</p>
+                            <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider mb-2">días <br/>transcurridos</p>
+                            <div className="w-full bg-orange-100 rounded-full h-1.5 overflow-hidden"><div className="bg-orange-500 h-1.5 rounded-full w-[12%]"></div></div>
+                            <p className="text-[8px] text-slate-400 mt-1">Límite: 60 días</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 4: Trazabilidad Física del Expediente */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">4. Ubicación Física del Expediente</h3>
+                        <div className="bg-slate-50 border border-slate-100 rounded-md p-3 grid grid-cols-3 gap-3">
+                           <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Custodio</p><p className="text-xs font-bold text-slate-900">Ana Flores (DOCT)</p></div>
+                           <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Estante / Fila</p><p className="text-xs font-bold text-slate-900">E-04 / F-02</p></div>
+                           <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Total Fojas</p><p className="text-xs font-bold text-slate-900">24 páginas</p></div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {/* Columna Derecha */}
+                    <div className="space-y-6">
+                      
+                      {/* BLOQUE 5: Certificados Analíticos de Origen (Validación Profunda) */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">5. Validación de Certificado de Origen</h3>
+                        <div className="space-y-2">
+                           {[
+                             { label: "Correlación de Lote (Certificado vs Empaque)", status: "ok" },
+                             { label: "Fecha de Vencimiento coherente (>1 año)", status: "ok" },
+                             { label: "Firma Responsable Técnico del Fabricante", status: "ok" },
+                             { label: "Declaración de Pureza (API)", status: "warning" },
+                             { label: "Datos Crudos de Valoración (Cromatogramas)", status: "missing" },
+                           ].map((item, i) => (
+                             <div key={i} className={`flex items-center justify-between p-2.5 rounded border text-xs ${
+                               item.status === 'ok' ? 'bg-green-50/30 border-green-200 text-slate-700' : 
+                               item.status === 'warning' ? 'bg-yellow-50/50 border-yellow-200 text-slate-800' :
+                               'bg-red-50 border-red-200 text-red-800'
+                             }`}>
+                               <div className="flex items-center gap-2.5">
+                                 {item.status === 'ok' ? <CheckCircle2 className="w-3.5 h-3.5 text-success" /> : 
+                                  item.status === 'warning' ? <AlertCircle className="w-3.5 h-3.5 text-yellow-600" /> :
+                                  <XCircle className="w-3.5 h-3.5 text-danger" />}
+                                 <span className={item.status === 'ok' ? '' : 'font-bold'}>{item.label}</span>
+                               </div>
+                               {item.status === 'missing' && <span className="text-[9px] uppercase font-bold text-danger border border-red-200 bg-white px-1.5 py-0.5 rounded cursor-pointer hover:bg-red-50">Solicitar</span>}
+                               {item.status === 'warning' && <span className="text-[9px] uppercase font-bold text-yellow-700 border border-yellow-200 bg-white px-1.5 py-0.5 rounded cursor-pointer hover:bg-yellow-50">Revisar</span>}
+                             </div>
+                           ))}
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 6: Gestión de Biblioteca (Muestra de Retención) */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">6. Custodia de Biblioteca</h3>
+                        <div className="bg-purple-50 border border-purple-100 rounded-md p-4 shadow-sm relative overflow-hidden">
+                           <ShieldCheck className="w-24 h-24 text-purple-100 absolute -right-4 -bottom-4 z-0" />
+                           <div className="relative z-10 grid grid-cols-2 gap-4">
+                              <div><p className="text-[10px] text-purple-600 font-bold uppercase mb-1">Muestras Resguardadas</p><p className="text-lg font-black text-purple-900">60 unds.</p></div>
+                              <div><p className="text-[10px] text-purple-600 font-bold uppercase mb-1">Ubicación Biblioteca</p><p className="text-sm font-bold text-purple-900">B-12-Estante 4</p></div>
+                              <div className="col-span-2"><p className="text-[10px] text-purple-600 font-bold uppercase mb-1">Fecha de Descarte Programada</p><p className="text-sm font-bold text-purple-900">Diciembre 2027 (+1 año post exp.)</p></div>
+                           </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 7: Generación de Oficios Auxiliares */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                          <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">7. Comunicaciones y Oficios Previos</h3>
+                          <span className="text-[10px] font-bold text-primary cursor-pointer hover:underline">+ Redactar Oficio</span>
+                        </div>
+                        <div className="bg-slate-50 border border-slate-200 rounded-lg p-1 text-xs">
+                          <div className="flex justify-between items-center p-2 hover:bg-white rounded transition-colors group">
+                            <div className="flex items-center gap-2">
+                              <FileText className="w-3.5 h-3.5 text-slate-400" />
+                              <span className="font-bold text-slate-700">OF-LEF-2024-001</span>
+                              <span className="text-slate-500">— Aviso de Recepción a Cliente</span>
+                            </div>
+                            <span className="text-[10px] text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">09/01</span>
+                          </div>
+                          <div className="flex justify-between items-center p-2 hover:bg-white rounded transition-colors group">
+                            <div className="flex items-center gap-2">
+                              <FileText className="w-3.5 h-3.5 text-slate-400" />
+                              <span className="font-bold text-slate-700">OF-LEF-2024-004</span>
+                              <span className="text-slate-500">— Notificación de Plazo RT-30</span>
+                            </div>
+                            <span className="text-[10px] text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">11/01</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 8: Estado de Liberación Documental para DT */}
+                      <div className="pt-2">
+                         <div className="border-2 border-orange-200 bg-orange-50 rounded-lg p-4 flex items-center justify-between shadow-sm">
+                            <div>
+                               <p className="text-xs font-bold text-orange-800 uppercase mb-0.5">Estado del Expediente Base</p>
+                               <p className="text-sm font-black text-orange-900">En Pausa Documental</p>
+                            </div>
+                            <div className="w-10 h-10 rounded-full bg-white border border-orange-200 flex items-center justify-center">
+                               <AlertCircle className="w-5 h-5 text-orange-500" />
+                            </div>
+                         </div>
+                         <p className="text-[10px] text-slate-500 mt-2 text-center">El expediente no puede ser liberado hacia Dirección Técnica hasta resolver el RT-30 y obtener la metodología analítica.</p>
+                      </div>
+
                     </div>
                   </div>
                 </div>
