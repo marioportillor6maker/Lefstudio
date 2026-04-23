@@ -7,7 +7,8 @@ import {
   History, Download, Activity, FileCheck, ShieldAlert, Files,
   User, Check, XCircle, ChevronDown, Flag, FileDigit, Calendar, ShieldCheck,
   Building, MapPin, Printer, MoreHorizontal, Filter, FlaskConical, Microscope, Briefcase,
-  Eye, GitCompare, MessageSquare, ChevronLeft, ChevronRight
+  Eye, GitCompare, MessageSquare, ChevronLeft, ChevronRight,
+  Bug, Ban, Wind, Thermometer, Lock, Building2, PauseCircle, QrCode, Receipt
 } from "lucide-react";
 
 export default function Ingreso360Page({ params }: { params: { id: string } }) {
