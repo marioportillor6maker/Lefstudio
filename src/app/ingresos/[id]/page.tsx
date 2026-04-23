@@ -697,75 +697,926 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
 
               {/* TAB: ESTÁNDAR */}
               {activeTab === "estandar" && (
-                <div className="space-y-6 animate-in fade-in duration-300">
-                  <div className="flex justify-between items-center">
-                    <h3 className="font-bold text-slate-800 text-sm">Gestión de Estándar de Referencia (RG-44)</h3>
-                    <button className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md text-xs font-bold shadow-sm">Asignar Estándar del Inventario</button>
+                <div className="space-y-8 animate-in fade-in duration-300">
+                  {/* Action Bar STR */}
+                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                    <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><Beaker className="w-4 h-4 text-primary" /> Sección de Estándares de Referencia (STR)</h3>
+                    <div className="flex gap-2">
+                      <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><History className="w-3.5 h-3.5" /> Bitácora de Pesadas</button>
+                      <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><FileText className="w-3.5 h-3.5" /> Generar RG-44</button>
+                      <button className="bg-primary text-white px-3 py-1.5 rounded-md text-xs font-bold hover:bg-primary-dark shadow-sm flex items-center gap-1.5">Asignar Estándar del Inventario</button>
+                    </div>
                   </div>
-                  <div className="border border-slate-200 rounded-lg p-6 bg-slate-50">
-                     <p className="text-sm text-slate-600">No hay estándar de referencia primario vinculado a este análisis actualmente.</p>
-                     <p className="text-xs text-slate-400 mt-2">La prueba de Valoración (HPLC) requerirá el registro del estándar antes de ejecutarse.</p>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Columna Izquierda */}
+                    <div className="space-y-6">
+                      
+                      {/* BLOQUE 1: Registro Maestro de Estándar (RG-44) */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">1. Datos del Estándar Primario (Asignado)</h3>
+                        <div className="bg-slate-50 border border-slate-100 rounded-md p-4">
+                           <div className="flex justify-between items-start mb-4 border-b border-slate-200 pb-3">
+                              <div>
+                                 <p className="text-sm font-bold text-slate-900">Amoxicilina Trihidrato (Amoxicillin RS)</p>
+                                 <p className="text-[10px] text-slate-500">ID Inventario: STR-2023-0842</p>
+                              </div>
+                              <span className="bg-green-100 text-success text-[10px] font-bold px-2 py-0.5 rounded border border-green-200">Aprobado para Uso</span>
+                           </div>
+                           <div className="grid grid-cols-2 gap-4">
+                              <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Lote del Estándar</p><p className="text-xs font-bold text-slate-900">USP-J0L496</p></div>
+                              <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Pureza Declarada</p><p className="text-xs font-bold text-slate-900 flex items-center gap-1">99.8% <CheckCircle2 className="w-3 h-3 text-success"/></p></div>
+                              <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Cantidad Inicial</p><p className="text-xs font-bold text-slate-900">500 mg</p></div>
+                              <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Forma Física</p><p className="text-xs font-bold text-slate-900">Polvo Liofilizado</p></div>
+                           </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 2: Trazabilidad de Origen */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">2. Trazabilidad de Origen</h3>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Entidad de Referencia</p><p className="text-sm font-bold text-slate-900">USP (United States Pharmacopeia)</p></div>
+                          <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Certificado de Análisis</p><p className="text-sm font-bold text-primary hover:underline cursor-pointer flex items-center gap-1"><FileDigit className="w-3.5 h-3.5"/> CoA-J0L496.pdf</p></div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 3: Control de Vigencias */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">3. Control de Caducidad y Vigencia</h3>
+                        <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex items-center gap-6">
+                           <div className="flex-1">
+                              <p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Fecha de Apertura</p>
+                              <p className="text-xs font-bold text-slate-900">12/08/2023</p>
+                           </div>
+                           <div className="w-[1px] h-8 bg-slate-200"></div>
+                           <div className="flex-1">
+                              <p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Caducidad Oficial USP</p>
+                              <p className="text-xs font-bold text-slate-900">30/11/2024</p>
+                           </div>
+                           <div className="w-[1px] h-8 bg-slate-200"></div>
+                           <div className="flex-1 text-center">
+                              <p className="text-2xl font-black text-success mb-0.5">328</p>
+                              <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider">días restantes</p>
+                           </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 4: Condiciones de Almacenamiento */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">4. Condiciones Exigidas de Almacenamiento</h3>
+                        <div className="grid grid-cols-3 gap-3">
+                           <div className="bg-blue-50 border border-blue-100 rounded-md p-3 text-center">
+                              <AlertCircle className="w-4 h-4 text-blue-500 mx-auto mb-1" />
+                              <p className="text-[10px] text-blue-700 font-bold uppercase mb-0.5">Temperatura</p>
+                              <p className="text-xs font-black text-blue-900">2°C - 8°C</p>
+                           </div>
+                           <div className="bg-slate-50 border border-slate-200 rounded-md p-3 text-center">
+                              <ShieldCheck className="w-4 h-4 text-slate-500 mx-auto mb-1" />
+                              <p className="text-[10px] text-slate-600 font-bold uppercase mb-0.5">Luz</p>
+                              <p className="text-xs font-black text-slate-900">Proteger</p>
+                           </div>
+                           <div className="bg-slate-50 border border-slate-200 rounded-md p-3 text-center">
+                              <FlaskConical className="w-4 h-4 text-slate-500 mx-auto mb-1" />
+                              <p className="text-[10px] text-slate-600 font-bold uppercase mb-0.5">Higroscopicidad</p>
+                              <p className="text-xs font-black text-slate-900">Alta (Desecador)</p>
+                           </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {/* Columna Derecha */}
+                    <div className="space-y-6">
+                      
+                      {/* BLOQUE 5: Gestión de Mermas/Uso (Bitácora) */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">5. Saldo y Bitácora de Uso</h3>
+                           <button className="text-[10px] font-bold text-primary hover:underline bg-blue-50 px-2 py-1 rounded border border-blue-100">Registrar Pesada</button>
+                        </div>
+                        
+                        {/* Indicador de Saldo */}
+                        <div className="bg-slate-50 border border-slate-200 rounded-t-lg p-4 flex justify-between items-center shadow-sm">
+                           <div>
+                              <p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Saldo Actual en Vial</p>
+                              <div className="w-full bg-slate-200 rounded-full h-2 w-48 mt-1.5 overflow-hidden"><div className="bg-primary h-2 rounded-full w-[65%]"></div></div>
+                           </div>
+                           <div className="text-right">
+                              <p className="text-xl font-black text-slate-900">325.4 <span className="text-xs text-slate-500 font-bold">mg</span></p>
+                              <p className="text-[9px] text-slate-400 uppercase mt-0.5">Suficiente para análisis</p>
+                           </div>
+                        </div>
+                        
+                        {/* Tabla de Consumo */}
+                        <table className="w-full text-[10px] text-left border border-slate-200 rounded-b-lg overflow-hidden border-t-0 shadow-sm">
+                          <thead className="bg-white border-b border-slate-200 text-slate-500 uppercase font-bold">
+                            <tr><th className="px-3 py-2">Fecha / Hora</th><th className="px-3 py-2">Ingreso Destino</th><th className="px-3 py-2">Analista</th><th className="px-3 py-2 text-right">Masa (mg)</th></tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-100 bg-white">
+                            <tr><td className="px-3 py-2 text-slate-500">17/01/24 09:15</td><td className="px-3 py-2 font-medium text-slate-800">REC-2024-00147 (Actual)</td><td className="px-3 py-2 text-slate-600">K. Suazo</td><td className="px-3 py-2 text-right font-bold text-danger">- 20.0</td></tr>
+                            <tr><td className="px-3 py-2 text-slate-500">10/12/23 14:20</td><td className="px-3 py-2 font-medium text-slate-800">REC-2023-01892</td><td className="px-3 py-2 text-slate-600">J. Matute</td><td className="px-3 py-2 text-right font-bold text-danger">- 21.5</td></tr>
+                            <tr><td className="px-3 py-2 text-slate-500">05/11/23 08:30</td><td className="px-3 py-2 font-medium text-slate-800">REC-2023-01644</td><td className="px-3 py-2 text-slate-600">R. Paz</td><td className="px-3 py-2 text-right font-bold text-danger">- 19.8</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      {/* BLOQUE 6: Requerimientos Activos (Intersección DOCT-STR) */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">6. Requerimientos Activos de Estándar</h3>
+                        <div className="bg-green-50 border border-green-200 rounded-md p-3 flex items-start gap-3 shadow-sm">
+                           <CheckCircle2 className="w-5 h-5 text-success shrink-0 mt-0.5" />
+                           <div>
+                              <p className="text-xs font-bold text-green-900 mb-1">Sin Requerimientos Pendientes</p>
+                              <p className="text-[10px] text-green-700">El estándar USP primario fue validado y asignado exitosamente al expediente. El RT-30 previo fue cerrado.</p>
+                           </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 7: Acciones de Supervisión STR */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">7. Controles Analíticos STR</h3>
+                        <div className="space-y-2">
+                           <div className="flex items-center justify-between p-2.5 rounded border border-slate-200 bg-white shadow-sm">
+                              <span className="text-xs font-bold text-slate-700">Corrección por humedad (Karl Fischer)</span>
+                              <span className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold border border-slate-200">No aplica (Liofilizado)</span>
+                           </div>
+                           <div className="flex items-center justify-between p-2.5 rounded border border-slate-200 bg-white shadow-sm">
+                              <span className="text-xs font-bold text-slate-700">Cálculo de Factor de Equivalencia</span>
+                              <span className="text-[10px] bg-green-100 text-success px-2 py-0.5 rounded font-bold border border-green-200">Verificado: F=1.000</span>
+                           </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 8: Estado de Liberación para FFQQ */}
+                      <div className="pt-2">
+                         <div className="border-2 border-green-200 bg-green-50 rounded-lg p-4 flex items-center justify-between shadow-sm">
+                            <div>
+                               <p className="text-xs font-bold text-green-800 uppercase mb-0.5">Disponibilidad para HPLC</p>
+                               <p className="text-sm font-black text-green-900">Liberado para FFQQ</p>
+                            </div>
+                            <div className="w-10 h-10 rounded-full bg-white border border-green-200 flex items-center justify-center">
+                               <FlaskConical className="w-5 h-5 text-success" />
+                            </div>
+                         </div>
+                         <p className="text-[10px] text-slate-500 mt-2 text-center">El estándar primario cumple todos los criterios de trazabilidad, vigencia y cantidad. El analista de FFQQ puede proceder con la prueba de Valoración.</p>
+                      </div>
+
+                    </div>
                   </div>
                 </div>
               )}
 
               {/* TAB: ANÁLISIS FFQQ */}
               {activeTab === "ffqq" && (
-                <div className="space-y-6 animate-in fade-in duration-300">
-                  <div className="flex justify-between items-center mb-4">
-                    <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><FlaskConical className="w-4 h-4 text-primary"/> Ejecución Analítica Físico-Química</h3>
-                    <span className="text-xs font-bold text-blue-700 bg-blue-100 px-3 py-1 rounded border border-blue-200">RT-38 Activo</span>
+                <div className="space-y-8 animate-in fade-in duration-300">
+                  {/* Action Bar FFQQ */}
+                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                    <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><FlaskConical className="w-4 h-4 text-primary" /> Paquete Analítico Físico-Químico (RT-38)</h3>
+                    <div className="flex gap-2">
+                      <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><AlertCircle className="w-3.5 h-3.5" /> Reportar Desviación OOS</button>
+                      <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><FileText className="w-3.5 h-3.5" /> Hoja de Trabajo (PDF)</button>
+                      <button className="bg-primary text-white px-3 py-1.5 rounded-md text-xs font-bold hover:bg-primary-dark shadow-sm flex items-center gap-1.5">Liberar Paquete a STCC</button>
+                    </div>
                   </div>
-                  <table className="w-full text-sm text-left border border-slate-200 rounded-lg overflow-hidden shadow-sm">
-                    <thead className="bg-slate-50 border-b border-slate-200 text-xs text-slate-500 uppercase font-bold">
-                      <tr><th className="px-4 py-3">Ensayo / Técnica</th><th className="px-4 py-3">Analista</th><th className="px-4 py-3">Estado</th><th className="px-4 py-3 text-right">Acción</th></tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 bg-white">
-                      {data.ensayosAsignados.map((e, i) => (
-                        <tr key={i} className="hover:bg-slate-50 h-[64px]">
-                          <td className="px-4 py-2"><p className="font-bold text-slate-800">{e.ensayo}</p><p className="text-[10px] text-slate-500">{e.tecnica}</p></td>
-                          <td className="px-4 py-2 text-slate-700">{e.analista}</td>
-                          <td className="px-4 py-2">
-                             {e.estado === "Completado" ? <span className="bg-green-100 text-success font-bold px-2 py-0.5 rounded text-[10px]">Completado</span> : <span className="bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded text-[10px]">{e.estado}</span>}
-                          </td>
-                          <td className="px-4 py-2 text-right"><button className="text-primary hover:underline text-xs font-bold">Ver Detalles</button></td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    {/* Panel Izquierdo: Contexto y Reactivos */}
+                    <div className="space-y-6 lg:col-span-1">
+                      
+                      {/* BLOQUE 1: Resumen Operativo de la Muestra */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">1. Datos Operativos (RT-38)</h3>
+                        <div className="bg-blue-50 border border-blue-100 rounded-md p-4 shadow-sm">
+                           <div className="flex justify-between items-start mb-3 border-b border-blue-200 pb-3">
+                              <div>
+                                 <p className="text-xs font-bold text-blue-900">Muestra: Amoxicilina 500mg</p>
+                                 <p className="text-[10px] text-blue-700 mt-0.5">Lote: {data.producto.lote}</p>
+                              </div>
+                              <span className="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">En Ejecución</span>
+                           </div>
+                           <div className="space-y-3 text-xs">
+                              <div className="flex justify-between"><span className="text-blue-800/70 font-bold">Analista Líder:</span><span className="text-blue-900 font-bold">Karla Suazo</span></div>
+                              <div className="flex justify-between"><span className="text-blue-800/70 font-bold">Muestra Recibida:</span><span className="text-blue-900 font-bold">120 Cápsulas</span></div>
+                              <div className="flex justify-between"><span className="text-blue-800/70 font-bold">Prioridad:</span><span className="text-orange-600 font-bold flex items-center gap-1"><Flag className="w-3 h-3"/> URGENTE</span></div>
+                           </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 2: Condiciones Previas (Checklist) */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">2. Checklist Pre-Analítico</h3>
+                        <div className="space-y-2">
+                           {[
+                             { label: "Estándar Primario asignado por STR", status: "ok" },
+                             { label: "Metodología Analítica declarada", status: "ok" },
+                             { label: "Equipos calibrados (Balanza, HPLC)", status: "ok" },
+                             { label: "Material de vidrio volumétrico clase A", status: "ok" },
+                           ].map((item, i) => (
+                             <div key={i} className="flex items-center justify-between p-2.5 rounded border border-green-200 bg-green-50/50">
+                               <span className="text-[10px] text-slate-700 font-medium">{item.label}</span>
+                               <CheckCircle2 className="w-3.5 h-3.5 text-success" />
+                             </div>
+                           ))}
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 6: Gestión de Reactivos (RG-59) */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">6. Control de Reactivos</h3>
+                           <button className="text-[10px] text-primary hover:underline font-bold">+ Vincular</button>
+                        </div>
+                        <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-[10px]">
+                           <div className="flex justify-between border-b border-slate-200 pb-2 mb-2">
+                              <span className="font-bold text-slate-700">Acetonitrilo HPLC</span>
+                              <span className="text-slate-500">Lote: MK-8921</span>
+                           </div>
+                           <div className="flex justify-between border-b border-slate-200 pb-2 mb-2">
+                              <span className="font-bold text-slate-700">Fosfato Monopotásico</span>
+                              <span className="text-slate-500">Lote: JT-1044</span>
+                           </div>
+                           <div className="flex justify-between pb-1">
+                              <span className="font-bold text-slate-700">Agua Ultrapura (Milli-Q)</span>
+                              <span className="text-slate-500">Lote: AQ-Hoy</span>
+                           </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {/* Panel Derecho: Ensayos, Cálculos y Trazabilidad */}
+                    <div className="space-y-6 lg:col-span-2">
+                      
+                      {/* BLOQUE 3: Matriz de Ensayos Asignados */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">3. Matriz de Ensayos (Flujo de Trabajo)</h3>
+                           <div className="flex items-center gap-3 text-[10px]">
+                              <span className="flex items-center gap-1 text-slate-500"><div className="w-2 h-2 rounded-full bg-slate-200"></div> Pendiente</span>
+                              <span className="flex items-center gap-1 text-blue-600"><div className="w-2 h-2 rounded-full bg-blue-500"></div> En Curso</span>
+                              <span className="flex items-center gap-1 text-success"><div className="w-2 h-2 rounded-full bg-green-500"></div> Completado</span>
+                           </div>
+                        </div>
+                        <table className="w-full text-xs text-left border border-slate-200 rounded-md overflow-hidden shadow-sm">
+                          <thead className="bg-slate-50 border-b border-slate-200 text-[10px] text-slate-500 uppercase font-bold">
+                            <tr><th className="px-3 py-2">Ensayo / Técnica</th><th className="px-3 py-2">Especificación (Límite)</th><th className="px-3 py-2">Estado</th><th className="px-3 py-2 text-right">Acciones</th></tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-100 bg-white">
+                            <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-3 py-3"><p className="font-bold text-slate-900">Aspecto (Cápsulas)</p><p className="text-[10px] text-slate-500">Organoléptico</p></td>
+                              <td className="px-3 py-3 text-slate-600">Cápsulas cilíndricas bicolor</td>
+                              <td className="px-3 py-3"><span className="bg-green-100 text-success px-2 py-0.5 rounded text-[10px] font-bold">Completado</span></td>
+                              <td className="px-3 py-3 text-right"><button className="text-primary hover:underline text-[10px] font-bold">Ver Datos</button></td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 transition-colors bg-blue-50/20">
+                              <td className="px-3 py-3"><p className="font-bold text-slate-900">Disolución</p><p className="text-[10px] text-slate-500">Aparato II (Paletas)</p></td>
+                              <td className="px-3 py-3 text-slate-600">No menos de 80% (Q) en 45 min</td>
+                              <td className="px-3 py-3"><span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-[10px] font-bold">En Curso</span></td>
+                              <td className="px-3 py-3 text-right"><button className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded text-[10px] font-bold shadow-sm">Registrar Q</button></td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-3 py-3"><p className="font-bold text-slate-900">Valoración</p><p className="text-[10px] text-slate-500">Cromatografía HPLC</p></td>
+                              <td className="px-3 py-3 text-slate-600">90.0% — 120.0%</td>
+                              <td className="px-3 py-3"><span className="bg-slate-100 text-slate-500 px-2 py-0.5 rounded text-[10px] font-bold">Pendiente</span></td>
+                              <td className="px-3 py-3 text-right"><button className="bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 px-2 py-1 rounded text-[10px] font-bold shadow-sm">Iniciar</button></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-6">
+                         {/* BLOQUE 4: Captura de Datos Crudos (Input Simulado) */}
+                         <div>
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">4. Captura de Datos (Valoración)</h3>
+                           <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 shadow-sm">
+                              <div className="space-y-3">
+                                 <div>
+                                    <label className="text-[10px] font-bold text-slate-600 uppercase">Área del Estándar (Au)</label>
+                                    <input type="text" className="w-full mt-1 border border-slate-300 rounded p-1.5 text-xs text-slate-800 font-medium" placeholder="Ej. 1250442" />
+                                 </div>
+                                 <div>
+                                    <label className="text-[10px] font-bold text-slate-600 uppercase">Área de la Muestra (Am)</label>
+                                    <input type="text" className="w-full mt-1 border border-slate-300 rounded p-1.5 text-xs text-slate-800 font-medium" placeholder="Ej. 1248900" />
+                                 </div>
+                                 <button className="w-full bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold py-2 rounded mt-2 transition-colors">Calcular Porcentaje</button>
+                              </div>
+                           </div>
+                         </div>
+
+                         {/* BLOQUE 5: Cálculos y Resultados Parciales */}
+                         <div>
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">5. Resultados Computados</h3>
+                           <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 shadow-sm h-full flex flex-col justify-center items-center text-center">
+                              <p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Resultado Preliminar de Valoración</p>
+                              <p className="text-3xl font-black text-slate-300 mb-2">--.- %</p>
+                              <div className="w-full bg-slate-200 h-[1px] my-2"></div>
+                              <p className="text-[10px] text-slate-500">Ingrese los datos crudos del cromatograma para obtener el cálculo final validado.</p>
+                           </div>
+                         </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-6">
+                         {/* BLOQUE 7: Panel de Desviaciones (OOS / OOT) */}
+                         <div>
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">7. Panel de Desviaciones</h3>
+                           <div className="border border-dashed border-slate-300 rounded-lg p-4 text-center bg-slate-50 hover:bg-red-50 hover:border-red-300 transition-colors cursor-pointer group">
+                              <AlertCircle className="w-6 h-6 text-slate-300 group-hover:text-red-400 mx-auto mb-2 transition-colors" />
+                              <p className="text-xs font-bold text-slate-600 group-hover:text-red-700 transition-colors">Sin Resultados Fuera de Especificación</p>
+                              <p className="text-[10px] text-slate-400 mt-1">Haga clic si detecta un OOS/OOT para iniciar protocolo de investigación Fase I.</p>
+                           </div>
+                         </div>
+
+                         {/* BLOQUE 8: Cierre y Liberación Físico-Química */}
+                         <div>
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">8. Cierre de Módulo</h3>
+                           <div className="border-2 border-blue-200 bg-blue-50 rounded-lg p-4 flex flex-col justify-center h-full shadow-sm">
+                              <div className="flex justify-between items-center mb-2">
+                                 <span className="text-xs font-bold text-blue-900">Estado de RT-38</span>
+                                 <span className="text-[10px] bg-white border border-blue-200 text-blue-700 px-2 py-0.5 rounded font-bold">1/3 Ensayos</span>
+                              </div>
+                              <p className="text-[10px] text-blue-700 leading-tight mb-3">Complete los ensayos de Disolución y Valoración para habilitar la liberación hacia STCC.</p>
+                              <button disabled className="w-full bg-slate-300 text-slate-500 font-bold py-2 rounded-md text-xs cursor-not-allowed">Enviar Paquete a Jefatura</button>
+                           </div>
+                         </div>
+                      </div>
+
+                    </div>
+                  </div>
                 </div>
               )}
 
               {/* TAB: MICROBIOLOGÍA */}
               {activeTab === "micro" && (
-                <div className="space-y-6 animate-in fade-in duration-300">
-                  <div className="flex justify-between items-center mb-4">
-                    <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><Microscope className="w-4 h-4 text-primary"/> Ejecución Microbiológica</h3>
+                <div className="space-y-8 animate-in fade-in duration-300">
+                  {/* Action Bar Micro */}
+                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                    <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><Microscope className="w-4 h-4 text-primary" /> Ejecución Analítica Microbiológica</h3>
+                    <div className="flex gap-2">
+                      <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><Bug className="w-3.5 h-3.5" /> Reportar Crecimiento Atípico</button>
+                      <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><FileText className="w-3.5 h-3.5" /> Imprimir Etiquetas (Cajas Petri)</button>
+                      <button className="bg-primary text-white px-3 py-1.5 rounded-md text-xs font-bold hover:bg-primary-dark shadow-sm flex items-center gap-1.5">Liberar Paquete Micro a STCC</button>
+                    </div>
                   </div>
-                  <table className="w-full text-sm text-left border border-slate-200 rounded-lg overflow-hidden shadow-sm">
-                    <thead className="bg-slate-50 border-b border-slate-200 text-xs text-slate-500 uppercase font-bold">
-                      <tr><th className="px-4 py-3">Ensayo Microbiano</th><th className="px-4 py-3">Estado de Incubación</th><th className="px-4 py-3 text-right">Acción</th></tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 bg-white">
-                      {data.ensayosMicro.map((e, i) => (
-                        <tr key={i} className="hover:bg-slate-50 h-[64px]">
-                          <td className="px-4 py-2 font-bold text-slate-800">{e.ensayo}</td>
-                          <td className="px-4 py-2"><span className="text-primary font-bold flex items-center gap-1.5 text-xs"><Clock className="w-3.5 h-3.5"/> {e.estado}</span></td>
-                          <td className="px-4 py-2 text-right"><button className="text-primary hover:underline text-xs font-bold">Registrar Lectura</button></td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+
+                  <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                    
+                    {/* Panel Izquierdo: Contexto, Checklist y Trazabilidad */}
+                    <div className="space-y-6 xl:col-span-1">
+                      
+                      {/* BLOQUE 1: Resumen Operativo de la Muestra (Micro) */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">1. Datos Operativos Micro</h3>
+                        <div className="bg-purple-50 border border-purple-100 rounded-md p-4 shadow-sm">
+                           <div className="flex justify-between items-start mb-3 border-b border-purple-200 pb-3">
+                              <div>
+                                 <p className="text-xs font-bold text-purple-900">Muestra: Amoxicilina 500mg</p>
+                                 <p className="text-[10px] text-purple-700 mt-0.5">Lote: {data.producto.lote}</p>
+                              </div>
+                              <span className="bg-purple-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">En Incubación</span>
+                           </div>
+                           <div className="space-y-3 text-xs">
+                              <div className="flex justify-between"><span className="text-purple-800/70 font-bold">Analista Asignado:</span><span className="text-purple-900 font-bold">Dr. Carlos V.</span></div>
+                              <div className="flex justify-between"><span className="text-purple-800/70 font-bold">Recepción Muestra:</span><span className="text-purple-900 font-bold">18/01/24 08:30</span></div>
+                              <div className="flex justify-between"><span className="text-purple-800/70 font-bold">Nivel Contención:</span><span className="text-purple-900 font-bold">BSL-2</span></div>
+                           </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 2: Checklist Preparación de Medios y Esterilidad */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">2. Checklist Pre-Analítico y Medios</h3>
+                        <div className="space-y-2">
+                           {[
+                             { label: "Cabina de Bioseguridad purgada", status: "ok" },
+                             { label: "Prueba de promoción de crecimiento de Agart", status: "ok" },
+                             { label: "Esterilidad de diluyentes confirmada", status: "ok" },
+                             { label: "Cepas de referencia viables (≤ 5 pases)", status: "warning" },
+                           ].map((item, i) => (
+                             <div key={i} className={`flex items-center justify-between p-2.5 rounded border ${
+                               item.status === 'ok' ? 'border-green-200 bg-green-50/50' : 'border-yellow-200 bg-yellow-50/50'
+                             }`}>
+                               <span className="text-[10px] text-slate-700 font-medium">{item.label}</span>
+                               {item.status === 'ok' ? <CheckCircle2 className="w-3.5 h-3.5 text-success" /> : <AlertCircle className="w-3.5 h-3.5 text-yellow-600" />}
+                             </div>
+                           ))}
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 6: Trazabilidad Ambiental y Controles */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">6. Trazabilidad de Controles</h3>
+                        </div>
+                        <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-[10px] shadow-sm">
+                           <div className="flex justify-between border-b border-slate-200 pb-2 mb-2">
+                              <span className="font-bold text-slate-700 flex items-center gap-1.5"><Bug className="w-3 h-3"/> Control Positivo (S. aureus)</span>
+                              <span className="text-green-600 font-bold">Crecimiento OK</span>
+                           </div>
+                           <div className="flex justify-between border-b border-slate-200 pb-2 mb-2">
+                              <span className="font-bold text-slate-700 flex items-center gap-1.5"><Ban className="w-3 h-3"/> Control Negativo (Blanco)</span>
+                              <span className="text-green-600 font-bold">Limpio (0 UFC)</span>
+                           </div>
+                           <div className="flex justify-between pb-1">
+                              <span className="font-bold text-slate-700 flex items-center gap-1.5"><Wind className="w-3 h-3"/> Monitoreo Ambiental (Placa expuesta)</span>
+                              <span className="text-slate-500">En incubación</span>
+                           </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {/* Panel Central/Derecho: Ensayos, Incubación, Lectura */}
+                    <div className="space-y-6 xl:col-span-2">
+                      
+                      {/* BLOQUE 3: Matriz de Siembra (Flujo de Trabajo) */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">3. Matriz de Siembra</h3>
+                        </div>
+                        <table className="w-full text-xs text-left border border-slate-200 rounded-md overflow-hidden shadow-sm">
+                          <thead className="bg-slate-50 border-b border-slate-200 text-[10px] text-slate-500 uppercase font-bold">
+                            <tr><th className="px-3 py-2">Ensayo</th><th className="px-3 py-2">Medio</th><th className="px-3 py-2">Especificación</th><th className="px-3 py-2 text-right">Estado</th></tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-100 bg-white">
+                            <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-3 py-3"><p className="font-bold text-slate-900">Recuento de Aerobios Mesófilos</p><p className="text-[10px] text-slate-500">Siembra en placa</p></td>
+                              <td className="px-3 py-3 font-medium text-slate-700">Agar TSA</td>
+                              <td className="px-3 py-3 text-slate-600">≤ 10^3 UFC/g</td>
+                              <td className="px-3 py-3 text-right"><span className="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-[10px] font-bold">Incubando</span></td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-3 py-3"><p className="font-bold text-slate-900">Recuento de Hongos y Levaduras</p><p className="text-[10px] text-slate-500">Siembra en placa</p></td>
+                              <td className="px-3 py-3 font-medium text-slate-700">Agar Sabouraud</td>
+                              <td className="px-3 py-3 text-slate-600">≤ 10^2 UFC/g</td>
+                              <td className="px-3 py-3 text-right"><span className="bg-purple-100 text-purple-700 px-2 py-0.5 rounded text-[10px] font-bold">Incubando</span></td>
+                            </tr>
+                            <tr className="hover:bg-slate-50 transition-colors">
+                              <td className="px-3 py-3"><p className="font-bold text-slate-900">Detección de E. coli</p><p className="text-[10px] text-slate-500">Caldo MacConkey</p></td>
+                              <td className="px-3 py-3 font-medium text-slate-700">Agar MacConkey</td>
+                              <td className="px-3 py-3 text-slate-600">Ausencia en 1g</td>
+                              <td className="px-3 py-3 text-right"><span className="bg-slate-100 text-slate-500 px-2 py-0.5 rounded text-[10px] font-bold">Pendiente</span></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                      {/* BLOQUE 4: Control de Incubación (Tiempos Críticos) */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">4. Control Activo de Incubación</h3>
+                        <div className="grid grid-cols-2 gap-4">
+                           {/* Incubadora 1 */}
+                           <div className="border border-purple-200 rounded-lg p-4 bg-purple-50/30 shadow-sm relative overflow-hidden">
+                              <div className="absolute top-0 left-0 w-1 h-full bg-purple-500"></div>
+                              <div className="flex justify-between items-start mb-2">
+                                 <div>
+                                    <p className="text-xs font-bold text-purple-900">Aerobios Mesófilos</p>
+                                    <p className="text-[10px] text-purple-700 flex items-center gap-1 mt-0.5"><Thermometer className="w-3 h-3"/> 30-35°C (Incubadora B2)</p>
+                                 </div>
+                                 <span className="text-[10px] font-bold text-purple-600 animate-pulse flex items-center gap-1"><Clock className="w-3 h-3"/> Activo</span>
+                              </div>
+                              <div className="flex items-end gap-3 mt-4">
+                                 <div className="flex-1">
+                                    <p className="text-[10px] text-slate-500 mb-1">Progreso (48h de 72h)</p>
+                                    <div className="w-full bg-slate-200 rounded-full h-1.5"><div className="bg-purple-500 h-1.5 rounded-full w-[66%]"></div></div>
+                                 </div>
+                                 <div className="text-right">
+                                    <p className="text-lg font-black text-slate-800">24h</p>
+                                    <p className="text-[9px] uppercase font-bold text-slate-400">restantes</p>
+                                 </div>
+                              </div>
+                           </div>
+                           
+                           {/* Incubadora 2 */}
+                           <div className="border border-purple-200 rounded-lg p-4 bg-purple-50/30 shadow-sm relative overflow-hidden opacity-90">
+                              <div className="absolute top-0 left-0 w-1 h-full bg-purple-400"></div>
+                              <div className="flex justify-between items-start mb-2">
+                                 <div>
+                                    <p className="text-xs font-bold text-purple-900">Hongos y Levaduras</p>
+                                    <p className="text-[10px] text-purple-700 flex items-center gap-1 mt-0.5"><Thermometer className="w-3 h-3"/> 20-25°C (Incubadora C1)</p>
+                                 </div>
+                                 <span className="text-[10px] font-bold text-purple-600 animate-pulse flex items-center gap-1"><Clock className="w-3 h-3"/> Activo</span>
+                              </div>
+                              <div className="flex items-end gap-3 mt-4">
+                                 <div className="flex-1">
+                                    <p className="text-[10px] text-slate-500 mb-1">Progreso (24h de 120h)</p>
+                                    <div className="w-full bg-slate-200 rounded-full h-1.5"><div className="bg-purple-400 h-1.5 rounded-full w-[20%]"></div></div>
+                                 </div>
+                                 <div className="text-right">
+                                    <p className="text-lg font-black text-slate-800">96h</p>
+                                    <p className="text-[9px] uppercase font-bold text-slate-400">restantes</p>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-6">
+                         {/* BLOQUE 5: Registro de Lectura (Datos Crudos) */}
+                         <div>
+                           <div className="flex justify-between items-center mb-3">
+                              <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">5. Registro de Lectura (UFC)</h3>
+                              <span className="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded border border-slate-200 font-bold flex items-center gap-1"><Lock className="w-3 h-3"/> Bloqueado</span>
+                           </div>
+                           <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 shadow-sm relative overflow-hidden">
+                              <div className="absolute inset-0 bg-slate-100/50 backdrop-blur-[1px] flex flex-col items-center justify-center z-10 border border-slate-200 rounded-lg">
+                                 <Lock className="w-6 h-6 text-slate-400 mb-2" />
+                                 <p className="text-[10px] font-bold text-slate-500 text-center px-4">La lectura estará disponible al finalizar el periodo oficial de incubación.</p>
+                              </div>
+                              <div className="space-y-3 opacity-30">
+                                 <div>
+                                    <label className="text-[10px] font-bold text-slate-600 uppercase">Dilución 10^-1 (Placa A/B)</label>
+                                    <div className="flex gap-2 mt-1">
+                                       <input disabled type="text" className="w-full border border-slate-300 rounded p-1 text-xs" placeholder="UFC" />
+                                       <input disabled type="text" className="w-full border border-slate-300 rounded p-1 text-xs" placeholder="UFC" />
+                                    </div>
+                                 </div>
+                                 <button disabled className="w-full bg-slate-400 text-white text-xs font-bold py-2 rounded mt-2">Registrar Lectura Oficial</button>
+                              </div>
+                           </div>
+                         </div>
+
+                         <div className="flex flex-col gap-4">
+                            {/* BLOQUE 7: Panel de Crecimiento Atípico */}
+                            <div className="flex-1 border border-dashed border-red-300 rounded-lg p-3 text-center bg-red-50/50 hover:bg-red-50 transition-colors cursor-pointer group flex flex-col items-center justify-center">
+                               <Bug className="w-5 h-5 text-red-400 group-hover:text-red-500 mx-auto mb-1 transition-colors" />
+                               <p className="text-xs font-bold text-red-700 transition-colors">Notificar Crecimiento Atípico</p>
+                               <p className="text-[9px] text-red-500/70 mt-1">Reportar contaminación de placa, control negativo fallido o pérdida de viabilidad.</p>
+                            </div>
+
+                            {/* BLOQUE 8: Cierre y Liberación Microbiológica */}
+                            <div className="flex-1 border-2 border-purple-200 bg-purple-50 rounded-lg p-3 flex flex-col justify-center shadow-sm">
+                               <div className="flex justify-between items-center mb-1">
+                                  <span className="text-xs font-bold text-purple-900">Estado Micro</span>
+                                  <span className="text-[9px] bg-white border border-purple-200 text-purple-700 px-1.5 py-0.5 rounded font-bold">0/3 Lecturas</span>
+                               </div>
+                               <p className="text-[9px] text-purple-700 leading-tight mb-2">Finalice incubaciones y registre UFC para habilitar cierre.</p>
+                               <button disabled className="w-full bg-slate-300 text-slate-500 font-bold py-1.5 rounded text-xs cursor-not-allowed">Liberar a STCC</button>
+                            </div>
+                         </div>
+                      </div>
+
+                    </div>
+                  </div>
                 </div>
               )}
 
-              {/* TAB: STCC / DT / DG */}
-              {["stcc", "dt", "dg"].includes(activeTab) && (
+              {/* TAB: STCC */}
+              {activeTab === "stcc" && (
+                <div className="space-y-8 animate-in fade-in duration-300">
+                  {/* Action Bar STCC */}
+                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                    <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-primary" /> Jefatura STCC — Revisión de Paquetes Analíticos</h3>
+                    <div className="flex gap-2">
+                      <button className="bg-white border border-red-300 text-red-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-red-50 shadow-sm flex items-center gap-1.5"><AlertCircle className="w-3.5 h-3.5" /> Devolver a Analista (Reanálisis)</button>
+                      <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><FileDigit className="w-3.5 h-3.5" /> Generar Borrador RT-20</button>
+                      <button className="bg-primary text-white px-3 py-1.5 rounded-md text-xs font-bold hover:bg-primary-dark shadow-sm flex items-center gap-1.5">Aprobar Paquetes y Pasar a DT</button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                    
+                    {/* Columna Izquierda: Auditoría de Laboratorio */}
+                    <div className="space-y-6">
+                      
+                      {/* BLOQUE 1: Recepción de Paquetes Analíticos */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">1. Estado de Paquetes Recibidos</h3>
+                        <div className="grid grid-cols-2 gap-3">
+                           {/* Paquete FFQQ */}
+                           <div className="bg-slate-50 border border-slate-200 rounded-md p-3 relative overflow-hidden">
+                              <div className="flex justify-between items-start mb-2">
+                                 <p className="text-xs font-bold text-slate-900 flex items-center gap-1.5"><FlaskConical className="w-3.5 h-3.5 text-slate-500"/> Área Físico-Química</p>
+                                 <span className="bg-slate-200 text-slate-600 text-[9px] font-bold px-1.5 py-0.5 rounded">Pendiente</span>
+                              </div>
+                              <p className="text-[10px] text-slate-500 leading-tight">1/3 Ensayos completados. El paquete analítico RT-38 aún no ha sido liberado por el analista.</p>
+                              <div className="mt-3 w-full bg-slate-200 rounded-full h-1"><div className="bg-slate-400 h-1 rounded-full w-[33%]"></div></div>
+                           </div>
+                           
+                           {/* Paquete Micro */}
+                           <div className="bg-slate-50 border border-slate-200 rounded-md p-3 relative overflow-hidden">
+                              <div className="flex justify-between items-start mb-2">
+                                 <p className="text-xs font-bold text-slate-900 flex items-center gap-1.5"><Microscope className="w-3.5 h-3.5 text-slate-500"/> Área Microbiología</p>
+                                 <span className="bg-slate-200 text-slate-600 text-[9px] font-bold px-1.5 py-0.5 rounded">Pendiente</span>
+                              </div>
+                              <p className="text-[10px] text-slate-500 leading-tight">Ensayos en periodo de incubación oficial. Lectura de UFC bloqueada temporalmente.</p>
+                              <div className="mt-3 w-full bg-slate-200 rounded-full h-1"><div className="bg-slate-400 h-1 rounded-full w-[10%]"></div></div>
+                           </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 2: Auditoría de Datos Crudos (Data Integrity) */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">2. Auditoría de Data Integrity (ALCOA+)</h3>
+                           <span className="text-[9px] font-bold text-primary cursor-pointer hover:underline">Ver Cuadernos de Banco</span>
+                        </div>
+                        <div className="space-y-2">
+                           {[
+                             { label: "Correlación de pesos (Balanza Analítica vs Registro)", status: "pending" },
+                             { label: "Trazabilidad de espectros/cromatogramas originales", status: "pending" },
+                             { label: "Fórmulas de cálculo de porcentaje de valoración", status: "pending" },
+                             { label: "Identidad de operador (Audit Trail de equipos)", status: "pending" },
+                           ].map((item, i) => (
+                             <div key={i} className="flex items-center justify-between p-2.5 rounded border border-slate-200 bg-white shadow-sm">
+                               <span className="text-[10px] text-slate-600">{item.label}</span>
+                               <Clock className="w-3.5 h-3.5 text-slate-400" />
+                             </div>
+                           ))}
+                        </div>
+                        <p className="text-[9px] text-slate-400 mt-2 text-center">La auditoría se habilitará cuando se reciban los paquetes analíticos completos.</p>
+                      </div>
+
+                      {/* BLOQUE 5: Revisión de Trazabilidad Química */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">5. Auditoría de Reactivos y Estándares</h3>
+                        <div className="bg-slate-50 border border-slate-200 rounded-lg p-1 shadow-sm">
+                           <table className="w-full text-[10px] text-left">
+                              <tbody className="divide-y divide-slate-100">
+                                 <tr className="hover:bg-slate-100/50">
+                                    <td className="px-3 py-2 text-slate-600 font-bold">Estándar Primario (RG-44)</td>
+                                    <td className="px-3 py-2 text-slate-500">Amoxicilina USP Lote J0L496</td>
+                                    <td className="px-3 py-2 text-right"><span className="text-success font-bold flex items-center justify-end gap-1"><CheckCircle2 className="w-3 h-3"/> Válido</span></td>
+                                 </tr>
+                                 <tr className="hover:bg-slate-100/50">
+                                    <td className="px-3 py-2 text-slate-600 font-bold">Reactivos Críticos (RG-59)</td>
+                                    <td className="px-3 py-2 text-slate-500">Acetonitrilo HPLC (MK-8921)</td>
+                                    <td className="px-3 py-2 text-right"><span className="text-slate-400 font-bold flex items-center justify-end gap-1"><Clock className="w-3 h-3"/> En Revisión</span></td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 7: Emisión de Observaciones Analíticas */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">7. Observaciones Técnicas Internas</h3>
+                           <button className="text-[10px] font-bold text-red-600 hover:underline flex items-center gap-1">+ Nueva Observación</button>
+                        </div>
+                        <div className="border border-dashed border-slate-300 rounded-lg p-5 text-center bg-slate-50">
+                           <p className="text-xs font-bold text-slate-500">No hay observaciones registradas</p>
+                           <p className="text-[10px] text-slate-400 mt-1">Cree una observación si detecta errores de cálculo o desvíos a la PNO para devolver el paquete al analista.</p>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {/* Columna Derecha: Consolidación y Aprobación */}
+                    <div className="space-y-6">
+                      
+                      {/* BLOQUE 3: Verificación de Cumplimiento de Especificaciones */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">3. Verificación de Especificaciones</h3>
+                        </div>
+                        <div className="bg-slate-50 border border-slate-200 rounded-md overflow-hidden shadow-sm">
+                           <table className="w-full text-[10px] text-left">
+                              <thead className="bg-white border-b border-slate-200 text-slate-500 uppercase font-bold">
+                                 <tr><th className="px-3 py-2">Parámetro</th><th className="px-3 py-2">Límite Oficial</th><th className="px-3 py-2">Obtenido</th><th className="px-3 py-2 text-center">Dictamen</th></tr>
+                              </thead>
+                              <tbody className="divide-y divide-slate-100 bg-white">
+                                 {/* Fila Completada */}
+                                 <tr className="hover:bg-slate-50">
+                                    <td className="px-3 py-2 font-bold text-slate-800">Aspecto</td>
+                                    <td className="px-3 py-2 text-slate-500">Cápsulas cilíndricas bicolor</td>
+                                    <td className="px-3 py-2 text-slate-800">Conforme al estándar</td>
+                                    <td className="px-3 py-2 text-center"><span className="bg-green-100 text-success px-1.5 py-0.5 rounded font-bold">CUMPLE</span></td>
+                                 </tr>
+                                 {/* Filas Pendientes */}
+                                 <tr className="bg-slate-50/50">
+                                    <td className="px-3 py-2 font-bold text-slate-600">Disolución</td>
+                                    <td className="px-3 py-2 text-slate-500">NLT 80% en 45 min</td>
+                                    <td className="px-3 py-2 text-slate-400 italic">Esperando paquete...</td>
+                                    <td className="px-3 py-2 text-center"><span className="bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded font-bold">-</span></td>
+                                 </tr>
+                                 <tr className="bg-slate-50/50">
+                                    <td className="px-3 py-2 font-bold text-slate-600">Valoración</td>
+                                    <td className="px-3 py-2 text-slate-500">90.0% — 120.0%</td>
+                                    <td className="px-3 py-2 text-slate-400 italic">Esperando paquete...</td>
+                                    <td className="px-3 py-2 text-center"><span className="bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded font-bold">-</span></td>
+                                 </tr>
+                                 <tr className="bg-slate-50/50">
+                                    <td className="px-3 py-2 font-bold text-slate-600">E. coli</td>
+                                    <td className="px-3 py-2 text-slate-500">Ausencia/g</td>
+                                    <td className="px-3 py-2 text-slate-400 italic">Incubando...</td>
+                                    <td className="px-3 py-2 text-center"><span className="bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded font-bold">-</span></td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-6">
+                         {/* BLOQUE 4: Gestión de Desviaciones (Fase II) */}
+                         <div>
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">4. Evaluaciones OOS/OOT</h3>
+                           <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex flex-col items-center justify-center text-center h-[120px]">
+                              <CheckCircle2 className="w-8 h-8 text-slate-200 mb-2" />
+                              <p className="text-[10px] font-bold text-slate-500">Sin investigaciones Fase I activas provenientes de los analistas.</p>
+                           </div>
+                         </div>
+
+                         {/* BLOQUE 6: Generación del Dictamen Técnico (RT-20) */}
+                         <div>
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">6. Borrador de Certificado (RT-20)</h3>
+                           <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 shadow-sm flex flex-col items-center justify-center text-center h-[120px] relative overflow-hidden">
+                              <FileDigit className="w-16 h-16 text-slate-200 absolute -right-4 -bottom-4 z-0" />
+                              <div className="relative z-10">
+                                 <p className="text-[10px] font-bold text-slate-500 mb-2">Generación Automática</p>
+                                 <button disabled className="bg-slate-300 text-slate-500 font-bold px-3 py-1.5 rounded text-[10px] shadow-sm cursor-not-allowed">Previsualizar Formato</button>
+                              </div>
+                           </div>
+                         </div>
+                      </div>
+
+                      {/* BLOQUE 8: Aprobación y Pase a Dirección Técnica (DT) */}
+                      <div className="pt-2">
+                         <div className="border-2 border-slate-200 bg-white rounded-lg p-4 flex flex-col justify-center shadow-sm relative overflow-hidden">
+                            <div className="absolute top-0 left-0 w-1 h-full bg-slate-300"></div>
+                            <div className="flex justify-between items-center mb-2 pl-2">
+                               <div>
+                                  <p className="text-xs font-bold text-slate-800 uppercase mb-0.5">Autorización de Jefatura STCC</p>
+                                  <p className="text-sm font-black text-slate-400">Pase a Dirección Bloqueado</p>
+                               </div>
+                               <div className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center">
+                                  <Lock className="w-4 h-4 text-slate-400" />
+                               </div>
+                            </div>
+                            <p className="text-[10px] text-slate-500 mt-2 pl-2">Se requiere que las áreas operativas (FFQQ y Micro) completen sus ensayos, liberen los paquetes, y que la auditoría ALCOA+ sea conforme para habilitar la firma de Jefatura y trasladar el expediente a la Dirección Técnica.</p>
+                         </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB: DIRECCIÓN TÉCNICA (DT) */}
+              {activeTab === "dt" && (
+                <div className="space-y-8 animate-in fade-in duration-300">
+                  {/* Action Bar DT */}
+                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                    <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><Briefcase className="w-4 h-4 text-primary" /> Dirección Técnica — Decisión Técnica del Expediente</h3>
+                    <div className="flex gap-2">
+                      <button className="bg-white border border-red-300 text-red-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-red-50 shadow-sm flex items-center gap-1.5"><AlertCircle className="w-3.5 h-3.5" /> Rechazar Lote</button>
+                      <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><FileDigit className="w-3.5 h-3.5" /> Ver RT-20 (Borrador STCC)</button>
+                      <button className="bg-primary text-white px-3 py-1.5 rounded-md text-xs font-bold hover:bg-primary-dark shadow-sm flex items-center gap-1.5">Aprobar Lote y Pasar a DG</button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                    
+                    {/* Columna Izquierda: Auditoría Regulatoria y Documental */}
+                    <div className="space-y-6">
+                      
+                      {/* BLOQUE 1: Expediente Consolidado */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">1. Estado del Expediente Consolidado</h3>
+                        <div className="bg-slate-50 border border-slate-200 rounded-md p-3 grid grid-cols-2 gap-3 shadow-sm">
+                           <div className="flex justify-between items-center bg-white border border-slate-100 p-2 rounded">
+                              <span className="text-[10px] font-bold text-slate-700 flex items-center gap-1"><Files className="w-3.5 h-3.5 text-slate-400"/> Legal (DOCT)</span>
+                              <span className="bg-slate-200 text-slate-600 text-[9px] font-bold px-1.5 py-0.5 rounded">Pendiente</span>
+                           </div>
+                           <div className="flex justify-between items-center bg-white border border-slate-100 p-2 rounded">
+                              <span className="text-[10px] font-bold text-slate-700 flex items-center gap-1"><FlaskConical className="w-3.5 h-3.5 text-slate-400"/> Calidad (STCC)</span>
+                              <span className="bg-slate-200 text-slate-600 text-[9px] font-bold px-1.5 py-0.5 rounded">Pendiente</span>
+                           </div>
+                           <div className="col-span-2">
+                              <p className="text-[9px] text-slate-500 text-center">La Dirección Técnica no puede emitir un dictamen final sin la conjunción del aval legal (DOCT) y analítico (STCC).</p>
+                           </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 4: Revisión Legal / Normativa */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">4. Cumplimiento Regulatorio (ARSA / SESAL)</h3>
+                        <div className="space-y-2">
+                           {[
+                             { label: "Validación de Registro Sanitario Vigente", status: "pending" },
+                             { label: "Correspondencia de Farmacopea Declarada (USP/BP/EP)", status: "pending" },
+                             { label: "Verificación de Alertas Sanitarias (Recall) activas", status: "pending" },
+                           ].map((item, i) => (
+                             <div key={i} className="flex items-center justify-between p-2.5 rounded border border-slate-200 bg-white shadow-sm">
+                               <span className="text-[10px] text-slate-600 font-medium">{item.label}</span>
+                               <Clock className="w-3.5 h-3.5 text-slate-400" />
+                             </div>
+                           ))}
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 5: Evaluación de Impacto de Desviaciones */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">5. Análisis de Riesgo y Desviaciones</h3>
+                           <button className="text-[9px] font-bold text-primary hover:underline">+ Levantar Riesgo</button>
+                        </div>
+                        <div className="border border-dashed border-slate-300 rounded-lg p-5 text-center bg-slate-50">
+                           <ShieldAlert className="w-6 h-6 text-slate-300 mx-auto mb-2" />
+                           <p className="text-xs font-bold text-slate-500">Sin impacto reportado</p>
+                           <p className="text-[10px] text-slate-400 mt-1">Si STCC reportó un OOS validado que impacte la seguridad del paciente, DT documentará aquí el Riesgo Sanitario.</p>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 7: Liquidación Financiera */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">7. Estatus de Liquidación Financiera</h3>
+                        <div className="bg-slate-50 border border-slate-200 rounded-lg p-1 shadow-sm">
+                           <table className="w-full text-[10px] text-left">
+                              <tbody className="divide-y divide-slate-100">
+                                 <tr className="hover:bg-slate-100/50">
+                                    <td className="px-3 py-2 text-slate-600 font-bold">Proforma / Cotización</td>
+                                    <td className="px-3 py-2 text-slate-500">N° PROF-2024-0089</td>
+                                    <td className="px-3 py-2 text-right"><span className="text-success font-bold flex items-center justify-end gap-1"><CheckCircle2 className="w-3 h-3"/> Pagada</span></td>
+                                 </tr>
+                                 <tr className="hover:bg-slate-100/50">
+                                    <td className="px-3 py-2 text-slate-600 font-bold">Factura Autorizada (SAR)</td>
+                                    <td className="px-3 py-2 text-slate-500">-</td>
+                                    <td className="px-3 py-2 text-right"><span className="text-slate-400 font-bold flex items-center justify-end gap-1"><Clock className="w-3 h-3"/> Pendiente Emisión</span></td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {/* Columna Derecha: Decisión y Certificación */}
+                    <div className="space-y-6">
+                      
+                      {/* BLOQUE 2: Decisión Técnica (Aprobación/Rechazo del Lote) */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">2. Dictamen Oficial de Dirección Técnica</h3>
+                           <span className="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded border border-slate-200 font-bold flex items-center gap-1"><Lock className="w-3 h-3"/> Bloqueado</span>
+                        </div>
+                        <div className="bg-slate-50 border border-slate-200 rounded-md p-4 shadow-sm relative overflow-hidden">
+                           <div className="absolute inset-0 bg-slate-100/50 backdrop-blur-[1px] flex flex-col items-center justify-center z-10 border border-slate-200 rounded-md">
+                              <Lock className="w-6 h-6 text-slate-400 mb-2" />
+                              <p className="text-[10px] font-bold text-slate-500 text-center px-4">Requiere aprobación previa de Jefatura STCC para emitir dictamen.</p>
+                           </div>
+                           <p className="text-xs font-bold text-slate-700 mb-3 opacity-30">Seleccione la disposición final para el producto analizado:</p>
+                           <div className="grid grid-cols-3 gap-3 opacity-30">
+                              <button disabled className="border-2 border-green-200 bg-green-50 text-green-700 font-bold py-3 rounded text-[10px] flex flex-col items-center gap-1"><CheckCircle2 className="w-5 h-5"/> APROBADO</button>
+                              <button disabled className="border-2 border-red-200 bg-red-50 text-red-700 font-bold py-3 rounded text-[10px] flex flex-col items-center gap-1"><Ban className="w-5 h-5"/> RECHAZADO</button>
+                              <button disabled className="border-2 border-slate-300 bg-white text-slate-700 font-bold py-3 rounded text-[10px] flex flex-col items-center gap-1"><ShieldAlert className="w-5 h-5"/> DECOMISO</button>
+                           </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-6">
+                         {/* BLOQUE 3: Emisión del Certificado Oficial (RT-20 Firmado) */}
+                         <div>
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">3. Certificado RT-20 Oficial</h3>
+                           <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex flex-col items-center justify-center text-center h-[120px] relative overflow-hidden">
+                              <FileDigit className="w-16 h-16 text-slate-100 absolute -right-2 -bottom-2 z-0" />
+                              <div className="relative z-10">
+                                 <p className="text-[10px] font-bold text-slate-500 mb-2">Firma Digital (DT)</p>
+                                 <button disabled className="bg-slate-300 text-slate-500 font-bold px-3 py-1.5 rounded text-[10px] shadow-sm cursor-not-allowed">Aplicar Firma y Sellar</button>
+                              </div>
+                           </div>
+                         </div>
+
+                         {/* BLOQUE 6: Generación de Oficio de Notificación a ARSA */}
+                         <div>
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">6. Alerta Sanitaria Regulatoria</h3>
+                           <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 shadow-sm flex flex-col items-center justify-center text-center h-[120px]">
+                              <ShieldCheck className="w-8 h-8 text-slate-300 mb-2" />
+                              <p className="text-[10px] font-bold text-slate-500">Notificación automática a ARSA inactiva. Solo aplica para dictamen "Rechazado" o "Decomiso".</p>
+                           </div>
+                         </div>
+                      </div>
+
+                      {/* BLOQUE 8: Cierre de Expediente y Pase a Dirección General */}
+                      <div className="pt-2">
+                         <div className="border-2 border-slate-200 bg-white rounded-lg p-4 flex flex-col justify-center shadow-sm relative overflow-hidden">
+                            <div className="absolute top-0 left-0 w-1 h-full bg-slate-300"></div>
+                            <div className="flex justify-between items-center mb-2 pl-2">
+                               <div>
+                                  <p className="text-xs font-bold text-slate-800 uppercase mb-0.5">Traslado a Dirección General</p>
+                                  <p className="text-sm font-black text-slate-400">Pase a DG Bloqueado</p>
+                               </div>
+                               <div className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center">
+                                  <Lock className="w-4 h-4 text-slate-400" />
+                               </div>
+                            </div>
+                            <p className="text-[10px] text-slate-500 mt-2 pl-2">Para transferir el expediente a la Dirección General para su revisión administrativa final, es mandatorio emitir el dictamen técnico, aplicar la firma digital en el RT-20 y asegurar la liquidación financiera del cliente.</p>
+                         </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB: DG */}
+              {activeTab === "dg" && (
                 <div className="space-y-6 animate-in fade-in duration-300">
                   <div className="border border-slate-200 rounded-lg p-10 bg-slate-50 flex flex-col items-center text-center justify-center min-h-[400px]">
                      <ShieldAlert className="w-12 h-12 text-slate-300 mb-4" />
                      <p className="text-sm font-bold text-slate-700">Etapa Bloqueada</p>
-                     <p className="text-xs text-slate-500 mt-2 max-w-md">Esta etapa no está disponible hasta que los análisis de FFQQ y Microbiología concluyan y emitan sus resultados validados.</p>
+                     <p className="text-xs text-slate-500 mt-2 max-w-md">Esta etapa no está disponible hasta que la Dirección Técnica emita el dictamen final del lote y selle el Certificado de Análisis RT-20.</p>
                   </div>
                 </div>
               )}
