@@ -1,19 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { mockIngreso360 } from "@/lib/mockData";
 import { 
   AlertCircle, CheckCircle2, Clock, FileText, Beaker, 
   History, Download, Activity, FileCheck, ShieldAlert, Files,
   User, Check, XCircle, ChevronDown, Flag, FileDigit, Calendar, ShieldCheck,
   Building, MapPin, Printer, MoreHorizontal, Filter, FlaskConical, Microscope, Briefcase,
-  Eye, GitCompare, MessageSquare
+  Eye, GitCompare, MessageSquare, ChevronLeft, ChevronRight
 } from "lucide-react";
 
 export default function Ingreso360Page({ params }: { params: { id: string } }) {
   const data = mockIngreso360; 
   const [activeTab, setActiveTab] = useState("resumen");
   const [sideTab, setSideTab] = useState("timeline");
+
+  // Nav horizontal tabs
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(true);
+
+  const handleScroll = () => {
+    if (tabsContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = tabsContainerRef.current;
+      setShowLeftArrow(scrollLeft > 0);
+      setShowRightArrow(Math.ceil(scrollLeft + clientWidth) < scrollWidth);
+    }
+  };
+
+  useEffect(() => {
+    handleScroll();
+    window.addEventListener("resize", handleScroll);
+    return () => window.removeEventListener("resize", handleScroll);
+  }, []);
+
+  const scrollTabs = (direction: "left" | "right") => {
+    if (tabsContainerRef.current) {
+      const scrollAmount = 300;
+      tabsContainerRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth"
+      });
+    }
+  };
 
   const tabs = [
     { id: "resumen", label: "Resumen General" },
@@ -199,20 +228,46 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
         {/* Left Column (Content) */}
         <div className="xl:col-span-3 space-y-4">
           <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden min-h-[600px]">
-            <div className="flex overflow-x-auto hide-scrollbar border-b border-slate-200 bg-slate-50/50">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`px-5 py-3.5 text-sm font-bold whitespace-nowrap transition-colors ${
-                    activeTab === tab.id 
-                      ? "text-primary border-b-2 border-primary bg-white shadow-[0_2px_0_0_#025f85]" 
-                      : "text-slate-500 hover:text-slate-800 hover:bg-slate-100 border-b-2 border-transparent"
-                  }`}
+            <div className="relative border-b border-slate-200 bg-slate-50/50 flex items-center group">
+              {showLeftArrow && (
+                <button 
+                  onClick={() => scrollTabs("left")}
+                  className="absolute left-0 top-0 bottom-0 z-10 px-1.5 bg-gradient-to-r from-slate-50 via-slate-50 to-transparent hover:text-primary text-slate-400 transition-colors flex items-center justify-center"
+                  aria-label="Desplazar a la izquierda"
                 >
-                  {tab.label}
+                  <ChevronLeft className="w-5 h-5 bg-white rounded-full shadow-sm border border-slate-200" />
                 </button>
-              ))}
+              )}
+              
+              <div 
+                ref={tabsContainerRef}
+                onScroll={handleScroll}
+                className="flex overflow-x-auto hide-scrollbar w-full scroll-smooth"
+              >
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`px-5 py-3.5 text-sm font-bold whitespace-nowrap transition-colors flex-shrink-0 ${
+                      activeTab === tab.id 
+                        ? "text-primary border-b-2 border-primary bg-white shadow-[0_2px_0_0_#025f85]" 
+                        : "text-slate-500 hover:text-slate-800 hover:bg-slate-100 border-b-2 border-transparent"
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+
+              {showRightArrow && (
+                <button 
+                  onClick={() => scrollTabs("right")}
+                  className="absolute right-0 top-0 bottom-0 z-10 px-1.5 bg-gradient-to-l from-slate-50 via-slate-50 to-transparent hover:text-primary text-slate-400 transition-colors flex items-center justify-center"
+                  aria-label="Desplazar a la derecha"
+                >
+                  <ChevronRight className="w-5 h-5 bg-white rounded-full shadow-sm border border-slate-200" />
+                </button>
+              )}
             </div>
 
             <div className="p-6">
@@ -1610,13 +1665,160 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                 </div>
               )}
 
-              {/* TAB: DG */}
+              {/* TAB: DIRECCIÓN GENERAL (DG) */}
               {activeTab === "dg" && (
-                <div className="space-y-6 animate-in fade-in duration-300">
-                  <div className="border border-slate-200 rounded-lg p-10 bg-slate-50 flex flex-col items-center text-center justify-center min-h-[400px]">
-                     <ShieldAlert className="w-12 h-12 text-slate-300 mb-4" />
-                     <p className="text-sm font-bold text-slate-700">Etapa Bloqueada</p>
-                     <p className="text-xs text-slate-500 mt-2 max-w-md">Esta etapa no está disponible hasta que la Dirección Técnica emita el dictamen final del lote y selle el Certificado de Análisis RT-20.</p>
+                <div className="space-y-8 animate-in fade-in duration-300">
+                  {/* Action Bar DG */}
+                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                    <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><Building2 className="w-4 h-4 text-primary" /> Dirección General — Aprobación Final y Cierre Comercial</h3>
+                    <div className="flex gap-2">
+                      <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><PauseCircle className="w-3.5 h-3.5" /> Pausar Trámite Administrativo</button>
+                      <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><Download className="w-3.5 h-3.5" /> Descargar Dossier Completo</button>
+                      <button className="bg-primary text-white px-3 py-1.5 rounded-md text-xs font-bold hover:bg-primary-dark shadow-sm flex items-center gap-1.5">Liberar Expediente al Cliente</button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                    
+                    {/* Columna Izquierda: Auditoría Ejecutiva y KPIs */}
+                    <div className="space-y-6">
+                      
+                      {/* BLOQUE 1: Resumen Ejecutivo del Expediente */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">1. Executive Summary (Expediente)</h3>
+                        <div className="bg-slate-50 border border-slate-200 rounded-md p-4 grid grid-cols-2 gap-4 shadow-sm">
+                           <div>
+                              <p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Turnaround Time (TAT)</p>
+                              <div className="flex items-end gap-2">
+                                 <p className="text-3xl font-black text-slate-800">14<span className="text-sm text-slate-500 font-bold">días</span></p>
+                                 <span className="bg-green-100 text-success text-[9px] font-bold px-1.5 py-0.5 rounded mb-1">En tiempo</span>
+                              </div>
+                           </div>
+                           <div>
+                              <p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Dictamen Dirección Técnica</p>
+                              <div className="flex items-center gap-2 mt-2">
+                                 <CheckCircle2 className="w-6 h-6 text-slate-300" />
+                                 <span className="text-sm font-bold text-slate-400">Pendiente Aval</span>
+                              </div>
+                           </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 2: Auditoría de Costos vs Precios (KPI de Rentabilidad) */}
+                      <div>
+                        <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">2. Auditoría Operativa (Costos / Rentabilidad)</h3>
+                        <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
+                           <div className="flex justify-between items-center mb-3 pb-3 border-b border-slate-100">
+                              <span className="text-[10px] font-bold text-slate-600">Precio Facturado (L.)</span>
+                              <span className="text-sm font-black text-primary">12,500.00</span>
+                           </div>
+                           <div className="space-y-2">
+                              <div className="flex justify-between text-[10px]">
+                                 <span className="text-slate-500">Costo Horas-Hombre (HH) Estimado</span>
+                                 <span className="font-bold text-red-600/80">- 3,200.00</span>
+                              </div>
+                              <div className="flex justify-between text-[10px]">
+                                 <span className="text-slate-500">Costo Materiales/Reactivos (RM)</span>
+                                 <span className="font-bold text-red-600/80">- 4,100.00</span>
+                              </div>
+                              <div className="flex justify-between text-xs font-bold pt-2 border-t border-slate-100">
+                                 <span className="text-slate-800">Margen Bruto Proyectado</span>
+                                 <span className="text-success">5,200.00 (41.6%)</span>
+                              </div>
+                           </div>
+                        </div>
+                      </div>
+
+                      {/* BLOQUE 4: Gestión Documental y Archivo */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">4. Disposición de Archivo Permanente</h3>
+                           <button className="text-[9px] font-bold text-primary hover:underline flex items-center gap-1"><Printer className="w-3 h-3"/> Imprimir Label</button>
+                        </div>
+                        <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 shadow-sm flex items-center gap-3">
+                           <div className="w-10 h-10 bg-slate-200 rounded flex items-center justify-center">
+                              <QrCode className="w-6 h-6 text-slate-500" />
+                           </div>
+                           <div>
+                              <p className="text-xs font-bold text-slate-800">Caja de Archivo: <span className="text-primary font-mono">AR-2024-C12</span></p>
+                              <p className="text-[10px] text-slate-500">Ubicación física: Pasillo A, Estante 4. Destrucción programada: 2029.</p>
+                           </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {/* Columna Derecha: Refrendo y Cierre Financiero */}
+                    <div className="space-y-6">
+                      
+                      {/* BLOQUE 3: Visto Bueno Administrativo */}
+                      <div>
+                        <div className="flex justify-between items-center mb-3">
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">3. Visto Bueno Administrativo</h3>
+                           <span className="text-[9px] bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded border border-slate-200 font-bold flex items-center gap-1"><Lock className="w-3 h-3"/> Bloqueado</span>
+                        </div>
+                        <div className="bg-slate-50 border border-slate-200 rounded-md p-4 shadow-sm relative overflow-hidden">
+                           <div className="absolute inset-0 bg-slate-100/50 backdrop-blur-[1px] flex flex-col items-center justify-center z-10 border border-slate-200 rounded-md">
+                              <Lock className="w-6 h-6 text-slate-400 mb-2" />
+                              <p className="text-[10px] font-bold text-slate-500 text-center px-4">En espera de autorización de la Dirección Técnica.</p>
+                           </div>
+                           <div className="space-y-2 opacity-30">
+                              <div className="flex items-center gap-2 p-2 rounded border border-slate-200 bg-white">
+                                 <input disabled type="checkbox" className="w-4 h-4 rounded text-primary" />
+                                 <span className="text-[10px] text-slate-700 font-bold">Sin actas de descargo o notas de débito pendientes.</span>
+                              </div>
+                              <div className="flex items-center gap-2 p-2 rounded border border-slate-200 bg-white">
+                                 <input disabled type="checkbox" className="w-4 h-4 rounded text-primary" />
+                                 <span className="text-[10px] text-slate-700 font-bold">Cliente solvente a nivel corporativo.</span>
+                              </div>
+                           </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-6">
+                         {/* BLOQUE 6: Emisión de Factura Final */}
+                         <div>
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">6. Emisión Factura Final (CAI)</h3>
+                           <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex flex-col items-center justify-center text-center h-[120px] relative overflow-hidden">
+                              <Receipt className="w-16 h-16 text-slate-100 absolute -left-2 -bottom-2 z-0" />
+                              <div className="relative z-10 w-full">
+                                 <button disabled className="w-full bg-slate-300 text-slate-500 font-bold px-3 py-2 rounded text-[10px] shadow-sm cursor-not-allowed">Autorizar Timbrado CAI</button>
+                                 <p className="text-[9px] text-slate-400 mt-2">Reemplaza Proforma 0089</p>
+                              </div>
+                           </div>
+                         </div>
+
+                         {/* BLOQUE 5: Firma Electrónica Gerencial */}
+                         <div>
+                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">5. Refrendo Dirección General</h3>
+                           <div className="bg-slate-800 border border-slate-700 rounded-lg p-4 shadow-sm flex flex-col items-center justify-center text-center h-[120px]">
+                              <p className="text-[10px] font-bold text-slate-300 mb-2">Firma Autorizada</p>
+                              <button disabled className="bg-slate-600 text-slate-400 font-bold px-4 py-2 rounded text-[10px] cursor-not-allowed border border-slate-500">Refrendar Certificado</button>
+                           </div>
+                         </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-6 pt-2">
+                         {/* BLOQUE 7: Cierre de Ciclo en ERP/CRM */}
+                         <div className="border border-slate-200 bg-slate-50 rounded-lg p-3 flex flex-col justify-center">
+                            <p className="text-[10px] font-bold text-slate-600 mb-2 uppercase">7. Integración Cliente</p>
+                            <div className="flex items-center gap-2">
+                               <input type="checkbox" checked disabled className="w-3.5 h-3.5 rounded text-primary" />
+                               <span className="text-[10px] text-slate-500">Enviar correo automático al cliente con Certificado y Factura.</span>
+                            </div>
+                         </div>
+
+                         {/* BLOQUE 8: Liberación del Expediente y Cierre */}
+                         <div className="border border-slate-200 bg-white rounded-lg p-3 flex flex-col justify-center relative overflow-hidden">
+                            <div className="absolute top-0 left-0 w-1 h-full bg-slate-300"></div>
+                            <div className="pl-2">
+                               <p className="text-xs font-bold text-slate-800 uppercase mb-0.5">Estado Final</p>
+                               <span className="bg-slate-100 text-slate-500 font-bold px-2 py-0.5 rounded text-[10px] border border-slate-200">En Proceso (No Liberado)</span>
+                            </div>
+                         </div>
+                      </div>
+
+                    </div>
                   </div>
                 </div>
               )}
