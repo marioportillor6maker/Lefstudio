@@ -224,24 +224,24 @@ Notificaciones críticas en la parte superior. Cada alerta cuenta con los botone
 
 ## 4. MÓDULO: RAC (Recepción y Atención al Cliente)
 
-### 4.1 PANTALLA: Bandeja RAC
-**Identificación**
-- Ruta: `/rac` (Pestaña por defecto)
-- Acceso: Menú Lateral > RAC > Bandeja RAC
+### 4.1 PANTALLA: Bandeja RAC [REPLICADO]
+**Identificación** [REPLICADO]
+- Ruta: `/rac` (Pestaña por defecto) [REPLICADO]
+- Acceso: Menú Lateral > RAC > Bandeja RAC [REPLICADO]
 
-**Estructura General y Componentes**
-- **Indicadores (Cards Superiores):**
-  - **Total en RAC:** Valor: `12`.
-  - **Pendiente Validación:** Valor: `3`.
-  - **Pendiente Pago:** Valor: `2`.
-  - **Listos para Distribuir:** Valor: `4`.
-- **Filtros y Búsqueda:**
-  - **Buscador (Input):** Búsqueda por producto, recepción, cliente...
-  - **Filtro Estado (Dropdown):** Filtra por estados específicos de RAC (Pendiente, Validado, etc.).
-  - **Botón:** "Más filtros" (despliega panel avanzado).
-- **Tabla: Bandeja de Ingresos RAC:**
-  - **Columnas:** Nº Recepción, Producto (Lote), Cliente, Tipo Trámite, Fecha Rec., Estado (Badge), Bloqueos (Chips).
-  - **Acciones (Por fila):** Botón "Ver" (Abre Vista 360), Botón "Validar" (Check verde).
+**Estructura General y Componentes** [REPLICADO]
+- **Indicadores (Cards Superiores):** [REPLICADO]
+  - **Total en RAC:** Valor: `12`. [REPLICADO]
+  - **Pendiente Validación:** Valor: `3`. [REPLICADO]
+  - **Pendiente Pago:** Valor: `2`. [REPLICADO]
+  - **Listos para Distribuir:** Valor: `4`. [REPLICADO]
+- **Filtros y Búsqueda:** [REPLICADO]
+  - **Buscador (Input):** Búsqueda por producto, recepción, cliente... [REPLICADO]
+  - **Filtro Estado (Dropdown):** Filtra por estados específicos de RAC (Pendiente, Validado, etc.). [REPLICADO]
+  - **Botón:** "Más filtros" (despliega panel avanzado). [REPLICADO]
+- **Tabla: Bandeja de Ingresos RAC:** [REPLICADO]
+  - **Columnas:** Nº Recepción, Producto (Lote), Cliente, Tipo Trámite, Fecha Rec., Estado (Badge), Bloqueos (Chips). [REPLICADO]
+  - **Acciones (Por fila):** Botón "Ver" (Abre Vista 360), Botón "Validar" (Check verde). [REPLICADO]
 
 ---
 
@@ -327,55 +327,55 @@ Notificaciones críticas en la parte superior. Cada alerta cuenta con los botone
 
 ---
 
-### 4.3 PANTALLA: Proformas y Pago
-**Identificación**
-- Pestaña: "Proformas y Pago" dentro del Módulo RAC.
+### 4.3 PANTALLA: Proformas y Pago [REPLICADO]
+**Identificación** [REPLICADO]
+- Pestaña: "Proformas y Pago" dentro del Módulo RAC. [REPLICADO]
 
-**Estructura y Componentes**
-- **Indicadores (Cards):** 
-  - Proformas Emitidas (8)
-  - Pagos Confirmados (6)
-  - Pendientes de Pago (2)
-- **Tabla: Proformas y Estado de Pago:**
-  - **Columnas:** Nº Proforma, Recepción, Producto, Monto (L.), Fecha Emisión, Fecha Límite, Estado (Badge: Pagado, Pendiente, Vencido).
-  - **Acciones:** Ver, Imprimir (Icono PDF), Confirmar (Abre modal de pago).
-- **Formulario: Emitir Nueva Proforma:**
-  - **Campos:** Recepción Asociada (Select), Tipo de Análisis (Select), Monto (Input), Fecha Emisión (Date picker), Plazo en Días (Input), Método de Pago (Select), Observaciones (Textarea).
+**Estructura y Componentes** [REPLICADO]
+- **Indicadores (Cards):** [REPLICADO]
+  - Proformas Emitidas (8) [REPLICADO]
+  - Pagos Confirmados (6) [REPLICADO]
+  - Pendientes de Pago (2) [REPLICADO]
+- **Tabla: Proformas y Estado de Pago:** [REPLICADO]
+  - **Columnas:** Nº Proforma, Recepción, Producto, Monto (L.), Fecha Emisión, Fecha Límite, Estado (Badge: Pagado, Pendiente, Vencido). [REPLICADO]
+  - **Acciones:** Ver, Imprimir (Icono PDF), Confirmar (Abre modal de pago). [REPLICADO]
+- **Formulario: Emitir Nueva Proforma:** [REPLICADO]
+  - **Campos:** Recepción Asociada (Select), Tipo de Análisis (Select), Monto (Input), Fecha Emisión (Date picker), Plazo en Días (Input), Método de Pago (Select), Observaciones (Textarea). [REPLICADO]
 
 ---
 
-### 4.4 PANTALLA: Distribución RT-159
-**Identificación**
-- Pestaña: "Distribución RT-159" dentro del Módulo RAC.
+### 4.4 PANTALLA: Distribución RT-159 [REPLICADO]
+**Identificación** [REPLICADO]
+- Pestaña: "Distribución RT-159" dentro del Módulo RAC. [REPLICADO]
 
-**Estructura del Formulario**
-- **Campos Principales:** 
-  - Nº RT-159 (Input autogenerado/Read-only)
-  - Recepción (Select)
-  - Fecha Distribución (Date picker)
-  - Responsable Emisión (Read-only)
-- **Sección: Distribución por Área (Grid/Tabla):**
-  - **Áreas Listadas:** Documentación (DOCT), Microbiología, Muestra Biblioteca.
-  - **Datos por Área:** Responsable (Select), Cantidad (Input), Unidad (Read-only), Fecha Recibo (Date picker), Estado (Badge: Recibido/Pendiente).
+**Estructura del Formulario** [REPLICADO]
+- **Campos Principales:** [REPLICADO]
+  - Nº RT-159 (Input autogenerado/Read-only) [REPLICADO]
+  - Recepción (Select) [REPLICADO]
+  - Fecha Distribución (Date picker) [REPLICADO]
+  - Responsable Emisión (Read-only) [REPLICADO]
+- **Sección: Distribución por Área (Grid/Tabla):** [REPLICADO]
+  - **Áreas Listadas:** Documentación (DOCT), Microbiología, Muestra Biblioteca. [REPLICADO]
+  - **Datos por Área:** Responsable (Select), Cantidad (Input), Unidad (Read-only), Fecha Recibo (Date picker), Estado (Badge: Recibido/Pendiente). [REPLICADO]
 
 ---
 
 ## 5. MÓDULO: DOCUMENTACIÓN (DOCT)
 
-### 5.1 PANTALLA: Bandeja DOCT
-**Identificación**
-- Ruta: `/doct`
-- Acceso: Menú Lateral > Documentación > Bandeja DOCT
+### 5.1 PANTALLA: Bandeja DOCT [REPLICADO]
+**Identificación** [REPLICADO]
+- Ruta: `/doct` [REPLICADO]
+- Acceso: Menú Lateral > Documentación > Bandeja DOCT [REPLICADO]
 
-**Estructura y Componentes**
-- **Indicadores (Cards):** 
-  - En DOCT (9)
-  - Pdte. Expediente (3)
-  - Pdte. Información (2)
-  - RT-38 en Preparación (4)
-- **Tabla: Control Documental de Ingresos:**
-  - **Columnas:** Recepción, Producto, Recibido, RT-75 (Status Icon), RT-41 (Status Icon), RT-30 (Status Icon), RT-38 (Status Icon), Estado (Badge).
-  - **Acciones:** Ver detalle (Abre Vista 360).
+**Estructura y Componentes** [REPLICADO]
+- **Indicadores (Cards):** [REPLICADO]
+  - En DOCT (9) [REPLICADO]
+  - Pdte. Expediente (3) [REPLICADO]
+  - Pdte. Información (2) [REPLICADO]
+  - RT-38 en Preparación (4) [REPLICADO]
+- **Tabla: Control Documental de Ingresos:** [REPLICADO]
+  - **Columnas:** Recepción, Producto, Recibido, RT-75 (Status Icon), RT-41 (Status Icon), RT-30 (Status Icon), RT-38 (Status Icon), Estado (Badge). [REPLICADO]
+  - **Acciones:** Ver detalle (Abre Vista 360). [REPLICADO]
 
 ---
 
