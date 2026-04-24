@@ -47,9 +47,9 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
 
   const tabs = [
     { id: "resumen", label: "Resumen General" },
+    { id: "formatos", label: "Formatos" },
     { id: "rac", label: "RAC / Recepción" },
     { id: "documentacion", label: "Documentación" },
-    { id: "formatos", label: "Formatos" },
     { id: "estandar", label: "Estándar" },
     { id: "ffqq", label: "Análisis FFQQ" },
     { id: "micro", label: "Microbiología" },
@@ -181,28 +181,21 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
       </div>
 
       {/* 3. TRANSVERSAL TIMELINE */}
-      <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 overflow-x-auto hide-scrollbar">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 overflow-x-auto custom-scrollbar">
         <h3 className="font-bold text-slate-800 text-sm mb-6 flex items-center gap-2">
-           <Activity className="w-4 h-4 text-primary" /> Progreso del Proceso
+           <Activity className="w-4 h-4 text-primary" /> Barra de Progreso General
         </h3>
-        <div className="flex items-start relative px-4 w-full min-w-[1000px]">
+        <div className="flex items-start relative px-4 w-full min-w-[700px]">
           <div className="absolute left-8 right-8 top-4 h-1 bg-slate-100 -z-10 rounded-full"></div>
-          <div className="absolute left-8 w-[48%] top-4 h-1 bg-success -z-10 rounded-full"></div>
+          <div className="absolute left-8 w-[40%] top-4 h-1 bg-success -z-10 rounded-full"></div>
           
           {[
-             { step: "Recepción\nRAC", status: "completed" },
-             { step: "Verificación\nPagos", status: "completed" },
-             { step: "Distribución\nRT-159", status: "completed" },
-             { step: "Expediente\nDOCT", status: "completed" },
-             { step: "Asignación\nEstándar", status: "completed" },
-             { step: "Preparación\nRT-38", status: "completed" },
-             { step: "Revisión\nSTR", status: "completed" },
-             { step: "Análisis\nFFQQ", status: "current" },
-             { step: "Microbiología\n(Incubación)", status: "current" },
-             { step: "Revisión\nSTCC", status: "pending" },
-             { step: "Dirección\nTécnica", status: "pending" },
-             { step: "Dirección\nGeneral", status: "pending" },
-             { step: "Emisión\nal Cliente", status: "pending" },
+             { step: "RAC", status: "completed" },
+             { step: "DOCT", status: "completed" },
+             { step: "Análisis", status: "current" },
+             { step: "STCC", status: "pending" },
+             { step: "DT/DG", status: "pending" },
+             { step: "Emisión", status: "pending" },
           ].map((item, i) => (
             <div key={i} className="flex-1 flex flex-col items-center gap-3">
               <div className={`w-9 h-9 rounded-full flex items-center justify-center border-4 transition-colors z-10 ${
@@ -214,10 +207,10 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                  item.status === 'current' ? <div className="w-2.5 h-2.5 bg-white rounded-full"></div> : 
                  <div className="w-2 h-2 bg-slate-300 rounded-full"></div>}
               </div>
-              <span className={`text-[10px] font-bold text-center leading-tight ${
+              <span className={`text-[11px] font-bold text-center leading-tight uppercase ${
                 item.status === 'completed' ? 'text-success' : 
                 item.status === 'current' ? 'text-primary' : 'text-slate-400'
-              }`} dangerouslySetInnerHTML={{__html: item.step.replace('\n', '<br/>')}}></span>
+              }`}>{item.step}</span>
             </div>
           ))}
         </div>
@@ -243,7 +236,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
               <div 
                 ref={tabsContainerRef}
                 onScroll={handleScroll}
-                className="flex overflow-x-auto hide-scrollbar w-full scroll-smooth"
+                className="flex overflow-x-auto custom-scrollbar w-full scroll-smooth pb-1"
               >
                 {tabs.map((tab) => (
                   <button
@@ -276,35 +269,45 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
               {/* TAB: RESUMEN GENERAL */}
               {activeTab === "resumen" && (
                 <div className="space-y-8 animate-in fade-in duration-300">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="bg-slate-50/50 rounded-lg p-5 border border-slate-100 shadow-sm">
+                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Datos del Expediente</h4>
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Fecha Recepción</span><span className="text-sm font-bold text-slate-900 text-right">07/01/2024</span></div>
+                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Tipo de Trámite</span><span className="text-sm font-medium text-slate-900 text-right">Control de Calidad</span></div>
+                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Días Transcurridos</span><span className="text-sm font-bold text-success text-right">11 días (En tiempo)</span></div>
+                        <div className="flex justify-between items-start gap-4"><span className="text-xs text-slate-500">Prioridad</span><span className="text-xs font-bold text-white bg-orange-500 px-2 py-0.5 rounded text-right">URGENTE</span></div>
+                      </div>
+                    </div>
+                    <div className="bg-slate-50/50 rounded-lg p-5 border border-slate-100 shadow-sm">
+                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Datos del Cliente</h4>
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Nombre</span><span className="text-sm font-medium text-slate-900 text-right">SESAL</span></div>
+                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">RTN/Identidad</span><span className="text-sm font-medium text-slate-900 text-right">0801900324881</span></div>
+                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Contacto</span><span className="text-sm font-medium text-slate-900 text-right">Dra. Marta López</span></div>
+                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Teléfono</span><span className="text-sm font-medium text-slate-900 text-right">+504 2233-4455</span></div>
+                        <div className="flex justify-between items-start gap-4"><span className="text-xs text-slate-500">Correo</span><span className="text-[11px] font-medium text-primary hover:underline text-right">mlopez@sesal.gob.hn</span></div>
+                      </div>
+                    </div>
                     <div className="bg-slate-50/50 rounded-lg p-5 border border-slate-100 shadow-sm">
                       <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Datos del Producto</h4>
                       <div className="space-y-3">
-                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Nombre Comercial</span><span className="text-sm font-medium text-slate-900 text-right">AMOXICILINA 500mg Cápsulas</span></div>
-                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Concentración</span><span className="text-sm font-medium text-slate-900 text-right">500 mg</span></div>
-                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Forma Farmacéutica</span><span className="text-sm font-medium text-slate-900 text-right">Cápsulas</span></div>
-                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Registro Sanitario</span><span className="text-sm font-medium text-slate-900 text-right">RS-HN-0042-2019</span></div>
+                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Nombre</span><span className="text-sm font-bold text-slate-900 text-right">AMOXICILINA</span></div>
+                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Forma / Conc.</span><span className="text-sm font-medium text-slate-900 text-right">Cápsulas / 500mg</span></div>
                         <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Lote</span><span className="text-sm font-bold text-slate-900 text-right">{data.producto.lote}</span></div>
-                        <div className="flex justify-between items-start gap-4"><span className="text-xs text-slate-500">Fabricación / Exp</span><span className="text-sm font-medium text-slate-900 text-right">01/2024 - 12/2026</span></div>
+                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Fecha Venc.</span><span className="text-sm font-medium text-slate-900 text-right">12/2026</span></div>
+                        <div className="flex justify-between items-start gap-4"><span className="text-xs text-slate-500">Fabricante</span><span className="text-sm font-medium text-slate-900 text-right truncate">Lab. Vijosa S.A.</span></div>
                       </div>
                     </div>
-                    <div className="bg-slate-50/50 rounded-lg p-5 border border-slate-100 shadow-sm">
-                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Fabricante / Titular</h4>
-                      <div className="space-y-3">
-                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Fabricante</span><span className="text-sm font-medium text-slate-900 text-right">Lab. Vijosa S.A.</span></div>
-                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Titular</span><span className="text-sm font-medium text-slate-900 text-right">Drog. Nacional S.A.</span></div>
-                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Representante</span><span className="text-sm font-medium text-slate-900 text-right">Lic. Claudia Berrios</span></div>
-                        <div className="flex justify-between items-start gap-4"><span className="text-xs text-slate-500">País de Origen</span><span className="text-sm font-medium text-slate-900 text-right">Honduras</span></div>
-                      </div>
-                    </div>
-                    <div className="bg-slate-50/50 rounded-lg p-5 border border-slate-100 shadow-sm">
-                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Datos de Recepción</h4>
-                      <div className="space-y-3">
-                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Correlativo</span><span className="text-sm font-bold text-slate-900 text-right">LEF-2024-00147</span></div>
-                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Tipo de Trámite</span><span className="text-sm font-medium text-slate-900 text-right">Control de Calidad</span></div>
-                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Cliente</span><span className="text-sm font-medium text-slate-900 text-right">SESAL</span></div>
-                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">N° Orden</span><span className="text-sm font-medium text-slate-900 text-right">ORD-SESAL-2024</span></div>
-                        <div className="flex justify-between items-start gap-4"><span className="text-xs text-slate-500">N° Licitación</span><span className="text-sm font-medium text-slate-900 text-right">LIC-SESAL-001</span></div>
+                    <div className="bg-slate-50/50 rounded-lg p-5 border border-slate-100 shadow-sm flex flex-col">
+                      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Estado de Pago</h4>
+                      <div className="flex-1 flex flex-col items-center justify-center space-y-4">
+                        <span className="bg-green-100 text-success border border-green-200 px-4 py-1.5 rounded-full text-sm font-bold flex items-center gap-2 shadow-sm"><CheckCircle2 className="w-4 h-4"/> PAGADO</span>
+                        <div className="text-center w-full mt-2">
+                           <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Monto Total</p>
+                           <p className="text-2xl font-black text-slate-800">L. 4,500.00</p>
+                           <p className="text-xs text-slate-500 mt-2">Recibo: <span className="font-bold text-slate-700">TGR-09941</span></p>
+                        </div>
                       </div>
                     </div>
                   </div>

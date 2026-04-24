@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, Save, CheckCircle2, ChevronRight, User, Package, CreditCard, Beaker } from "lucide-react";
+import { ArrowLeft, Save, CheckCircle2, ChevronRight, User, Package, Building, Hash, FileText, ClipboardCheck } from "lucide-react";
 import Link from "next/link";
 import { catalogoTramites } from "@/lib/mockData";
 
@@ -11,273 +11,480 @@ export default function NuevoIngresoRAC() {
 
   const tramiteObj = catalogoTramites.find(t => t.value === tramiteS);
 
+  const steps = [
+    { id: 1, name: "Datos del Trámite", icon: <User className="w-4 h-4" /> },
+    { id: 2, name: "Producto", icon: <Package className="w-4 h-4" /> },
+    { id: 3, name: "Cliente / Externo", icon: <Building className="w-4 h-4" /> },
+    { id: 4, name: "Cantidades", icon: <Hash className="w-4 h-4" /> },
+    { id: 5, name: "Documentos", icon: <FileText className="w-4 h-4" /> },
+    { id: 6, name: "Validación", icon: <ClipboardCheck className="w-4 h-4" /> },
+  ];
+
   return (
-    <div className="max-w-5xl mx-auto space-y-6 pb-12">
+    <div className="max-w-6xl mx-auto space-y-6 pb-12 flex flex-col xl:flex-row gap-8 items-start">
       
-      {/* Encabezado Rico */}
-      <div className="bg-white p-6 rounded-md border border-slate-200 shadow-sm flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link href="/rac" className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors">
-            <ArrowLeft className="w-5 h-5 text-slate-600" />
+      {/* Sidebar Navigation */}
+      <div className="w-full xl:w-72 bg-white rounded-lg border border-slate-200 shadow-sm p-4 sticky top-6">
+        <div className="flex items-center gap-3 mb-6 pb-6 border-b border-slate-100">
+          <Link href="/rac" className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors">
+            <ArrowLeft className="w-4 h-4 text-slate-600" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Registro de Nueva Muestra (RG-41)</h1>
-            <p className="text-slate-500 text-sm mt-1">Capture los datos técnicos, administrativos y logísticos para iniciar el expediente.</p>
+            <h1 className="text-base font-bold text-slate-900 tracking-tight leading-tight">Nuevo Ingreso</h1>
+            <p className="text-slate-500 text-[11px] uppercase tracking-wider font-bold mt-0.5">Flujo RAC</p>
           </div>
         </div>
-        <div className="text-right hidden md:block">
-           <p className="text-xs text-slate-500 font-medium uppercase tracking-wider mb-1">Estado de Captura</p>
-           <span className="inline-flex items-center px-2.5 py-1 rounded bg-slate-100 text-slate-700 text-xs font-bold border border-slate-200">
-             Borrador No Guardado
+
+        <nav className="space-y-1">
+          {steps.map((s) => (
+            <button
+              key={s.id}
+              onClick={() => setStep(s.id)}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-bold transition-colors ${
+                step === s.id 
+                  ? "bg-primary text-white shadow-sm" 
+                  : step > s.id 
+                    ? "text-slate-700 hover:bg-slate-50" 
+                    : "text-slate-400 cursor-not-allowed"
+              }`}
+              disabled={step < s.id && step !== s.id - 1} // Can only advance sequentially
+            >
+              <div className={`w-6 h-6 rounded-full flex items-center justify-center border ${
+                step === s.id ? "border-white/30 bg-white/20" : 
+                step > s.id ? "border-primary text-primary bg-primary/10" : "border-slate-200 bg-slate-50"
+              }`}>
+                {step > s.id ? <CheckCircle2 className="w-4 h-4" /> : s.id}
+              </div>
+              <span className="flex-1 text-left">{s.name}</span>
+            </button>
+          ))}
+        </nav>
+
+        <div className="mt-8 pt-6 border-t border-slate-100">
+           <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1.5">Estado de Captura</p>
+           <span className="inline-flex items-center px-2 py-1 rounded bg-slate-100 text-slate-700 text-[11px] font-bold border border-slate-200">
+             Borrador Activo
            </span>
         </div>
       </div>
 
-      {/* Wizard Stepper Real */}
-      <div className="bg-white rounded-md border border-slate-200 shadow-sm p-6">
-        <div className="flex items-center justify-between mb-8 relative max-w-3xl mx-auto">
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-slate-100 z-0 rounded-full"></div>
-          <div 
-            className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-primary z-0 transition-all rounded-full"
-            style={{ width: step === 1 ? '0%' : step === 2 ? '50%' : '100%' }}
-          ></div>
-          
-          <div className="relative z-10 flex flex-col items-center gap-2 bg-white px-2">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm border-2 transition-colors ${step >= 1 ? 'bg-primary text-white border-primary' : 'bg-slate-50 text-slate-400 border-slate-200'}`}>
-              {step > 1 ? <CheckCircle2 className="w-5 h-5" /> : "1"}
-            </div>
-            <span className={`text-xs font-bold ${step >= 1 ? 'text-slate-900' : 'text-slate-400'}`}>Datos Generales</span>
-          </div>
-          
-          <div className="relative z-10 flex flex-col items-center gap-2 bg-white px-2">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm border-2 transition-colors ${step >= 2 ? 'bg-primary text-white border-primary' : 'bg-slate-50 text-slate-400 border-slate-200'}`}>
-              {step > 2 ? <CheckCircle2 className="w-5 h-5" /> : "2"}
-            </div>
-            <span className={`text-xs font-bold ${step >= 2 ? 'text-slate-900' : 'text-slate-400'}`}>Detalle Técnico Producto</span>
-          </div>
+      {/* Main Content Area */}
+      <div className="flex-1 w-full bg-white rounded-lg border border-slate-200 shadow-sm p-8">
+        
+        {/* PASO 1: Datos del Trámite */}
+        {step === 1 && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+            <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2 border-b border-slate-100 pb-4">
+              <User className="w-5 h-5 text-primary" /> Paso 1: Datos del Trámite
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Tipo de Trámite <span className="text-danger">*</span></label>
+                <select 
+                  value={tramiteS}
+                  onChange={(e) => setTramiteS(e.target.value)}
+                  className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary"
+                >
+                  <option value="">Seleccione...</option>
+                  {catalogoTramites.map(t => (
+                    <option key={t.value} value={t.value}>{t.label}</option>
+                  ))}
+                </select>
+              </div>
 
-          <div className="relative z-10 flex flex-col items-center gap-2 bg-white px-2">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm border-2 transition-colors ${step >= 3 ? 'bg-primary text-white border-primary' : 'bg-slate-50 text-slate-400 border-slate-200'}`}>
-              3
-            </div>
-            <span className={`text-xs font-bold ${step >= 3 ? 'text-slate-900' : 'text-slate-400'}`}>Logística y Cobro</span>
-          </div>
-        </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Prioridad <span className="text-danger">*</span></label>
+                <select className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary">
+                  <option>Normal</option>
+                  <option>Urgente</option>
+                </select>
+              </div>
 
-        {/* CONTENIDO DE LOS PASOS */}
-        <div className="max-w-4xl mx-auto border-t border-slate-100 pt-8">
-          
-          {step === 1 && (
-            <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
-              <div className="flex items-center gap-2 mb-6">
-                 <User className="w-5 h-5 text-primary" />
-                 <h3 className="text-lg font-bold text-slate-800">1. Tipo de Trámite y Solicitante</h3>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Fecha de Recepción <span className="text-danger">*</span></label>
+                <input type="date" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Hora de Recepción <span className="text-danger">*</span></label>
+                <input type="time" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Mes de Recepción</label>
+                <select className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary">
+                  <option>Enero</option>
+                  <option>Febrero</option>
+                  <option>Marzo</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Responsable RAC <span className="text-danger">*</span></label>
+                <select className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary">
+                  <option>Karla Suazo</option>
+                  <option>Jorge Matute</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Subtipo / Modalidad</label>
+                <select className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary">
+                  <option>Nacional</option>
+                  <option>Internacional</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Requiere Pago Previo <span className="text-danger">*</span></label>
+                <select className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary">
+                  <option>Sí</option>
+                  <option>No</option>
+                </select>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-bold text-slate-700">Tipo de Trámite Operativo <span className="text-danger">*</span></label>
-                  <select 
-                    value={tramiteS}
-                    onChange={(e) => setTramiteS(e.target.value)}
-                    className="w-full h-11 px-4 bg-white border border-slate-300 rounded-[5px] text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors appearance-none"
-                  >
-                    <option value="">Seleccione el tipo de trámite a procesar</option>
-                    {catalogoTramites.map(t => (
-                      <option key={t.value} value={t.value}>{t.label}</option>
-                    ))}
-                  </select>
-                  {tramiteObj && (
-                    <div className="mt-2 p-3 bg-blue-50 border border-blue-100 rounded text-xs text-blue-800">
-                      <strong>Requisitos de este trámite:</strong> {tramiteObj.documentosRequeridos.join(', ')} 
-                      <br/><strong>Aplica cobro:</strong> {tramiteObj.requierePago ? "Sí (Se generará proforma en Paso 3)" : "No (Exento)"}
-                    </div>
-                  )}
-                </div>
-                
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-bold text-slate-700">Cliente / Solicitante Legal <span className="text-danger">*</span></label>
-                  <input 
-                    type="text" 
-                    placeholder="Escriba para buscar o crear nuevo..."
-                    className="w-full h-11 px-4 bg-white border border-slate-300 rounded-[5px] text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-bold text-slate-700">N° de Oficio / Acta de Toma de Muestra</label>
-                  <input 
-                    type="text" 
-                    placeholder="Ej. OFICIO-001-2024"
-                    className="w-full h-11 px-4 bg-white border border-slate-300 rounded-[5px] text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-sm font-bold text-slate-700">Persona Contacto (Cliente)</label>
-                  <input 
-                    type="text" 
-                    placeholder="Nombre completo y número de teléfono"
-                    className="w-full h-11 px-4 bg-white border border-slate-300 rounded-[5px] text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
-                  />
-                </div>
+              <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Estado Inicial del Producto</label>
+                <textarea rows={3} className="w-full px-3 py-2 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary"></textarea>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {step === 2 && (
-            <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
-              <div className="flex items-center gap-2 mb-6">
-                 <Package className="w-5 h-5 text-primary" />
-                 <h3 className="text-lg font-bold text-slate-800">2. Mapeo de Producto Farmacéutico (Matriz Técnica)</h3>
+        {/* PASO 2: Producto */}
+        {step === 2 && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+            <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2 border-b border-slate-100 pb-4">
+              <Package className="w-5 h-5 text-primary" /> Paso 2: Producto
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Nombre Comercial <span className="text-danger">*</span></label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Nombre Genérico <span className="text-danger">*</span></label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-6">
-                <div className="col-span-2 flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Nombre Comercial <span className="text-danger">*</span></label>
-                  <input type="text" className="w-full h-11 px-4 bg-white border border-slate-300 rounded-[5px] text-sm focus:border-primary focus:ring-2 focus:ring-primary/20" />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Nombre Genérico <span className="text-danger">*</span></label>
-                  <input type="text" className="w-full h-11 px-4 bg-white border border-slate-300 rounded-[5px] text-sm focus:border-primary focus:ring-2 focus:ring-primary/20" />
-                </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Principio Activo (DCI)</label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Forma Farmacéutica <span className="text-danger">*</span></label>
-                  <select className="w-full h-11 px-4 bg-white border border-slate-300 rounded-[5px] text-sm focus:border-primary focus:ring-2 focus:ring-primary/20">
-                    <option>Tableta</option>
-                    <option>Cápsula</option>
-                    <option>Suspensión</option>
-                    <option>Solución Inyectable</option>
-                  </select>
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Concentración</label>
-                  <input type="text" placeholder="Ej. 500mg" className="w-full h-11 px-4 bg-white border border-slate-300 rounded-[5px] text-sm focus:border-primary focus:ring-2 focus:ring-primary/20" />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Lote <span className="text-danger">*</span></label>
-                  <input type="text" className="w-full h-11 px-4 bg-white border border-slate-300 rounded-[5px] text-sm focus:border-primary focus:ring-2 focus:ring-primary/20" />
-                </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Concentración <span className="text-danger">*</span></label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
 
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Fecha Fabricación</label>
-                  <input type="month" className="w-full h-11 px-4 bg-white border border-slate-300 rounded-[5px] text-sm focus:border-primary focus:ring-2 focus:ring-primary/20" />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Fecha Vencimiento <span className="text-danger">*</span></label>
-                  <input type="month" className="w-full h-11 px-4 bg-white border border-slate-300 rounded-[5px] text-sm focus:border-primary focus:ring-2 focus:ring-primary/20" />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Registro Sanitario</label>
-                  <input type="text" className="w-full h-11 px-4 bg-white border border-slate-300 rounded-[5px] text-sm focus:border-primary focus:ring-2 focus:ring-primary/20" />
-                </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Forma Farmacéutica <span className="text-danger">*</span></label>
+                <select className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary">
+                  <option>Tabletas</option>
+                  <option>Cápsulas</option>
+                  <option>Jarabe</option>
+                </select>
+              </div>
 
-                <div className="col-span-3 flex flex-col gap-1.5">
-                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Fabricante Declarado</label>
-                  <input type="text" className="w-full h-11 px-4 bg-white border border-slate-300 rounded-[5px] text-sm focus:border-primary focus:ring-2 focus:ring-primary/20" />
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Nº Lote <span className="text-danger">*</span></label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Fecha Fabricación (MM/AAAA)</label>
+                <input type="text" placeholder="Ej. 01/2024" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Fecha Expiración <span className="text-danger">*</span></label>
+                <input type="date" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Registro Sanitario</label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">País de Origen</label>
+                <select className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary">
+                  <option>Honduras</option>
+                  <option>El Salvador</option>
+                  <option>Guatemala</option>
+                </select>
+              </div>
+
+              <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Fabricante</label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+              <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Titular</label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+              <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Droguería</label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+              <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Representante Legal</label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* PASO 3: Cliente / Ente Externo */}
+        {step === 3 && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+            <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2 border-b border-slate-100 pb-4">
+              <Building className="w-5 h-5 text-primary" /> Paso 3: Cliente / Ente Externo
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Tipo de Cliente <span className="text-danger">*</span></label>
+                <select className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary">
+                  <option>Institucional Público</option>
+                  <option>Empresa Privada</option>
+                  <option>Persona Natural</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Nombre Institución <span className="text-danger">*</span></label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+              
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Nombre Solicitante <span className="text-danger">*</span></label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Cargo</label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Teléfono <span className="text-danger">*</span></label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Correo <span className="text-danger">*</span></label>
+                <input type="email" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Dirección</label>
+                <textarea rows={2} className="w-full px-3 py-2 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary"></textarea>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Persona que Entrega</label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Identificación</label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* PASO 4: Cantidades y Ubicación */}
+        {step === 4 && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+            <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2 border-b border-slate-100 pb-4">
+              <Hash className="w-5 h-5 text-primary" /> Paso 4: Cantidades y Ubicación
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Cantidad Total <span className="text-danger">*</span></label>
+                <input type="number" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary font-bold text-lg" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Unidad de Medida <span className="text-danger">*</span></label>
+                <select className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary">
+                  <option>Unidades</option>
+                  <option>Cajas</option>
+                  <option>Blisters</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Cantidad para FFQQ</label>
+                <input type="number" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Cantidad para Microbiología</label>
+                <input type="number" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Cantidad Muestra Biblioteca</label>
+                <input type="number" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Cantidad Devuelta</label>
+                <input type="number" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5 pt-4 border-t border-slate-100">
+                <h4 className="text-sm font-bold text-slate-800 mb-2">Condiciones de Almacenamiento</h4>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Ubicación Física</label>
+                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Condición Almacenamiento</label>
+                <select className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary">
+                  <option>Temperatura Ambiente</option>
+                  <option>Refrigeración (2-8°C)</option>
+                  <option>Congelación (-20°C)</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Temperatura (°C)</label>
+                <input type="number" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Humedad (%)</label>
+                <input type="number" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* PASO 5: Referencias Documentales */}
+        {step === 5 && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+            <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2 border-b border-slate-100 pb-4">
+              <FileText className="w-5 h-5 text-primary" /> Paso 5: Referencias Documentales
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                { label: "Orden de Compra", id: "oc" },
+                { label: "Expediente", id: "exp" },
+                { label: "Licitación", id: "lic" },
+                { label: "Carta / Oficio", id: "oficio" },
+                { label: "Acta de Toma de Muestra (Nº y Fecha)", id: "acta" },
+                { label: "Contrato", id: "contrato" },
+                { label: "Resolución ARSA", id: "arsa" }
+              ].map((doc, i) => (
+                <div key={i} className="flex flex-col gap-1.5 p-4 border border-slate-200 rounded bg-slate-50">
+                  <label className="text-xs font-bold text-slate-700 uppercase">{doc.label}</label>
+                  <div className="flex gap-2 mt-1">
+                    <input type="text" placeholder="Referencia / Número" className="flex-1 h-9 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+                    <button className="bg-white border border-slate-300 hover:bg-slate-100 px-3 rounded text-xs font-bold text-slate-700 transition-colors shadow-sm">
+                      Adjuntar
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* PASO 6: Observaciones y Validación */}
+        {step === 6 && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+            <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2 border-b border-slate-100 pb-4">
+              <ClipboardCheck className="w-5 h-5 text-primary" /> Paso 6: Observaciones y Validación
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Observaciones Generales</label>
+                <textarea rows={3} className="w-full px-3 py-2 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary"></textarea>
+              </div>
+
+              <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Observaciones Estado Físico Producto</label>
+                <textarea rows={3} className="w-full px-3 py-2 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary"></textarea>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Requiere Estándar</label>
+                <select className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary">
+                  <option>Sí</option>
+                  <option>No</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-bold text-slate-700 uppercase">Requiere Información Adicional</label>
+                <select className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary">
+                  <option>Sí</option>
+                  <option>No</option>
+                </select>
+              </div>
+
+              <div className="col-span-1 md:col-span-2 pt-6 border-t border-slate-100">
+                <h4 className="text-sm font-bold text-slate-800 mb-4">Checkboxes de Confirmación Final</h4>
+                <div className="space-y-3">
+                  {[
+                    "Verificación de documentos obligatorios completada.",
+                    "Verificación de identidad del solicitante completada.",
+                    "Verificación del estado físico de la muestra completada.",
+                    "Certifico la veracidad de los datos ingresados en este formulario."
+                  ].map((check, i) => (
+                    <label key={i} className="flex items-start gap-3 p-3 bg-slate-50 border border-slate-200 rounded cursor-pointer hover:bg-slate-100 transition-colors">
+                      <input type="checkbox" className="mt-0.5 w-4 h-4 text-primary border-slate-300 rounded focus:ring-primary" />
+                      <span className="text-sm font-medium text-slate-800">{check}</span>
+                    </label>
+                  ))}
                 </div>
               </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {step === 3 && (
-            <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-300">
-              <div className="flex items-center gap-2 mb-6">
-                 <Beaker className="w-5 h-5 text-primary" />
-                 <h3 className="text-lg font-bold text-slate-800">3. Recepción de Muestras y Logística (RT-159)</h3>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-6">
-                  <h4 className="text-sm font-bold text-slate-900 border-b border-slate-200 pb-2">Desglose Físico</h4>
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Cantidad Total Recibida <span className="text-danger">*</span></label>
-                    <input type="text" placeholder="Ej. 120 Tabletas (12 Blisters)" className="w-full h-11 px-4 bg-white border border-slate-300 rounded-[5px] text-sm focus:border-primary focus:ring-2 focus:ring-primary/20" />
-                  </div>
-                  
-                  <div className="grid grid-cols-3 gap-4">
-                     <div className="flex flex-col gap-1.5">
-                        <label className="text-[10px] font-bold text-slate-500 uppercase">Para FFQQ</label>
-                        <input type="number" placeholder="Cant." className="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded text-sm" />
-                     </div>
-                     <div className="flex flex-col gap-1.5">
-                        <label className="text-[10px] font-bold text-slate-500 uppercase">Para Micro</label>
-                        <input type="number" placeholder="Cant." className="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded text-sm" />
-                     </div>
-                     <div className="flex flex-col gap-1.5">
-                        <label className="text-[10px] font-bold text-slate-500 uppercase">Muestroteca</label>
-                        <input type="number" placeholder="Cant." className="w-full h-10 px-3 bg-slate-50 border border-slate-200 rounded text-sm" />
-                     </div>
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-bold text-slate-700 uppercase tracking-wide">Condiciones Físicas al Recibir</label>
-                    <textarea rows={3} className="w-full p-3 bg-white border border-slate-300 rounded-[5px] text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 resize-none" placeholder="Observaciones de integridad, cadena de frío, etc."></textarea>
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <h4 className="text-sm font-bold text-slate-900 border-b border-slate-200 pb-2">Proforma y Cobro</h4>
-                  {tramiteObj?.requierePago ? (
-                     <div className="bg-slate-50 border border-slate-200 rounded-md p-5 space-y-4">
-                        <div className="flex items-center gap-3 text-slate-800">
-                           <CreditCard className="w-5 h-5 text-primary" />
-                           <span className="font-bold text-sm">Cálculo de Proforma (Automático)</span>
-                        </div>
-                        <p className="text-xs text-slate-500">Según el tipo de producto y trámite, se aplicarán los siguientes cargos del arancel CQFH:</p>
-                        
-                        <div className="space-y-2 text-sm border-t border-b border-slate-200 py-3">
-                           <div className="flex justify-between"><span className="text-slate-600">Análisis Físico-Químico Base</span><span className="font-medium text-slate-900">L. 6,500.00</span></div>
-                           <div className="flex justify-between"><span className="text-slate-600">Límites Microbianos</span><span className="font-medium text-slate-900">L. 4,000.00</span></div>
-                           <div className="flex justify-between"><span className="text-slate-600">Derecho de Certificado RT-39</span><span className="font-medium text-slate-900">L. 2,000.00</span></div>
-                        </div>
-                        <div className="flex justify-between items-center pt-2">
-                           <span className="font-bold text-slate-900 text-lg">Total Proforma:</span>
-                           <span className="font-black text-primary text-xl">L. 12,500.00</span>
-                        </div>
-                     </div>
-                  ) : (
-                     <div className="bg-slate-50 border border-slate-200 rounded-md p-6 flex flex-col items-center justify-center text-center">
-                        <CheckCircle2 className="w-8 h-8 text-success mb-2" />
-                        <p className="text-sm font-bold text-slate-800">Trámite Exento de Pago</p>
-                        <p className="text-xs text-slate-500 mt-1">Este trámite no requiere emisión de proforma inicial.</p>
-                     </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Barra de Acciones Fija */}
-          <div className="flex items-center justify-between mt-10 pt-6 border-t border-slate-200">
-            {step > 1 ? (
-              <button onClick={() => setStep(step - 1)} className="bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 px-6 py-2.5 rounded-[20px] font-medium text-sm transition-colors shadow-sm">
-                Atrás
+        {/* Action Buttons Footer */}
+        <div className="mt-10 pt-6 border-t border-slate-200 flex items-center justify-between">
+          <button className="text-slate-500 hover:text-slate-800 font-bold text-sm flex items-center gap-2 transition-colors">
+            <Save className="w-4 h-4" /> Guardar Borrador
+          </button>
+          <div className="flex gap-3">
+            {step > 1 && (
+              <button 
+                onClick={() => setStep(step - 1)}
+                className="bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 px-5 py-2.5 rounded font-bold text-sm transition-colors shadow-sm"
+              >
+                Anterior
+              </button>
+            )}
+            {step < 6 ? (
+              <button 
+                onClick={() => setStep(step + 1)}
+                className="bg-primary hover:bg-primary-dark text-white px-6 py-2.5 rounded font-bold text-sm transition-colors shadow-sm flex items-center gap-2"
+              >
+                Siguiente <ChevronRight className="w-4 h-4" />
               </button>
             ) : (
-              <Link href="/rac" className="bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 px-6 py-2.5 rounded-[20px] font-medium text-sm transition-colors shadow-sm">
-                Cancelar
-              </Link>
-            )}
-            
-            <div className="flex gap-3">
-              <button className="bg-white border border-primary text-primary hover:bg-primary/5 px-6 py-2.5 rounded-[20px] font-bold text-sm transition-colors shadow-sm flex items-center gap-2">
-                <Save className="w-4 h-4" /> Guardar Avance
+              <button 
+                className="bg-success hover:bg-green-700 text-white px-8 py-2.5 rounded font-bold text-sm transition-colors shadow-sm flex items-center gap-2"
+              >
+                <CheckCircle2 className="w-4 h-4" /> Finalizar y Crear Ingreso
               </button>
-              
-              {step < 3 ? (
-                <button onClick={() => setStep(step + 1)} className="bg-primary hover:bg-primary-dark text-white px-6 py-2.5 rounded-[20px] font-bold text-sm transition-colors shadow-sm flex items-center gap-2">
-                  Siguiente Paso <ChevronRight className="w-4 h-4" />
-                </button>
-              ) : (
-                <button className="bg-success hover:bg-green-700 text-white px-6 py-2.5 rounded-[20px] font-bold text-sm transition-colors shadow-sm flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4" /> Finalizar y Crear Ingreso
-                </button>
-              )}
-            </div>
+            )}
           </div>
-
         </div>
       </div>
     </div>
