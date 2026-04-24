@@ -15,7 +15,7 @@ import {
   FileText,
   Activity,
   Award,
-  Briefcase
+  Briefcase,
   ChevronDown,
   ChevronRight,
   LogOut,
