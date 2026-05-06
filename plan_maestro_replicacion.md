@@ -93,9 +93,9 @@
 - [x] Datos por Área: Responsable (Select), Cantidad (Input), Unidad (Read-only), Fecha Recibo (Date picker), Estado (Badge: Recibido/Pendiente).
 
 ### MC-05.1 Bandeja DOCT
-- [ ] Componentes UI: Indicadores (En DOCT, Pdte. Expediente, Pdte. Información, RT-38 en Preparación).
-- [ ] Tabla: Control Documental de Ingresos (Columnas: Recepción, Producto, Recibido, RT-75 (Icon), RT-41 (Icon), RT-30 (Icon), RT-38 (Icon), Estado (Badge)).
-- [ ] Acciones: Botón "Ver detalle" (Icono ojo -> abre Vista 360).
+- [x] Componentes UI: Indicadores (En DOCT, Pdte. Expediente, Pdte. Información, RT-38 en Preparación).
+- [x] Tabla: Control Documental de Ingresos (Columnas: Recepción, Producto, Recibido, RT-75 (Icon), RT-41 (Icon), RT-30 (Icon), RT-38 (Icon), Estado (Badge)).
+- [x] Acciones: Botón "Ver detalle" (Icono ojo -> abre Vista 360).
 
 ### MC-05.2 Solicitudes RT-75 (Solicitud de Expediente)
 - [ ] *Elaborar checklist al explorar el documento para este módulo*
