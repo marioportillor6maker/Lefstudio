@@ -1,48 +1,86 @@
-"use client";
+'use client'
 
-import { CheckSquare, ArrowLeft, Search, Plus } from "lucide-react";
-import Link from "next/link";
+import { CheckCircle2, Send } from 'lucide-react'
 
-export default function Page() {
+const resumen = [
+  { prueba: 'Descripción Visual',    resultado: 'Conforme',  conforme: true  },
+  { prueba: 'Identificación IR',     resultado: 'Pendiente', conforme: false },
+  { prueba: 'Valoración HPLC',       resultado: 'Pendiente', conforme: false },
+  { prueba: 'Disolución',            resultado: 'Pendiente', conforme: false },
+  { prueba: 'Uniformidad Contenido', resultado: 'Pendiente', conforme: false },
+  { prueba: 'Desintegración',        resultado: 'Pendiente', conforme: false },
+]
+
+export default function FfqqValidacionesPage() {
   return (
-    <div className="space-y-6 pb-12">
-      {/* Header */}
-      <div className="bg-white p-6 rounded-md border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors">
-            <ArrowLeft className="w-5 h-5 text-slate-600" />
-          </Link>
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              <CheckSquare className="w-6 h-6 text-primary" />
-              Validaciones
-            </h1>
-            <p className="text-slate-500 text-sm mt-1">Revisión por pares de los resultados obtenidos.</p>
+    <div className="p-6">
+      <div className="bg-white border border-slate-200 rounded-lg p-6 space-y-6">
+
+        {/* Header */}
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-full bg-[var(--color-accent)] flex items-center justify-center flex-shrink-0">
+            <CheckCircle2 size={14} className="text-white" />
+          </div>
+          <h2 className="text-sm font-semibold text-slate-800">Cierre Técnico del Análisis FFQQ</h2>
+        </div>
+
+        {/* Resumen de resultados */}
+        <div className="border border-slate-200 rounded-lg p-4 space-y-3">
+          <p className="text-[10px] uppercase tracking-wide text-slate-400 font-semibold">Resumen de Resultados</p>
+          <div className="grid grid-cols-3 gap-3">
+            {resumen.map(r => (
+              <div key={r.prueba} className="border border-slate-200 rounded-lg px-4 py-3">
+                <p className="text-xs text-slate-400 mb-1">{r.prueba}</p>
+                <p className={`text-sm font-bold ${r.conforme ? 'text-[var(--color-accent)]' : 'text-slate-500'}`}>
+                  {r.resultado}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="flex gap-2 w-full md:w-auto">
-           <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded text-sm font-bold text-slate-700 transition-colors">
-             <Search className="w-4 h-4" /> Buscar
-           </button>
-           <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded text-sm font-bold transition-colors shadow-sm">
-             <Plus className="w-4 h-4" /> Nuevo
-           </button>
-        </div>
-      </div>
 
-      {/* Placeholder Content for Route Completion */}
-      <div className="bg-white rounded-md border border-slate-200 shadow-sm min-h-[400px] flex flex-col items-center justify-center p-8 text-center">
-        <div className="w-16 h-16 bg-blue-50 text-primary rounded-full flex items-center justify-center mb-4">
-          <CheckSquare className="w-8 h-8" />
+        {/* Conclusión + Fecha */}
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs text-slate-600 mb-1.5 font-medium">Conclusión General FFQQ</label>
+            <input
+              type="text"
+              defaultValue="Conforme — Todas las pruebas dentro de especificaciones"
+              className="w-full border border-slate-200 rounded px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-[var(--color-primary)]"
+            />
+          </div>
+          <div>
+            <label className="block text-xs text-slate-600 mb-1.5 font-medium">Fecha de Cierre</label>
+            <input
+              type="date"
+              placeholder="dd/mm/aaaa"
+              className="w-full border border-slate-200 rounded px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-[var(--color-primary)]"
+            />
+          </div>
         </div>
-        <h2 className="text-xl font-bold text-slate-800 mb-2">Módulo Activo</h2>
-        <p className="text-slate-500 max-w-md mx-auto mb-6">
-          La pantalla <strong>Validaciones</strong> ha sido provisionada correctamente y conectada al enrutador principal de Next.js App Router.
-        </p>
-        <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-bold border border-green-200">
-          ✓ Ruta Verificada
+
+        {/* Observaciones */}
+        <div>
+          <label className="block text-xs text-slate-600 mb-1.5 font-medium">Observaciones Técnicas del Analista</label>
+          <textarea
+            rows={4}
+            placeholder="Observaciones técnicas relevantes sobre el análisis fisicoquímico..."
+            className="w-full border border-slate-200 rounded px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-[var(--color-primary)] resize-none"
+          />
+        </div>
+
+        {/* Buttons */}
+        <div className="flex gap-3">
+          <button className="flex items-center gap-2 px-4 py-2 bg-[var(--color-accent)] text-white text-sm rounded hover:opacity-90 transition-opacity font-medium">
+            <CheckCircle2 size={14} />
+            Cerrar Análisis FFQQ
+          </button>
+          <button className="flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-600 text-sm rounded hover:bg-slate-50 transition-colors">
+            <Send size={13} />
+            Enviar a STCC
+          </button>
         </div>
       </div>
     </div>
-  );
+  )
 }

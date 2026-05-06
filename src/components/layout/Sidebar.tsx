@@ -68,8 +68,11 @@ export function Sidebar() {
         {
           id: "str", icon: ListTodo, label: "STR",
           subItems: [
-            { label: "Bandeja STR",           href: "/str" },
-            { label: "Registro de Muestras",  href: "/str/muestras" }
+            { label: "Bandeja STR",          href: "/str" },
+            { label: "Revision Documental",  href: "/str/revision" },
+            { label: "Asignaciones RT-40",   href: "/str/asignaciones" },
+            { label: "Devoluciones",         href: "/str/devoluciones" },
+            { label: "Control Pre-Analisis", href: "/str/preanalisis" }
           ]
         },
         {

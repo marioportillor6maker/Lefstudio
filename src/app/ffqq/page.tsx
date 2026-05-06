@@ -1,104 +1,108 @@
-import Link from "next/link";
-import { FlaskConical, AlertCircle, ArrowRight, CheckCircle2, Search, Filter } from "lucide-react";
-import { mockIngresosList } from "@/lib/mockData";
+'use client';
+import { useState } from 'react';
+import { Search, FlaskConical } from 'lucide-react';
 
-export default function FFQQPage() {
-  // Simulating assigned assays based on mockIngresosList
-  const ensayos = [
-    { id: "REC-2024-1015", producto: "Amoxicilina Susp.", lote: "L-330291", ensayo: "Valoración por HPLC", auxiliar: "RT-86", estado: "Pendiente", prioridad: "Alta", sla: "Vence Hoy" },
-    { id: "REC-2024-1015", producto: "Amoxicilina Susp.", lote: "L-330291", ensayo: "Identificación", auxiliar: "RT-86", estado: "Completado", prioridad: "Normal", sla: "Completado" },
-    { id: "REC-2024-1018", producto: "Ibuprofeno 400mg", lote: "L-443110", ensayo: "Disolución", auxiliar: "RT-84", estado: "Pendiente", prioridad: "Normal", sla: "Quedan 2 días" },
-    { id: "REC-2024-1018", producto: "Ibuprofeno 400mg", lote: "L-443110", ensayo: "Uniformidad de Peso", auxiliar: "RT-55", estado: "Reanálisis", prioridad: "Alta", sla: "Urgente" },
-  ];
+const CASOS = [
+  { id: 'REC-2024-00147', producto: 'AMOXICILINA 500mg',  asignadas: 4, completadas: 1, pendientes: 3, dias: '1d', estado: 'En Análisis' },
+  { id: 'REC-2024-00145', producto: 'LOSARTÁN 50mg',      asignadas: 5, completadas: 5, pendientes: 0, dias: '5d', estado: 'Completado' },
+  { id: 'REC-2024-00143', producto: 'DICLOFENACO 75mg',   asignadas: 4, completadas: 2, pendientes: 2, dias: '3d', estado: 'En Análisis' },
+  { id: 'REC-2024-00140', producto: 'AMLODIPINO 5mg',     asignadas: 6, completadas: 0, pendientes: 6, dias: '0d', estado: 'Pendiente' },
+];
+
+const ESTADO_STYLE: Record<string, { dot: string; text: string }> = {
+  'En Análisis': { dot: 'bg-blue-500',   text: 'text-blue-600' },
+  'Completado':  { dot: 'bg-green-500',  text: 'text-green-600' },
+  'Pendiente':   { dot: 'bg-orange-500', text: 'text-orange-500' },
+};
+
+export default function BandejaAnalista() {
+  const [search, setSearch] = useState('');
+
+  const filtered = CASOS.filter(c =>
+    c.id.toLowerCase().includes(search.toLowerCase()) ||
+    c.producto.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-    <div className="space-y-6 pb-12">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Análisis Físico-Químico (FFQQ)</h1>
-          <p className="text-slate-500 text-sm mt-1">Bandeja de "Mis Asignaciones" y captura de resultados en auxiliares (RT-86, RT-84).</p>
+    <div className="space-y-5 pb-12">
+      {/* Stat cards */}
+      <div className="grid grid-cols-4 gap-4">
+        <div className="bg-white border border-slate-200 rounded-md p-5 shadow-sm">
+          <p className="text-4xl font-black text-slate-900 leading-none">8</p>
+          <p className="text-xs text-slate-500 mt-2">Casos Asignados</p>
+        </div>
+        <div className="bg-yellow-50 border border-yellow-100 rounded-md p-5 shadow-sm">
+          <p className="text-4xl font-black text-slate-900 leading-none">5</p>
+          <p className="text-xs text-slate-500 mt-2">En Análisis</p>
+        </div>
+        <div className="bg-orange-50 border border-orange-100 rounded-md p-5 shadow-sm">
+          <p className="text-4xl font-black text-slate-900 leading-none">23</p>
+          <p className="text-xs text-slate-500 mt-2">Pruebas Pendientes</p>
+        </div>
+        <div className="bg-green-50 border border-green-100 rounded-md p-5 shadow-sm">
+          <p className="text-4xl font-black text-slate-900 leading-none">3</p>
+          <p className="text-xs text-slate-500 mt-2">Completados Hoy</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-md border border-slate-200 shadow-sm flex flex-col">
-          <p className="text-[11px] text-slate-500 font-bold uppercase tracking-wider">Ensayos Pendientes</p>
-          <p className="text-3xl font-black text-slate-900 mt-2">14</p>
-        </div>
-        <div className="bg-red-50 p-4 rounded-md border border-red-200 shadow-sm flex flex-col">
-          <p className="text-[11px] text-danger font-bold uppercase tracking-wider flex items-center gap-1"><AlertCircle className="w-3 h-3" /> Reanálisis (OOS)</p>
-          <p className="text-3xl font-black text-danger mt-2">1</p>
-        </div>
-        <div className="bg-white p-4 rounded-md border border-slate-200 shadow-sm flex flex-col">
-          <p className="text-[11px] text-slate-500 font-bold uppercase tracking-wider">Prioridad Alta (Hoy)</p>
-          <p className="text-3xl font-black text-orange-600 mt-2">4</p>
-        </div>
-        <div className="bg-green-50 p-4 rounded-md border border-green-200 shadow-sm flex flex-col">
-          <p className="text-[11px] text-success font-bold uppercase tracking-wider flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> Completados</p>
-          <p className="text-3xl font-black text-success mt-2">3</p>
-        </div>
-      </div>
-
+      {/* Table */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-200 bg-slate-50/50 flex justify-between items-center">
-          <h3 className="font-semibold text-slate-800 flex items-center gap-2 text-sm">
-            <FlaskConical className="w-4 h-4 text-primary" /> Mis Ensayos Asignados (RT-40)
-          </h3>
-          <div className="relative w-72 hidden md:block">
+        <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+          <p className="font-semibold text-slate-800 text-sm">Casos Asignados — Q.F. Karla Suazo</p>
+          <div className="relative w-56">
             <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input type="text" placeholder="Buscar por Lote o Ensayo..." className="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-200 rounded text-xs focus:outline-none focus:border-primary" />
+            <input
+              type="text"
+              placeholder="Buscar caso..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded text-xs focus:outline-none focus:border-[var(--color-primary)] bg-white"
+            />
           </div>
         </div>
-        
+
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="bg-slate-50 text-slate-500 font-medium border-b border-slate-200">
-              <tr>
-                <th className="px-5 py-3 text-xs uppercase tracking-wider">N° / Expediente</th>
-                <th className="px-5 py-3 text-xs uppercase tracking-wider">Producto y Lote</th>
-                <th className="px-5 py-3 text-xs uppercase tracking-wider">Ensayo Asignado</th>
-                <th className="px-5 py-3 text-xs uppercase tracking-wider">Estado Técnico</th>
-                <th className="px-5 py-3 text-right text-xs uppercase tracking-wider">Workspace</th>
+          <table className="w-full text-left whitespace-nowrap">
+            <thead>
+              <tr className="border-b border-slate-100 bg-slate-50/50">
+                {['RECEPCIÓN','PRODUCTO','PRUEBAS ASIGNADAS','COMPLETADAS','PENDIENTES','DÍAS','ESTADO','ACCIONES'].map(h => (
+                  <th key={h} className="px-5 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">{h}</th>
+                ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {ensayos.map((item, i) => (
-                <tr key={i} className="hover:bg-slate-50 transition-colors h-[70px] group">
-                  <td className="px-5">
-                    <span className="font-bold text-slate-900 block">{item.id}</span>
-                    <span className={`text-[10px] font-bold flex items-center gap-1 ${item.prioridad === 'Alta' ? 'text-danger' : 'text-slate-500'}`}>
-                      {item.prioridad === 'Alta' && <AlertCircle className="w-3 h-3" />} SLA: {item.sla}
-                    </span>
-                  </td>
-                  <td className="px-5">
-                    <span className="font-medium text-slate-800 block">{item.producto}</span>
-                    <span className="text-[10px] text-slate-500">Lote: {item.lote}</span>
-                  </td>
-                  <td className="px-5">
-                    <span className="text-slate-700 font-bold block">{item.ensayo}</span>
-                    <span className="text-[10px] text-primary font-medium bg-primary/10 px-1.5 py-0.5 rounded mt-0.5 inline-block">Formato: {item.auxiliar}</span>
-                  </td>
-                  <td className="px-5">
-                    <span className={`inline-flex items-center px-2 py-1 rounded text-[11px] font-bold border ${
-                      item.estado === "Pendiente" ? "bg-slate-100 text-slate-700 border-slate-200" :
-                      item.estado === "Reanálisis" ? "bg-danger/10 text-danger border-danger/20" :
-                      "bg-green-100 text-success border-green-200"
-                    }`}>
-                      {item.estado === "Completado" && <CheckCircle2 className="w-3 h-3 mr-1" />}
-                      {item.estado}
-                    </span>
-                  </td>
-                  <td className="px-5 text-right">
-                    {item.estado !== "Completado" ? (
-                      <Link href={`/ffqq/ensayo/${i}`} className="inline-flex items-center gap-1 text-primary hover:text-white font-medium transition-colors border border-primary hover:bg-primary px-4 py-1.5 rounded-[20px] text-xs shadow-sm">
-                        Capturar Datos <ArrowRight className="w-3 h-3" />
-                      </Link>
-                    ) : (
-                      <span className="text-slate-400 font-medium px-4 py-1.5 text-xs flex items-center justify-end gap-1"><CheckCircle2 className="w-3 h-3"/> Enviado a STCC</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
+              {filtered.map(row => {
+                const est = ESTADO_STYLE[row.estado] ?? { dot: 'bg-slate-400', text: 'text-slate-600' };
+                return (
+                  <tr key={row.id} className="hover:bg-slate-50/60 transition-colors h-[64px]">
+                    <td className="px-5 text-xs font-bold text-[var(--color-primary)] font-mono">{row.id}</td>
+                    <td className="px-5 text-xs font-medium text-slate-800">{row.producto}</td>
+                    <td className="px-5 text-xs text-slate-600 text-center">{row.asignadas}</td>
+                    <td className="px-5 text-center">
+                      <span className={`text-xs font-bold ${row.completadas > 0 ? 'text-green-600' : 'text-slate-400'}`}>
+                        {row.completadas}
+                      </span>
+                    </td>
+                    <td className="px-5 text-center">
+                      <span className={`text-xs font-bold ${row.pendientes > 0 ? 'text-orange-500' : 'text-slate-400'}`}>
+                        {row.pendientes}
+                      </span>
+                    </td>
+                    <td className="px-5 text-xs text-slate-500">{row.dias}</td>
+                    <td className="px-5">
+                      <span className={`inline-flex items-center gap-1.5 text-xs font-semibold ${est.text}`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${est.dot}`} />
+                        {row.estado}
+                      </span>
+                    </td>
+                    <td className="px-5">
+                      <button className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--color-primary)] hover:underline">
+                        <FlaskConical className="w-3.5 h-3.5" /> Analizar
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
