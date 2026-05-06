@@ -1,48 +1,108 @@
 "use client";
 
-import { ArrowLeft, Search, Plus } from "lucide-react";
-import Link from "next/link";
+import { useState } from 'react';
+import Link from 'next/link';
+import { Eye, Search, AlertTriangle } from 'lucide-react';
+import { INCOME_RECORDS } from '../_data/incomeMockData';
+import { EstadoBadge, TipoBadge, SlaBadge, PrioridadBadge } from '../_components/IncomeBadges';
 
-export default function Page() {
+export default function Vista360SearchPage() {
+  const [q, setQ] = useState('');
+
+  const filtered = INCOME_RECORDS.filter(r => {
+    if (!q) return true;
+    const lower = q.toLowerCase();
+    return (
+      r.correlativo.toLowerCase().includes(lower) ||
+      r.producto.toLowerCase().includes(lower) ||
+      r.empresa.toLowerCase().includes(lower)
+    );
+  });
+
   return (
-    <div className="space-y-6 pb-12">
+    <div className="flex flex-col h-full overflow-hidden">
       {/* Header */}
-      <div className="bg-white p-6 rounded-md border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors">
-            <ArrowLeft className="w-5 h-5 text-slate-600" />
-          </Link>
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              <Search className="w-6 h-6 text-primary" />
-              Buscador Vista 360
-            </h1>
-            <p className="text-slate-500 text-sm mt-1">Ingrese un correlativo para acceder a la Vista 360 del expediente.</p>
-          </div>
-        </div>
-        <div className="flex gap-2 w-full md:w-auto">
-           <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded text-sm font-bold text-slate-700 transition-colors">
-             <Search className="w-4 h-4" /> Buscar
-           </button>
-           <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded text-sm font-bold transition-colors shadow-sm">
-             <Plus className="w-4 h-4" /> Nuevo
-           </button>
+      <div className="bg-white border-b border-slate-200 px-6 py-4 shrink-0">
+        <h2 className="text-base font-black text-slate-800">Vista 360 — Expedientes</h2>
+        <p className="text-xs text-slate-500 mt-0.5">Selecciona un expediente para ver su Vista 360 completa</p>
+        <div className="relative mt-3 max-w-sm">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <input
+            autoFocus
+            value={q}
+            onChange={e => setQ(e.target.value)}
+            placeholder="Buscar por correlativo, producto, empresa..."
+            className="w-full pl-9 pr-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+          />
         </div>
       </div>
 
-      {/* Placeholder Content for Route Completion */}
-      <div className="bg-white rounded-md border border-slate-200 shadow-sm min-h-[400px] flex flex-col items-center justify-center p-8 text-center">
-        <div className="w-16 h-16 bg-blue-50 text-primary rounded-full flex items-center justify-center mb-4">
-          <Search className="w-8 h-8" />
-        </div>
-        <h2 className="text-xl font-bold text-slate-800 mb-2">Módulo Activo</h2>
-        <p className="text-slate-500 max-w-md mx-auto mb-6">
-          La pantalla <strong>Buscador Vista 360</strong> ha sido provisionada correctamente y conectada al enrutador principal de Next.js App Router.
-        </p>
-        <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-bold border border-green-200">
-          ✓ Ruta Verificada
-        </div>
+      {/* List */}
+      <div className="flex-1 overflow-y-auto">
+        <table className="w-full text-sm border-collapse">
+          <thead>
+            <tr className="bg-slate-50 border-b border-slate-200 sticky top-0">
+              <Th>Correlativo</Th>
+              <Th>Producto / Empresa</Th>
+              <Th>Tipo</Th>
+              <Th>Estado</Th>
+              <Th>SLA</Th>
+              <Th>Prioridad</Th>
+              <Th></Th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map(r => (
+              <tr key={r.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                <td className="px-4 py-3">
+                  <div className="flex items-center gap-2">
+                    {r.bloqueado && <AlertTriangle className="w-3.5 h-3.5 text-red-500 shrink-0" />}
+                    <span className="font-mono text-xs font-bold text-slate-700">{r.correlativo}</span>
+                  </div>
+                  <p className="text-[10px] text-slate-400 mt-0.5">{r.fechaIngreso}</p>
+                </td>
+                <td className="px-4 py-3 max-w-[220px]">
+                  <p className="text-xs font-semibold text-slate-800 truncate">{r.producto}</p>
+                  <p className="text-[10px] text-slate-400 truncate">{r.empresa}</p>
+                </td>
+                <td className="px-4 py-3"><TipoBadge tipo={r.tipoTramite} /></td>
+                <td className="px-4 py-3"><EstadoBadge estado={r.estadoActual} /></td>
+                <td className="px-4 py-3"><SlaBadge sla={r.sla} dias={r.diasTranscurridos} limite={r.diasLimite} /></td>
+                <td className="px-4 py-3"><PrioridadBadge prioridad={r.prioridad} /></td>
+                <td className="px-4 py-3">
+                  <Link
+                    href={`/ingresos/${r.correlativo}/vista-360`}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-primary hover:bg-primary-dark text-white text-[10px] font-bold rounded-lg transition-colors whitespace-nowrap"
+                  >
+                    <Eye className="w-3 h-3" /> Ver 360
+                  </Link>
+                </td>
+              </tr>
+            ))}
+            {filtered.length === 0 && (
+              <tr>
+                <td colSpan={7} className="py-12 text-center text-slate-400 text-sm">
+                  No se encontraron expedientes.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="px-6 py-2.5 border-t border-slate-200 bg-slate-50 shrink-0">
+        <span className="text-xs text-slate-500">
+          {filtered.length} expediente{filtered.length !== 1 ? 's' : ''}
+        </span>
       </div>
     </div>
+  );
+}
+
+function Th({ children }: { children?: React.ReactNode }) {
+  return (
+    <th className="px-4 py-2.5 text-left text-[10px] font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">
+      {children}
+    </th>
   );
 }

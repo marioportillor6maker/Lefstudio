@@ -5,16 +5,33 @@ import { usePathname } from "next/navigation";
 
 export function Header() {
   const pathname = usePathname();
-  
-  // Lógica simple para breadcrumbs y título
-  const pathSegments = pathname?.split('/').filter(Boolean) || [];
-  const currentSection = pathSegments.length > 0 
-    ? pathSegments[0].charAt(0).toUpperCase() + pathSegments[0].slice(1) 
-    : "Inicio";
-  
-  const screenTitle = currentSection === "Inicio" 
-    ? "Panel Principal — Q.F. María Rodríguez" 
-    : `Bandeja ${currentSection}`;
+
+  const routeTitleMap: Record<string, string> = {
+    inicio:     "Panel Principal",
+    ingresos:   "Bandeja General de Ingresos",
+    rac:        "Bandeja RAC",
+    doct:       "Documentacion Tecnica",
+    estandares: "Control de Estandares",
+    str:        "Bandeja STR",
+    ffqq:       "Fisicoquimica FFQQ",
+    micro:      "Microbiologia",
+    stcc:       "STCC Control de Calidad",
+    dt:         "Direccion Tecnica",
+    dg:         "Direccion General",
+    reportes:   "Modulo de Reportes Operativos",
+    dashboards: "Centro de Dashboards",
+    admin:      "Administracion del Sistema",
+    bitacora:   "Bitacora y Auditoria",
+    documentos: "Visor de Documentos",
+  };
+
+  const pathSegments = pathname?.split("/").filter(Boolean) || [];
+  const rootSegment = pathSegments.length > 0 ? pathSegments[0] : "inicio";
+  const currentSection =
+    rootSegment.charAt(0).toUpperCase() + rootSegment.slice(1);
+
+  const screenTitle =
+    routeTitleMap[rootSegment] ?? "Bandeja " + currentSection;
 
   return (
     <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 shrink-0 z-10 shadow-sm">
@@ -25,7 +42,9 @@ export function Header() {
             <ChevronRight className="w-3 h-3 mx-1 opacity-70" />
             <span className="text-primary">{currentSection}</span>
           </div>
-          <h2 className="text-lg font-bold text-slate-800 leading-tight">{screenTitle}</h2>
+          <h2 className="text-lg font-bold text-slate-800 leading-tight">
+            {screenTitle}
+          </h2>
         </div>
 
         <div className="relative w-96 hidden lg:block ml-8">
@@ -35,23 +54,23 @@ export function Header() {
               Ctrl+K
             </kbd>
           </div>
-          <input 
-            type="text" 
-            placeholder="Buscar ingreso, producto, lote..." 
+          <input
+            type="text"
+            placeholder="Buscar ingreso, producto, lote... (Ctrl+K)"
             className="w-full pl-9 pr-16 py-2 bg-slate-50 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all"
           />
         </div>
       </div>
-      
+
       <div className="flex items-center gap-3">
-        <button 
+        <button
           className="relative p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors"
           title="Ayuda"
         >
           <HelpCircle className="w-5 h-5" />
         </button>
-        
-        <button 
+
+        <button
           className="relative p-2 text-slate-500 hover:bg-slate-50 rounded-full transition-colors"
           title="Notificaciones"
         >
