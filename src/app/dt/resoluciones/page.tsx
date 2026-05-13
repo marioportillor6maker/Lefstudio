@@ -35,12 +35,12 @@ export default function Page() {
         <div className="w-16 h-16 bg-blue-50 text-primary rounded-full flex items-center justify-center mb-4">
           <FileSignature className="w-8 h-8" />
         </div>
-        <h2 className="text-xl font-bold text-slate-800 mb-2">Módulo Activo</h2>
+        <h2 className="text-xl font-bold text-slate-800 mb-2">En construcción</h2>
         <p className="text-slate-500 max-w-md mx-auto mb-6">
-          La pantalla <strong>Resoluciones RT-200</strong> ha sido provisionada correctamente y conectada al enrutador principal de Next.js App Router.
+          La pantalla <strong>Resoluciones RT-200</strong> está pendiente de implementación.
         </p>
-        <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-bold border border-green-200">
-          ✓ Ruta Verificada
+        <div className="inline-flex items-center px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-bold border border-amber-200">
+          En desarrollo
         </div>
       </div>
     </div>

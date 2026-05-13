@@ -10,25 +10,44 @@ export function Header() {
     inicio:     "Panel Principal",
     ingresos:   "Bandeja General de Ingresos",
     rac:        "Bandeja RAC",
-    doct:       "Documentacion Tecnica",
-    estandares: "Control de Estandares",
+    doct:       "Documentación Técnica",
+    estandares: "Control de Estándares",
     str:        "Bandeja STR",
-    ffqq:       "Fisicoquimica FFQQ",
-    micro:      "Microbiologia",
-    stcc:       "STCC Control de Calidad",
-    dt:         "Direccion Tecnica",
-    dg:         "Direccion General",
-    reportes:   "Modulo de Reportes Operativos",
+    ffqq:       "Fisicoquímica FFQQ",
+    micro:      "Análisis Microbiológico",
+    stcc:       "Supervisión Técnica de Control de Calidad (STCC)",
+    dt:         "Dirección Técnica (DT)",
+    dg:         "Dirección General (DG)",
+    reportes:   "Módulo de Reportes Operativos",
     dashboards: "Centro de Dashboards",
-    admin:      "Administracion del Sistema",
-    bitacora:   "Bitacora y Auditoria",
+    admin:      "Administración del Sistema",
+    bitacora:   "Bitácora y Auditoría",
     documentos: "Visor de Documentos",
+  };
+
+  const breadcrumbDisplayMap: Record<string, string> = {
+    micro:      "Microbiología",
+    doct:       "Documentación",
+    estandares: "Estándares",
+    rac:        "RAC",
+    str:        "STR",
+    ffqq:       "FFQQ",
+    stcc:       "STCC",
+    dt:         "Dirección Técnica",
+    dg:         "Dirección General",
+    reportes:   "Reportes",
+    dashboards: "Dashboards",
+    admin:      "Administración",
+    bitacora:   "Bitácora",
+    ingresos:   "Ingresos",
+    inicio:     "Inicio",
   };
 
   const pathSegments = pathname?.split("/").filter(Boolean) || [];
   const rootSegment = pathSegments.length > 0 ? pathSegments[0] : "inicio";
   const currentSection =
-    rootSegment.charAt(0).toUpperCase() + rootSegment.slice(1);
+    breadcrumbDisplayMap[rootSegment] ??
+    (rootSegment.charAt(0).toUpperCase() + rootSegment.slice(1));
 
   const screenTitle =
     routeTitleMap[rootSegment] ?? "Bandeja " + currentSection;
@@ -76,7 +95,7 @@ export function Header() {
         >
           <Bell className="w-5 h-5" />
           <span className="absolute top-1.5 right-1.5 flex h-3 w-3 items-center justify-center rounded-full bg-danger border border-white text-[8px] font-bold text-white">
-            3
+            4
           </span>
         </button>
       </div>
