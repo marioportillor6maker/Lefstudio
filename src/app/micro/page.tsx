@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -701,7 +701,7 @@ function TabPlaceholder({ label }: { label: string }) {
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 
-export default function MicrobiologiaPage() {
+function MicrobiologiaPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const tabParam = searchParams.get("tab") as TabKey | null;
@@ -819,5 +819,13 @@ export default function MicrobiologiaPage() {
       {activeTab === "captura"   && <TabCapturaRT74 />}
       {activeTab === "revision"  && <TabRevisionPreSTCC />}
     </div>
+  );
+}
+
+export default function MicrobiologiaPage() {
+  return (
+    <Suspense>
+      <MicrobiologiaPageContent />
+    </Suspense>
   );
 }

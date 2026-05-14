@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   CheckCircle2, Eye, ClipboardEdit,
@@ -623,7 +623,7 @@ function TabBandeja() {
   );
 }
 
-export default function DTPage() {
+function DTPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabKey>("bandeja");
@@ -666,5 +666,13 @@ export default function DTPage() {
       {activeTab === "reanalisis" && <TabReanalisisComite />}
       {activeTab === "rt39"       && <TabElaboracionRT39 />}
     </div>
+  );
+}
+
+export default function DTPage() {
+  return (
+    <Suspense>
+      <DTPageContent />
+    </Suspense>
   );
 }

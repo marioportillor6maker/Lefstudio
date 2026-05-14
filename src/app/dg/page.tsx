@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CheckCircle2, Eye, ClipboardCheck, XCircle, FileText as FileNote, Send, Printer, Archive } from "lucide-react";
 import Link from "next/link";
@@ -518,7 +518,7 @@ function TabBandeja() {
   );
 }
 
-export default function DGPage() {
+function DGPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabKey>("bandeja");
@@ -561,5 +561,13 @@ export default function DGPage() {
       {activeTab === "emision"    && <TabEmisionCliente />}
       {activeTab === "cierre"     && <TabCierreArchivo />}
     </div>
+  );
+}
+
+export default function DGPage() {
+  return (
+    <Suspense>
+      <DGPageContent />
+    </Suspense>
   );
 }

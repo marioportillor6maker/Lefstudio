@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle2, Eye, ClipboardCheck, Clock, XCircle, RotateCcw, MessageSquare, Plus, ArrowUpRight } from "lucide-react";
@@ -500,7 +500,7 @@ function TabPlaceholder({ label }: { label: string }) {
   );
 }
 
-export default function STCCPage() {
+function STCCPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const tabParam = searchParams.get("tab") as TabKey | null;
@@ -541,5 +541,13 @@ export default function STCCPage() {
       {activeTab === "devoluciones"  && <TabDevoluciones />}
       {activeTab === "liberacion"    && <TabLiberacionDT />}
     </div>
+  );
+}
+
+export default function STCCPage() {
+  return (
+    <Suspense>
+      <STCCPageContent />
+    </Suspense>
   );
 }
