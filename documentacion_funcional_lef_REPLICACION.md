@@ -394,17 +394,56 @@ Notificaciones críticas en la parte superior. Cada alerta cuenta con los botone
 
 ### 4.4 PANTALLA: Distribución RT-159 [REPLICADO]
 **Identificación** [REPLICADO]
+- Ruta: `/rac/distribucion` [REPLICADO]
 - Pestaña: "Distribución RT-159" dentro del Módulo RAC. [REPLICADO]
+- Arquitectura: Screaming Architecture — `_types/distribucion.types.ts`, `_data/distribucionMockData.ts`. [REPLICADO]
 
-**Estructura del Formulario** [REPLICADO]
-- **Campos Principales:** [REPLICADO]
-  - Nº RT-159 (Input autogenerado/Read-only) [REPLICADO]
-  - Recepción (Select) [REPLICADO]
-  - Fecha Distribución (Date picker) [REPLICADO]
-  - Responsable Emisión (Read-only) [REPLICADO]
-- **Sección: Distribución por Área (Grid/Tabla):** [REPLICADO]
-  - **Áreas Listadas:** Documentación (DOCT), Microbiología, Muestra Biblioteca. [REPLICADO]
-  - **Datos por Área:** Responsable (Select), Cantidad (Input), Unidad (Read-only), Fecha Recibo (Date picker), Estado (Badge: Recibido/Pendiente). [REPLICADO]
+**Panel: Identificación del RT** [REPLICADO]
+- **Nº RT-159:** Texto estático "Se generará al guardar" — NO es input editable. [REPLICADO]
+- **Fecha Distribución:** Texto informativo "Se asignará automáticamente al emitir" — NO es datepicker. [REPLICADO]
+- **Responsable Emisión:** Texto read-only del usuario en sesión (`MOCK_RESPONSABLE_SESION`). NO es combobox. [REPLICADO]
+
+**Panel: Configurar Distribución** [REPLICADO]
+- **Recepción (Select):** Selector de recepciones RAC. Al seleccionar muestra `cantidadIngresadaRAC` y `unidadRAC` de la recepción. Campo requerido. [REPLICADO]
+- **Tabla de Áreas (3 filas fijas):** Documentación (DOCT), Microbiología, Muestra Biblioteca. [REPLICADO]
+  - **Responsable:** Texto read-only asignado por área (desde `AREAS_DESTINO.responsables[0]`). [REPLICADO]
+  - **Cantidad:** Input numérico por área. Validado: no negativo, no vacío si > 0. [REPLICADO]
+  - **Unidad:** Select/combobox por área (11 opciones: frascos, pastillas, viales, ampollas, cajas, tabletas, cápsulas, unidades, ml, g, mg). [REPLICADO]
+  - **Fecha Recibido:** Texto read-only "Pendiente de recepción" — NO es datepicker. [REPLICADO]
+- **Observaciones:** Textarea opcional por distribución. [REPLICADO]
+- **Botón "Agregar al RT-159":** Valida y agrega la distribución configurada al listado del RT. [REPLICADO]
+
+**Panel: Distribuciones del RT** [REPLICADO]
+- Tabla inferior con todas las distribuciones agregadas al RT en progreso. [REPLICADO]
+- Columnas: Recepción, Producto, Áreas con muestra (badge count), Cantidad RAC, Observaciones. [REPLICADO]
+- Botón "Eliminar" por fila — quita la distribución del listado. [REPLICADO]
+- Estado vacío: Mensaje "No hay distribuciones agregadas. Use el formulario de arriba." [REPLICADO]
+
+**Validaciones** [REPLICADO]
+- Recepción requerida antes de agregar. [REPLICADO]
+- Al menos un área con cantidad > 0 y unidad seleccionada antes de agregar. [REPLICADO]
+- Cantidades no negativas. [REPLICADO]
+- No se permite agregar la misma recepción dos veces en el mismo RT. [REPLICADO]
+- Para emitir: debe haber al menos una distribución en el listado. [REPLICADO]
+
+**Payload RT159 (enviado al backend al emitir)** [REPLICADO]
+```
+RT159Payload {
+  id: null,                   // asignado por servidor
+  formato: "RT-159",
+  fechaDistribucion: null,    // asignado por servidor
+  responsableEmision: string, // usuario en sesión
+  distribuciones: DistribucionRecepcion[]
+}
+```
+
+**Pendientes funcionales (validar con cliente)** [PENDIENTE]
+- `id` del RT: generado en servidor — el frontend no lo asigna.
+- `fechaDistribucion`: viene del servidor al emitir — no editable.
+- `responsableEmision`: viene del usuario autenticado en sesión (pendiente integración auth).
+- `cantidadIngresadaRAC` y `unidadRAC`: deben venir del servidor al seleccionar recepción.
+- `fechaRecibido` por área: se registra al recibir físicamente (servidor) — pendiente en frontend.
+- Validación de suma de cantidades distribuidas vs `cantidadIngresadaRAC`: WARNING funcional pendiente de confirmar con cliente.
 
 ---
 

@@ -9,7 +9,7 @@
 | MC-05 | Crear Ingreso (Flujo RAC) | VALIDADO 100% | 2026-04-23 | Formulario de 6 pasos con validación |
 | MC-06 | Bandeja RAC | PENDIENTE | - | - |
 | MC-07 | Proformas y Pago | VALIDADO 100% | 2026-05-15 | Rediseño completo: autocomplete, ISV auto, exclusión de moneda, totalLetras, modales ver/imprimir/confirmar, paginación, 104 tests |
-| MC-08 | Distribución RT-159 | PENDIENTE | - | - |
+| MC-08 | Distribución RT-159 | VALIDADO 100% | 2026-05-15 | Rediseño completo: multi-recepcion RT, ID/fecha/responsable read-only, unidad combobox por área, tabla de distribuciones agregadas, payload RT159, 64 tests |
 | MC-09 | Bandeja DOCT | PENDIENTE | - | - |
 | MC-10 | Solicitudes RT-75 y RT-30 | PENDIENTE | - | - |
 | MC-11 | Contraste RT-41 y Prep. RT-38 | PENDIENTE | - | - |
@@ -91,3 +91,26 @@
 - **Build:** Ruta `/rac/proformas` compilada como estática. Lint limpio en archivos nuevos. TypeScript sin errores.
 - **Tests:** `src/__tests__/rac-proformas.test.tsx` — 104/104 passing. Cobertura: render, autocomplete, exclusión de moneda, ISV, total, totalLetras, fecha no editable, nroOficio, nroOrdenARSA, modal de muestra, ver/descargar/imprimir, paginación, búsqueda, confirmar pago.
 - **Pendientes funcionales con cliente:** autocomplete vs. modal avanzado de búsqueda, obligatoriedad de nroOficio/nroOrdenARSA, exención fiscal ISV, formato oficial PDF, fecha de emisión desde servidor.
+
+### MC-08: Distribución RT-159
+- **Estado Inicial:** Pantalla existía con Nº RT-159 como input editable, fecha distribución como datepicker, responsable emisión como combobox seleccionable. Unidad de distribución era badge estático (no editable por fila). RT soportaba una sola recepción. Sin tabla de distribuciones en progreso.
+- **Acciones Tomadas:**
+  - Eliminado **Nº RT-159** como campo editable → texto read-only "Se generará al guardar". `data-testid="rt-id-info"`.
+  - Eliminada **Fecha Distribución** como datepicker → texto informativo "Se asignará automáticamente al emitir". `data-testid="fecha-distribucion-info"`.
+  - Eliminado **Responsable Emisión** como combobox → texto read-only del usuario en sesión (`MOCK_RESPONSABLE_SESION`). `data-testid="responsable-info"`.
+  - Implementado **Selector de recepción** (`recepcion-select`) — al seleccionar muestra `cantidadIngresadaRAC` y `unidadRAC`. `data-testid="cantidad-rac-info"`.
+  - **Unidad de medida** convertida de badge estático a **combobox/select por área** (`unidad-{areaId}`) — 11 opciones.
+  - **Fecha Recibido** por área → texto read-only "Pendiente de recepción". `data-testid="fecha-recibido-{areaId}"`.
+  - Un RT-159 ahora **soporta múltiples recepciones** — modelo `distribuciones: DistribucionRecepcion[]`.
+  - Implementada **tabla inferior de distribuciones** del RT en progreso (`distribuciones-table`). Columnas: Recepción, Producto, Áreas, Cantidad RAC, Observaciones. Estado vacío (`distribuciones-empty`).
+  - Botón **"Agregar al RT-159"** (`agregar-btn`) — valida, construye `DistribucionRecepcion`, agrega a lista, resetea form.
+  - **Observaciones** textarea por distribución (`observaciones`).
+  - Botón **Eliminar** por fila (`eliminar-{recepcionId}`).
+  - Patrón **`addedIds` Set** para prevenir duplicar la misma recepción en un RT.
+  - **Payload RT159** completo con `id: null`, `fechaDistribucion: null`, `responsableEmision`, `distribuciones[]`.
+  - Refactorización a Screaming Architecture: `_types/distribucion.types.ts`, `_data/distribucionMockData.ts`.
+  - Escrito `src/__tests__/rac-distribucion.test.tsx` — **64 tests, 16 grupos**, todos passing.
+- **Estado Final:** `VALIDADO 100%`
+- **Build:** Ruta `/rac/distribucion` compilada como estática. Lint limpio en archivos nuevos. TypeScript sin errores.
+- **Tests:** `src/__tests__/rac-distribucion.test.tsx` — 64/64 passing. Grupos: render básico, ID no editable, fecha no editable, responsable no seleccionable, selector recepción, cantidad RAC visible, unidad combobox, fecha recibido read-only, observaciones, botón agregar, validaciones, agregar distribución, múltiples distribuciones, eliminar distribución, guardar RT-159, payload/estado.
+- **Pendientes funcionales con cliente:** ID del RT desde servidor, fecha distribución desde servidor, responsable desde usuario autenticado, cantidadIngresadaRAC desde API al seleccionar recepción, fechaRecibido registrado al recibir físicamente, validación suma cantidades vs cantidadIngresadaRAC (WARNING vs ERROR).
