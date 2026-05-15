@@ -608,7 +608,6 @@ export default function ProformasPagoPage() {
                   <label className={labelCls}>Plazo (días)</label>
                   <input
                     type="number"
-                    defaultValue="15"
                     min="1"
                     value={plazoDias}
                     onChange={e => setPlazoDias(e.target.value)}
