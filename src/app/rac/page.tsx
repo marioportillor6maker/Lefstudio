@@ -88,7 +88,7 @@ export default function BandejaRACPage() {
                 <th className="px-5 py-3 text-[11px] uppercase tracking-wider">Fecha Rec.</th>
                 <th className="px-5 py-3 text-[11px] uppercase tracking-wider">Estado</th>
                 <th className="px-5 py-3 text-[11px] uppercase tracking-wider">Bloqueos</th>
-                <th className="px-5 py-3 text-right text-[11px] uppercase tracking-wider">Acciones</th>
+                <th className="px-4 py-3 text-right text-[11px] uppercase tracking-wider min-w-[180px]">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -137,13 +137,30 @@ export default function BandejaRACPage() {
                       <span className="text-slate-400 text-xs">-</span>
                     )}
                   </td>
-                  <td className="px-5 text-right flex items-center justify-end gap-2 mt-3">
-                    <Link href={`/ingresos/${item.id}`} className="p-1.5 text-slate-400 hover:text-primary hover:bg-blue-50 rounded transition-colors" title="Ver (Vista 360)">
-                      <Eye className="w-4 h-4" />
-                    </Link>
-                    <button className="p-1.5 text-slate-400 hover:text-success hover:bg-green-50 rounded transition-colors" title="Validar">
-                      <CheckCircle2 className="w-4 h-4" />
-                    </button>
+                  <td className="px-4">
+                    <div className="flex items-center justify-end gap-1">
+                      <Link href={`/ingresos/${item.id}`} className="p-1.5 text-slate-400 hover:text-primary hover:bg-blue-50 rounded transition-colors" title="Ver (Vista 360)">
+                        <Eye className="w-4 h-4" />
+                      </Link>
+                      <button className="p-1.5 text-slate-400 hover:text-success hover:bg-green-50 rounded transition-colors" title="Validar">
+                        <CheckCircle2 className="w-4 h-4" />
+                      </button>
+                      <span className="w-px h-4 bg-slate-200 mx-1 shrink-0" />
+                      {/* TODO: conectar a generación/vista del formulario RG-13 */}
+                      <button
+                        className="text-[10px] font-bold px-2 py-1 rounded border border-violet-200 text-violet-700 hover:bg-violet-50 active:bg-violet-100 transition-colors tracking-wide shrink-0"
+                        title="Formulario RG-13"
+                      >
+                        RG-13
+                      </button>
+                      {/* TODO: conectar a generación/vista del formulario RG-72 */}
+                      <button
+                        className="text-[10px] font-bold px-2 py-1 rounded border border-teal-200 text-teal-700 hover:bg-teal-50 active:bg-teal-100 transition-colors tracking-wide shrink-0"
+                        title="Formulario RG-72"
+                      >
+                        RG-72
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
