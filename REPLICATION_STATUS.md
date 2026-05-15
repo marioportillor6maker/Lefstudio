@@ -8,7 +8,7 @@
 | MC-04 | Vista 360 del Ingreso | VALIDADO 100% | 2026-04-23 | Pestaña de Resumen y Timeline actualizados |
 | MC-05 | Crear Ingreso (Flujo RAC) | VALIDADO 100% | 2026-04-23 | Formulario de 6 pasos con validación |
 | MC-06 | Bandeja RAC | PENDIENTE | - | - |
-| MC-07 | Proformas y Pago | PENDIENTE | - | - |
+| MC-07 | Proformas y Pago | VALIDADO 100% | 2026-05-15 | Rediseño completo: autocomplete, ISV auto, exclusión de moneda, totalLetras, modales ver/imprimir/confirmar, paginación, 104 tests |
 | MC-08 | Distribución RT-159 | PENDIENTE | - | - |
 | MC-09 | Bandeja DOCT | PENDIENTE | - | - |
 | MC-10 | Solicitudes RT-75 y RT-30 | PENDIENTE | - | - |
@@ -68,3 +68,26 @@
   - Se implementaron todos los campos exactos documentados en la Sección 4.2 para: Datos del Trámite, Producto, Cliente, Cantidades, Documentos y Validación.
   - Se agregaron los checkboxes de confirmación obligatorios en el Paso 6.
 - **Estado Final:** `VALIDADO 100%`
+
+### MC-07: Proformas y Pago
+- **Estado Inicial:** Pantalla existía con formulario básico (select estático de recepción, monto único sin ISV, fecha de emisión editable). Sin paginación, sin modal de muestra, sin desglose financiero.
+- **Acciones Tomadas:**
+  - Reemplazado select estático de recepción por **autocomplete** con búsqueda por ID, producto o cliente (máx. 8 resultados). Card de selección con botón "Ver Muestra".
+  - Implementado **modal de información de muestra** (`muestra-modal`) mostrando 12 campos del modelo de bandeja RAC + nota de integración para futura conexión con backend.
+  - Implementados **dos inputs de precio mutuamente exclusivos** (L. Lempiras / US$ Dólares). Al ingresar en uno, el otro se deshabilita y limpia. `monedaActiva` state controla cuál está activo.
+  - Agregado **ISV read-only** auto-calculado al 15% (`ISV_RATE = 0.15`, Artículo 15 Ley del ISV Honduras). Se recalcula en tiempo real sin useEffect.
+  - Implementada función `numeroALetras()` desde cero — español Honduras (VEINTIUNO, CIEN vs CIENTO, centavos). Exportada para testabilidad.
+  - Eliminada **Fecha de Emisión** como campo editable. Se asigna con `new Date()` temporalmente (pendiente: provenir del servidor).
+  - Agregados campos **Número de Oficio** y **Número de Orden ARSA** (opcionales, confirmación pendiente con cliente).
+  - Implementado **modal de éxito** post-generación con totalLetras, acciones Imprimir/Descargar PDF/Volver.
+  - Implementado **modal de detalle** (`ver-proforma-modal`) con desglose financiero completo y totalLetras.
+  - Agregados botones **Ver / Descargar / Imprimir** en cada fila de la tabla.
+  - Utilidad `printProforma()` — genera HTML de la proforma, abre ventana nueva y lanza `window.print()`. Sin librería externa; el usuario "Guarda como PDF" desde el navegador.
+  - Implementada **paginación** frontend (10 ítems por página, controles Prev/Next).
+  - Implementada **búsqueda en tabla** por ID, recepción, producto, estado o cliente.
+  - Refactorización a Screaming Architecture: `_types/proforma.types.ts` y `_data/proformaMockData.ts`.
+  - Escrito `src/__tests__/rac-proformas.test.tsx` — **104 tests, 15 grupos**, todos passing.
+- **Estado Final:** `VALIDADO 100%`
+- **Build:** Ruta `/rac/proformas` compilada como estática. Lint limpio en archivos nuevos. TypeScript sin errores.
+- **Tests:** `src/__tests__/rac-proformas.test.tsx` — 104/104 passing. Cobertura: render, autocomplete, exclusión de moneda, ISV, total, totalLetras, fecha no editable, nroOficio, nroOrdenARSA, modal de muestra, ver/descargar/imprimir, paginación, búsqueda, confirmar pago.
+- **Pendientes funcionales con cliente:** autocomplete vs. modal avanzado de búsqueda, obligatoriedad de nroOficio/nroOrdenARSA, exención fiscal ISV, formato oficial PDF, fecha de emisión desde servidor.

@@ -327,20 +327,68 @@ Notificaciones críticas en la parte superior. Cada alerta cuenta con los botone
 
 ---
 
-### 4.3 PANTALLA: Proformas y Pago [REPLICADO]
+### 4.3 PANTALLA: Proformas y Pago [REPLICADO — ACTUALIZADO 2026-05-15]
 **Identificación** [REPLICADO]
-- Pestaña: "Proformas y Pago" dentro del Módulo RAC. [REPLICADO]
+- Ruta: `/rac/proformas` — ruta estática en build de producción. [REPLICADO]
+- Acceso: Menú Lateral > RAC > Proformas y Pago. [REPLICADO]
+- Archivo principal: `src/app/rac/proformas/page.tsx`. [REPLICADO]
+- Tipos: `src/app/rac/proformas/_types/proforma.types.ts`. [REPLICADO]
+- Datos mock: `src/app/rac/proformas/_data/proformaMockData.ts`. [REPLICADO]
 
 **Estructura y Componentes** [REPLICADO]
 - **Indicadores (Cards):** [REPLICADO]
-  - Proformas Emitidas (8) [REPLICADO]
-  - Pagos Confirmados (6) [REPLICADO]
-  - Pendientes de Pago (2) [REPLICADO]
-- **Tabla: Proformas y Estado de Pago:** [REPLICADO]
-  - **Columnas:** Nº Proforma, Recepción, Producto, Monto (L.), Fecha Emisión, Fecha Límite, Estado (Badge: Pagado, Pendiente, Vencido). [REPLICADO]
-  - **Acciones:** Ver, Imprimir (Icono PDF), Confirmar (Abre modal de pago). [REPLICADO]
+  - Proformas Emitidas — contador dinámico desde estado React.
+  - Pagos Confirmados — filtra `estado === "Pagado"`.
+  - Pendientes / Vencidos — filtra `estado === "Pendiente" || "Vencido"`.
+- **Tabla: Proformas Generadas:** [REPLICADO]
+  - **Columnas:** Nº Proforma, Recepción, Producto, Total, Emisión / Límite, Estado, Acciones.
+  - **Búsqueda:** Input en cabecera — filtra por ID, recepción, producto, estado o cliente.
+  - **Paginación:** 10 ítems por página (`ITEMS_PER_PAGE = 10`). Prev/Next visible solo si `totalPages > 1`.
+  - **Indicador:** `page-indicator` muestra "Página N de M — X proformas".
+  - **Acciones por fila:** [REPLICADO]
+    - `ver-btn` — Abre modal `ver-proforma-modal` con desglose completo (precioBase + ISV + total + totalLetras).
+    - `descargar-btn` — Llama a `printProforma()` → `window.open` + `window.print()`.
+    - `imprimir-btn` — Llama a `printProforma()` (mismo comportamiento que descargar).
+    - `confirmar-btn` — Solo visible en estado Pendiente o Vencido. Abre modal `confirm-modal`.
+  - **Estados:** Pagado (verde), Pendiente (naranja), Vencido (rojo con fila tintada).
 - **Formulario: Emitir Nueva Proforma:** [REPLICADO]
-  - **Campos:** Recepción Asociada (Select), Tipo de Análisis (Select), Monto (Input), Fecha Emisión (Date picker), Plazo en Días (Input), Método de Pago (Select), Observaciones (Textarea). [REPLICADO]
+  - **Recepción Asociada:** Autocomplete con input de búsqueda. Filtra `mockIngresosList` por ID, producto o cliente. Muestra max 8 resultados. Al seleccionar, muestra card resumen con botón "Ver Muestra" (Info icon). Botón X para limpiar. *(Pendiente: validar con cliente si se requiere modal avanzado para volúmenes altos.)*
+  - **Tipo de Análisis (Select, requerido):** Análisis Completo / Análisis Parcial / Solo Microbiología.
+  - **Precio — exclusión mutua de moneda:** Dos inputs paralelos (L. Lempiras / US$ Dólares). Al ingresar en uno, el otro se deshabilita y limpia. Solo una moneda puede quedar activa a la vez (`monedaActiva` state). No se permite guardar con ambos campos llenos.
+  - **ISV (read-only, auto-calculado):** `ISV_RATE = 0.15` (15% — Artículo 15 Ley del ISV, Honduras). Se recalcula en tiempo real al cambiar el precio. No es editable.
+  - **Total:** `precioBase + isvAmount`. Derivado en render, no almacenado como estado separado.
+  - **Total en letras:** Generado por `numeroALetras(totalAmount, monedaActiva)`. Exportada desde `page.tsx` para testabilidad. Persiste en el modal de éxito post-generación porque se copia al objeto `ProformaGenerada.totalLetras` al guardar.
+  - **Fecha de Emisión:** Eliminada como campo editable. La fecha se asigna automáticamente en `handleGenerar()` con `new Date()` como solución temporal. **PENDIENTE BACKEND:** debe provenir del servidor en producción.
+  - **Número de Oficio (opcional):** Input texto. Placeholder: `OF-2026-0442`. Se omite del objeto si vacío.
+  - **Número de Orden ARSA (opcional):** Input texto. Placeholder: `ARSA-2026-001`. Se omite del objeto si vacío. *(Pendiente: confirmar si aplica solo para trámites ARSA.)*
+  - **Plazo (días):** Input numérico, default 15. Calcula `fechaLimite` sumando días a `fechaEmision`.
+  - **Método de Pago (Select):** Transferencia Bancaria / Depósito en Ventanilla / TGR-1 (Gobierno).
+  - **Observaciones (Textarea):** Opcional.
+  - **Botón "Generar Proforma":** Valida recepción, tipo de análisis y precio. Si pasan, agrega la proforma al estado y abre `success-modal`.
+
+**Modales** [REPLICADO]
+- `success-modal` — Post-generación. Muestra total, totalLetras, fechaLimite, recepcionId. Acciones: Imprimir, Descargar PDF, Volver al listado.
+- `muestra-modal` — Muestra datos de `mockIngresosList` para la recepción seleccionada: Nº Recepción, Fecha Ingreso, Producto, Forma Farmacéutica, Lote, Trámite, Cliente, Tipo Cliente, Etapa, Estado, Responsable, Prioridad. Incluye nota de integración: al conectar el backend se añadirán todos los campos de `/rac/nuevo`.
+- `ver-proforma-modal` — Detalle completo de proforma guardada con desglose financiero y totalLetras. Acciones: Imprimir, Descargar PDF, Cerrar.
+- `confirm-modal` — Confirmar pago. Campos: Referencia Bancaria, Fecha Efectiva. Confirmar actualiza estado a "Pagado".
+
+**Utilidades implementadas** [REPLICADO]
+- `numeroALetras(num, moneda)` — Convierte número a texto en español (Honduras). Soporta miles, cientos, VEINTIUNO (no "VEINTE Y UNO"), CIEN vs CIENTO, centavos, L y US$. Exportada para testabilidad.
+- `printProforma(p)` — Genera HTML de la proforma y llama `window.open` + `window.print()`. El usuario "Guarda como PDF" desde el diálogo del navegador. Sin librería externa.
+
+**Validaciones** [REPLICADO]
+- Recepción requerida.
+- Tipo de análisis requerido.
+- Precio mayor a cero en una sola moneda (error si ambos llenos o ambos vacíos).
+
+**Pendientes funcionales** [NO REPLICADO — decisión del cliente]
+- Confirmar si el autocomplete de recepción es suficiente o se requiere modal de búsqueda avanzada con filtros (fecha, estado, área) para volumen alto.
+- Confirmar si Número de Oficio y Número de Orden ARSA deben ser obligatorios.
+- Confirmar si Número de Orden ARSA aplica solo para trámites ARSA.
+- Confirmar si el ISV debe ser configurable desde administración o mantenerse como constante en código.
+- Confirmar si los servicios del LEF están gravados con ISV (15%) o exentos según clasificación fiscal.
+- Confirmar si el PDF final requiere formato oficial institucional (reemplazar `printProforma` por endpoint de servidor).
+- `fechaEmision` debe provenir del servidor en producción (actualmente `new Date()` en cliente).
 
 ---
 
