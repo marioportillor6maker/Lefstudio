@@ -50,7 +50,6 @@ export const MENU_SECTIONS_DATA: MenuSectionData[] = [
         subItems: [
           { label: "Bandeja DOCT",       href: "/doct" },
           { label: "Solicitudes RT-75",  href: "/doct/rt75" },
-          { label: "Contraste RT-41",    href: "/doct/rt41" },
           { label: "Solicitudes RT-30",  href: "/doct/rt30" },
           { label: "Preparación RT-38",  href: "/doct/rt38" },
           { label: "Control Expediente", href: "/doct/control" },

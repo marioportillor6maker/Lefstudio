@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 const TABS = [
   { label: 'Bandeja DOCT',     href: '/doct' },
   { label: 'Solicitudes RT-75',href: '/doct/rt75' },
-  { label: 'Contraste RT-41',  href: '/doct/rt41' },
   { label: 'Solicitudes RT-30',href: '/doct/rt30' },
   { label: 'Preparación RT-38',href: '/doct/rt38' },
   { label: 'Control Expediente',href: '/doct/control' },
@@ -14,7 +13,7 @@ const TABS = [
 export function DoctNav() {
   const pathname = usePathname();
   return (
-    <div className="flex border-b border-slate-200 bg-white px-6 gap-0 shrink-0">
+    <div className="flex border-b border-slate-200 bg-white px-4 sm:px-6 gap-0 shrink-0 overflow-x-auto">
       {TABS.map(tab => {
         const isActive = tab.href === '/doct' ? pathname === '/doct' : pathname.startsWith(tab.href);
         return (
