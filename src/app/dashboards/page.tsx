@@ -61,7 +61,7 @@ function DashboardsInner() {
     <div className="space-y-5 pb-12">
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
             Dashboards Gerenciales — LEF
           </h1>
           <p className="text-slate-500 text-sm mt-0.5">
@@ -110,7 +110,7 @@ function DashboardsInner() {
           id={`tabpanel-${activeTab}`}
           role="tabpanel"
           aria-labelledby={`tab-${activeTab}`}
-          className="p-6"
+          className="p-3 sm:p-4 md:p-6"
         >
           <TabContent activeTab={activeTab} />
         </div>

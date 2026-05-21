@@ -157,7 +157,7 @@ const REVISION_DATA = {
 
 function TabRevisionFFQQMicro() {
   return (
-    <div className="flex gap-4 items-start">
+    <div className="flex flex-col lg:flex-row gap-4 items-start">
       {/* ── Main card ── */}
       <div className="flex-1 min-w-0 bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
         <div className="px-5 py-3.5 border-b border-slate-100">
@@ -197,7 +197,7 @@ function TabRevisionFFQQMicro() {
       </div>
 
       {/* ── Decision card ── */}
-      <div className="w-56 shrink-0 bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+      <div className="w-full lg:w-56 lg:shrink-0 bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
         <div className="px-4 py-3 border-b border-slate-100">
           <p className="text-sm font-semibold text-slate-800">Decisión STCC</p>
         </div>
@@ -319,7 +319,7 @@ function TabObservaciones() {
       {/* ── Nueva observación ── */}
       <div className="px-5 py-4 border-t border-slate-200 bg-slate-50/50">
         <p className="text-xs font-semibold text-slate-700 mb-3">Nueva Observación</p>
-        <div className="grid grid-cols-2 gap-4 mb-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
           <div>
             <label className="block text-[10px] font-medium text-slate-500 mb-1">Recepción</label>
             <input
@@ -380,7 +380,7 @@ function TabDevoluciones() {
       </div>
 
       <div className="p-5 space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-xs font-medium text-slate-500 mb-1">
               Recepción <span className="text-red-400">*</span>
@@ -398,7 +398,7 @@ function TabDevoluciones() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-xs font-medium text-slate-500 mb-1">
               Motivo Principal <span className="text-red-400">*</span>
@@ -463,7 +463,7 @@ function TabLiberacionDT() {
           </div>
         )}
         {pendientes.map((c) => (
-          <div key={c.id} className="flex items-center justify-between px-5 py-4 hover:bg-slate-50/60 transition-colors">
+          <div key={c.id} className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 sm:justify-between px-4 sm:px-5 py-3 sm:py-4 hover:bg-slate-50/60 transition-colors">
             <div className="flex items-center gap-3">
               <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
               <div>
@@ -519,7 +519,7 @@ function STCCPageContent() {
   return (
     <div className="space-y-4 pb-12">
       {/* Tabs */}
-      <div className="flex border-b border-slate-200 -mt-2">
+      <div className="flex border-b border-slate-200 -mt-2 overflow-x-auto">
         {TABS.map((tab) => (
           <button
             key={tab.key}

@@ -39,12 +39,12 @@ export default function EnsayoWorkspace({ params }: { params: { id: string } }) 
         
         {/* Columna Izquierda: Datos del Ensayo y Auxiliar */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white rounded-md border border-slate-200 shadow-sm p-6">
+          <div className="bg-white rounded-md border border-slate-200 shadow-sm p-4 sm:p-6">
             <h3 className="text-lg font-bold text-slate-800 border-b border-slate-100 pb-3 mb-5 flex items-center gap-2">
               <Beaker className="w-5 h-5 text-primary" /> Captura de Datos Primarios
             </h3>
             
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div className="flex flex-col gap-1.5">
                 <label className="text-sm font-medium text-slate-700">Absorbancia Muestra (AU) <span className="text-danger">*</span></label>
                 <input 
@@ -83,7 +83,7 @@ export default function EnsayoWorkspace({ params }: { params: { id: string } }) 
             </div>
 
             {calculo !== null && (
-              <div className={`mt-8 p-6 rounded-md border flex items-center justify-between ${fueraDeEspecificacion ? 'bg-danger/5 border-danger/20' : 'bg-green-50 border-green-200'}`}>
+              <div className={`mt-4 sm:mt-8 p-4 sm:p-6 rounded-md border flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-0 justify-between ${fueraDeEspecificacion ? 'bg-danger/5 border-danger/20' : 'bg-green-50 border-green-200'}`}>
                 <div>
                   <p className={`text-sm font-medium ${fueraDeEspecificacion ? 'text-danger' : 'text-success'}`}>Resultado Obtenido (% Declarado)</p>
                   <p className={`text-4xl font-bold mt-1 ${fueraDeEspecificacion ? 'text-danger' : 'text-green-700'}`}>{calculo}%</p>

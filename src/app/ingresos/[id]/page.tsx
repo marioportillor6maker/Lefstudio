@@ -184,7 +184,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
       </div>
 
       {/* 3. TRANSVERSAL TIMELINE */}
-      <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6 overflow-x-auto custom-scrollbar">
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-3 sm:p-4 md:p-6 overflow-x-auto custom-scrollbar">
         <h3 className="font-bold text-slate-800 text-sm mb-6 flex items-center gap-2">
            <Activity className="w-4 h-4 text-primary" /> Barra de Progreso General
         </h3>
@@ -267,8 +267,8 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
               )}
             </div>
 
-            <div className="p-6">
-              
+            <div className="p-3 sm:p-4 md:p-6">
+
               {/* TAB: RESUMEN GENERAL */}
               {activeTab === "resumen" && (
                 <div className="space-y-8 animate-in fade-in duration-300">
@@ -320,19 +320,19 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <div className="border border-slate-200 rounded-lg p-5 text-center flex flex-col justify-center shadow-sm">
                         <span className="text-xs font-bold text-slate-500 mb-2 uppercase">Total Recibida</span>
-                        <span className="text-3xl font-black text-slate-900">240</span><span className="text-[10px] text-slate-400 mt-1">unidades</span>
+                        <span className="text-2xl sm:text-3xl font-black text-slate-900">240</span><span className="text-[10px] text-slate-400 mt-1">unidades</span>
                       </div>
                       <div className="border border-slate-200 rounded-lg p-5 text-center flex flex-col justify-center shadow-sm">
                         <span className="text-xs font-bold text-slate-500 mb-2 uppercase">Para FFQQ</span>
-                        <span className="text-3xl font-black text-primary">120</span><span className="text-[10px] text-slate-400 mt-1">unidades</span>
+                        <span className="text-2xl sm:text-3xl font-black text-primary">120</span><span className="text-[10px] text-slate-400 mt-1">unidades</span>
                       </div>
                       <div className="border border-slate-200 rounded-lg p-5 text-center flex flex-col justify-center shadow-sm">
                         <span className="text-xs font-bold text-slate-500 mb-2 uppercase">Para Micro</span>
-                        <span className="text-3xl font-black text-primary">60</span><span className="text-[10px] text-slate-400 mt-1">unidades</span>
+                        <span className="text-2xl sm:text-3xl font-black text-primary">60</span><span className="text-[10px] text-slate-400 mt-1">unidades</span>
                       </div>
                       <div className="border border-slate-200 rounded-lg p-5 text-center flex flex-col justify-center shadow-sm">
                         <span className="text-xs font-bold text-slate-500 mb-2 uppercase">Muestra Biblioteca</span>
-                        <span className="text-3xl font-black text-purple-700">60</span><span className="text-[10px] text-slate-400 mt-1">unidades</span>
+                        <span className="text-2xl sm:text-3xl font-black text-purple-700">60</span><span className="text-[10px] text-slate-400 mt-1">unidades</span>
                       </div>
                     </div>
                   </div>
@@ -343,7 +343,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
               {activeTab === "rac" && (
                 <div className="space-y-8 animate-in fade-in duration-300">
                   {/* Action Bar */}
-                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 justify-between bg-slate-50 border border-slate-200 rounded-lg p-3">
                     <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><FileCheck className="w-4 h-4 text-primary" /> Expediente RAC — Control de Recepción</h3>
                     <div className="flex gap-2">
                       <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><Printer className="w-3.5 h-3.5" /> RG-13 (Etiquetas)</button>
@@ -359,7 +359,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                       {/* BLOQUE 1: Registro Maestro (RG-41) */}
                       <div>
                         <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">1. Registro Maestro (RG-41)</h3>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">N° Recepción</p><p className="text-sm font-bold text-slate-900">REC-2024-00147</p></div>
                           <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Prioridad</p><p className="text-sm font-bold text-orange-600">URGENTE</p></div>
                           <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Fecha de Recepción</p><p className="text-sm font-bold text-slate-900">07/01/2024 08:14</p></div>
@@ -370,7 +370,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                       {/* BLOQUE 2: Referencias Documentales */}
                       <div>
                         <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">2. Referencias Institucionales</h3>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Oficio de Remisión</p><p className="text-sm font-bold text-primary hover:underline cursor-pointer">OF-SESAL-2024-089</p></div>
                           <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">N° Licitación / Compra</p><p className="text-sm font-bold text-slate-900">LPN-SESAL-001-2023</p></div>
                           <div className="bg-slate-50 border border-slate-100 rounded-md p-3 col-span-2"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Proforma de Pago</p><p className="text-sm font-bold text-slate-900 flex items-center gap-2">PROF-2024-0015 <span className="bg-green-100 text-success text-[9px] px-1.5 py-0.5 rounded">PAGADA</span></p></div>
@@ -381,7 +381,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                       <div>
                         <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">3. Condiciones Físicas de la Muestra</h3>
                         <div className="bg-slate-50 border border-slate-100 rounded-md p-4">
-                          <div className="grid grid-cols-2 gap-4 mb-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                             <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Temp. de Recepción</p><p className="text-sm font-bold text-slate-900">22.5 °C</p></div>
                             <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Humedad Relativa</p><p className="text-sm font-bold text-slate-900">45%</p></div>
                           </div>
@@ -399,7 +399,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                       <div>
                         <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">4. Toma de Muestra</h3>
                         <div className="bg-slate-50 border border-slate-100 rounded-md p-4">
-                          <div className="grid grid-cols-2 gap-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Entidad Muestreadora</p><p className="text-sm font-bold text-slate-900">ARSA - Inspectoría</p></div>
                             <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Acta de Toma</p><p className="text-sm font-bold text-primary hover:underline cursor-pointer">ACTA-089-24</p></div>
                             <div className="col-span-2"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Sitio de Muestreo</p><p className="text-sm font-bold text-slate-900">Almacén Central de Medicamentos</p></div>
@@ -506,7 +506,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
               {activeTab === "documentacion" && (
                 <div className="space-y-8 animate-in fade-in duration-300">
                   {/* Action Bar DOCT */}
-                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 justify-between bg-slate-50 border border-slate-200 rounded-lg p-3">
                     <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><Briefcase className="w-4 h-4 text-primary" /> Expediente DOCT — Gestión Documental Central</h3>
                     <div className="flex gap-2">
                       <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><FileDigit className="w-3.5 h-3.5" /> Generar RT-41</button>
@@ -551,7 +551,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                           <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider">2. Contraste Histórico (RT-41)</h3>
                           <span className="bg-blue-100 text-blue-700 text-[10px] font-bold px-2 py-0.5 rounded border border-blue-200">Ejecutado</span>
                         </div>
-                        <div className="grid grid-cols-2 gap-3 mb-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                           <div className="bg-slate-50 border border-slate-100 rounded-md p-3 text-center"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Registros Previos</p><p className="text-xl font-black text-slate-900">3</p></div>
                           <div className="bg-slate-50 border border-slate-100 rounded-md p-3 text-center"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Alertas Históricas</p><p className="text-xl font-black text-success">0</p></div>
                         </div>
@@ -585,7 +585,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                             </div>
                           </div>
                           <div className="w-full sm:w-32 bg-orange-50/50 border-l border-orange-100 p-4 flex flex-col justify-center items-center text-center">
-                            <p className="text-3xl font-black text-orange-600 mb-1">7</p>
+                            <p className="text-2xl sm:text-3xl font-black text-orange-600 mb-1">7</p>
                             <p className="text-[9px] text-slate-500 uppercase font-bold tracking-wider mb-2">días <br/>transcurridos</p>
                             <div className="w-full bg-orange-100 rounded-full h-1.5 overflow-hidden"><div className="bg-orange-500 h-1.5 rounded-full w-[12%]"></div></div>
                             <p className="text-[8px] text-slate-400 mt-1">Límite: 60 días</p>
@@ -596,7 +596,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                       {/* BLOQUE 4: Trazabilidad Física del Expediente */}
                       <div>
                         <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">4. Ubicación Física del Expediente</h3>
-                        <div className="bg-slate-50 border border-slate-100 rounded-md p-3 grid grid-cols-3 gap-3">
+                        <div className="bg-slate-50 border border-slate-100 rounded-md p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                            <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Custodio</p><p className="text-xs font-bold text-slate-900">Ana Flores (DOCT)</p></div>
                            <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Estante / Fila</p><p className="text-xs font-bold text-slate-900">E-04 / F-02</p></div>
                            <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Total Fojas</p><p className="text-xs font-bold text-slate-900">24 páginas</p></div>
@@ -642,7 +642,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                         <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">6. Custodia de Biblioteca</h3>
                         <div className="bg-purple-50 border border-purple-100 rounded-md p-4 shadow-sm relative overflow-hidden">
                            <ShieldCheck className="w-24 h-24 text-purple-100 absolute -right-4 -bottom-4 z-0" />
-                           <div className="relative z-10 grid grid-cols-2 gap-4">
+                           <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div><p className="text-[10px] text-purple-600 font-bold uppercase mb-1">Muestras Resguardadas</p><p className="text-lg font-black text-purple-900">60 unds.</p></div>
                               <div><p className="text-[10px] text-purple-600 font-bold uppercase mb-1">Ubicación Biblioteca</p><p className="text-sm font-bold text-purple-900">B-12-Estante 4</p></div>
                               <div className="col-span-2"><p className="text-[10px] text-purple-600 font-bold uppercase mb-1">Fecha de Descarte Programada</p><p className="text-sm font-bold text-purple-900">Diciembre 2027 (+1 año post exp.)</p></div>
@@ -698,7 +698,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
               {/* TAB: FORMATOS (NUEVO) */}
               {activeTab === "formatos" && (
                 <div className="space-y-6 animate-in fade-in duration-300">
-                  <div className="flex justify-between items-center mb-4">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 justify-between mb-4">
                     <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2">
                        <Files className="w-4 h-4 text-primary" /> Centro Documental de Formatos Generados
                     </h3>
@@ -761,7 +761,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
               {activeTab === "estandar" && (
                 <div className="space-y-8 animate-in fade-in duration-300">
                   {/* Action Bar STR */}
-                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 justify-between bg-slate-50 border border-slate-200 rounded-lg p-3">
                     <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><Beaker className="w-4 h-4 text-primary" /> Sección de Estándares de Referencia (STR)</h3>
                     <div className="flex gap-2">
                       <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><History className="w-3.5 h-3.5" /> Bitácora de Pesadas</button>
@@ -785,7 +785,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                               </div>
                               <span className="bg-green-100 text-success text-[10px] font-bold px-2 py-0.5 rounded border border-green-200">Aprobado para Uso</span>
                            </div>
-                           <div className="grid grid-cols-2 gap-4">
+                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Lote del Estándar</p><p className="text-xs font-bold text-slate-900">USP-J0L496</p></div>
                               <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Pureza Declarada</p><p className="text-xs font-bold text-slate-900 flex items-center gap-1">99.8% <CheckCircle2 className="w-3 h-3 text-success"/></p></div>
                               <div><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Cantidad Inicial</p><p className="text-xs font-bold text-slate-900">500 mg</p></div>
@@ -797,7 +797,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                       {/* BLOQUE 2: Trazabilidad de Origen */}
                       <div>
                         <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">2. Trazabilidad de Origen</h3>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Entidad de Referencia</p><p className="text-sm font-bold text-slate-900">USP (United States Pharmacopeia)</p></div>
                           <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Certificado de Análisis</p><p className="text-sm font-bold text-primary hover:underline cursor-pointer flex items-center gap-1"><FileDigit className="w-3.5 h-3.5"/> CoA-J0L496.pdf</p></div>
                         </div>
@@ -827,7 +827,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                       {/* BLOQUE 4: Condiciones de Almacenamiento */}
                       <div>
                         <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">4. Condiciones Exigidas de Almacenamiento</h3>
-                        <div className="grid grid-cols-3 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                            <div className="bg-blue-50 border border-blue-100 rounded-md p-3 text-center">
                               <AlertCircle className="w-4 h-4 text-blue-500 mx-auto mb-1" />
                               <p className="text-[10px] text-blue-700 font-bold uppercase mb-0.5">Temperatura</p>
@@ -933,7 +933,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
               {activeTab === "ffqq" && (
                 <div className="space-y-8 animate-in fade-in duration-300">
                   {/* Action Bar FFQQ */}
-                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 justify-between bg-slate-50 border border-slate-200 rounded-lg p-3">
                     <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><FlaskConical className="w-4 h-4 text-primary" /> Paquete Analítico Físico-Químico (RT-38)</h3>
                     <div className="flex gap-2">
                       <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><AlertCircle className="w-3.5 h-3.5" /> Reportar Desviación OOS</button>
@@ -1048,7 +1048,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                         </table>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                          {/* BLOQUE 4: Captura de Datos Crudos (Input Simulado) */}
                          <div>
                            <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">4. Captura de Datos (Valoración)</h3>
@@ -1072,14 +1072,14 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                            <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">5. Resultados Computados</h3>
                            <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 shadow-sm h-full flex flex-col justify-center items-center text-center">
                               <p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Resultado Preliminar de Valoración</p>
-                              <p className="text-3xl font-black text-slate-300 mb-2">--.- %</p>
+                              <p className="text-2xl sm:text-3xl font-black text-slate-300 mb-2">--.- %</p>
                               <div className="w-full bg-slate-200 h-[1px] my-2"></div>
                               <p className="text-[10px] text-slate-500">Ingrese los datos crudos del cromatograma para obtener el cálculo final validado.</p>
                            </div>
                          </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                          {/* BLOQUE 7: Panel de Desviaciones (OOS / OOT) */}
                          <div>
                            <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">7. Panel de Desviaciones</h3>
@@ -1113,7 +1113,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
               {activeTab === "micro" && (
                 <div className="space-y-8 animate-in fade-in duration-300">
                   {/* Action Bar Micro */}
-                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 justify-between bg-slate-50 border border-slate-200 rounded-lg p-3">
                     <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><Microscope className="w-4 h-4 text-primary" /> Ejecución Analítica Microbiológica</h3>
                     <div className="flex gap-2">
                       <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><Bug className="w-3.5 h-3.5" /> Reportar Crecimiento Atípico</button>
@@ -1227,7 +1227,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                       {/* BLOQUE 4: Control de Incubación (Tiempos Críticos) */}
                       <div>
                         <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">4. Control Activo de Incubación</h3>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                            {/* Incubadora 1 */}
                            <div className="border border-purple-200 rounded-lg p-4 bg-purple-50/30 shadow-sm relative overflow-hidden">
                               <div className="absolute top-0 left-0 w-1 h-full bg-purple-500"></div>
@@ -1274,7 +1274,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                          {/* BLOQUE 5: Registro de Lectura (Datos Crudos) */}
                          <div>
                            <div className="flex justify-between items-center mb-3">
@@ -1328,7 +1328,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
               {activeTab === "stcc" && (
                 <div className="space-y-8 animate-in fade-in duration-300">
                   {/* Action Bar STCC */}
-                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 justify-between bg-slate-50 border border-slate-200 rounded-lg p-3">
                     <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-primary" /> Jefatura STCC — Revisión de Paquetes Analíticos</h3>
                     <div className="flex gap-2">
                       <button className="bg-white border border-red-300 text-red-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-red-50 shadow-sm flex items-center gap-1.5"><AlertCircle className="w-3.5 h-3.5" /> Devolver a Analista (Reanálisis)</button>
@@ -1345,7 +1345,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                       {/* BLOQUE 1: Recepción de Paquetes Analíticos */}
                       <div>
                         <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">1. Estado de Paquetes Recibidos</h3>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                            {/* Paquete FFQQ */}
                            <div className="bg-slate-50 border border-slate-200 rounded-md p-3 relative overflow-hidden">
                               <div className="flex justify-between items-start mb-2">
@@ -1470,7 +1470,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                          {/* BLOQUE 4: Gestión de Desviaciones (Fase II) */}
                          <div>
                            <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">4. Evaluaciones OOS/OOT</h3>
@@ -1519,7 +1519,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
               {activeTab === "dt" && (
                 <div className="space-y-8 animate-in fade-in duration-300">
                   {/* Action Bar DT */}
-                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 justify-between bg-slate-50 border border-slate-200 rounded-lg p-3">
                     <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><Briefcase className="w-4 h-4 text-primary" /> Dirección Técnica — Decisión Técnica del Expediente</h3>
                     <div className="flex gap-2">
                       <button className="bg-white border border-red-300 text-red-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-red-50 shadow-sm flex items-center gap-1.5"><AlertCircle className="w-3.5 h-3.5" /> Rechazar Lote</button>
@@ -1536,7 +1536,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                       {/* BLOQUE 1: Expediente Consolidado */}
                       <div>
                         <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">1. Estado del Expediente Consolidado</h3>
-                        <div className="bg-slate-50 border border-slate-200 rounded-md p-3 grid grid-cols-2 gap-3 shadow-sm">
+                        <div className="bg-slate-50 border border-slate-200 rounded-md p-3 grid grid-cols-1 sm:grid-cols-2 gap-3 shadow-sm">
                            <div className="flex justify-between items-center bg-white border border-slate-100 p-2 rounded">
                               <span className="text-[10px] font-bold text-slate-700 flex items-center gap-1"><Files className="w-3.5 h-3.5 text-slate-400"/> Legal (DOCT)</span>
                               <span className="bg-slate-200 text-slate-600 text-[9px] font-bold px-1.5 py-0.5 rounded">Pendiente</span>
@@ -1619,7 +1619,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                               <p className="text-[10px] font-bold text-slate-500 text-center px-4">Requiere aprobación previa de Jefatura STCC para emitir dictamen.</p>
                            </div>
                            <p className="text-xs font-bold text-slate-700 mb-3 opacity-30">Seleccione la disposición final para el producto analizado:</p>
-                           <div className="grid grid-cols-3 gap-3 opacity-30">
+                           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 opacity-30">
                               <button disabled className="border-2 border-green-200 bg-green-50 text-green-700 font-bold py-3 rounded text-[10px] flex flex-col items-center gap-1"><CheckCircle2 className="w-5 h-5"/> APROBADO</button>
                               <button disabled className="border-2 border-red-200 bg-red-50 text-red-700 font-bold py-3 rounded text-[10px] flex flex-col items-center gap-1"><Ban className="w-5 h-5"/> RECHAZADO</button>
                               <button disabled className="border-2 border-slate-300 bg-white text-slate-700 font-bold py-3 rounded text-[10px] flex flex-col items-center gap-1"><ShieldAlert className="w-5 h-5"/> DECOMISO</button>
@@ -1627,7 +1627,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                          {/* BLOQUE 3: Emisión del Certificado Oficial (RT-20 Firmado) */}
                          <div>
                            <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">3. Certificado RT-20 Oficial</h3>
@@ -1676,7 +1676,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
               {activeTab === "dg" && (
                 <div className="space-y-8 animate-in fade-in duration-300">
                   {/* Action Bar DG */}
-                  <div className="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-lg p-3">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 justify-between bg-slate-50 border border-slate-200 rounded-lg p-3">
                     <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2"><Building2 className="w-4 h-4 text-primary" /> Dirección General — Aprobación Final y Cierre Comercial</h3>
                     <div className="flex gap-2">
                       <button className="bg-white border border-slate-300 text-slate-700 px-3 py-1.5 rounded-md text-xs font-bold hover:bg-slate-100 shadow-sm flex items-center gap-1.5"><PauseCircle className="w-3.5 h-3.5" /> Pausar Trámite Administrativo</button>
@@ -1693,11 +1693,11 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                       {/* BLOQUE 1: Resumen Ejecutivo del Expediente */}
                       <div>
                         <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">1. Executive Summary (Expediente)</h3>
-                        <div className="bg-slate-50 border border-slate-200 rounded-md p-4 grid grid-cols-2 gap-4 shadow-sm">
+                        <div className="bg-slate-50 border border-slate-200 rounded-md p-4 grid grid-cols-1 sm:grid-cols-2 gap-4 shadow-sm">
                            <div>
                               <p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Turnaround Time (TAT)</p>
                               <div className="flex items-end gap-2">
-                                 <p className="text-3xl font-black text-slate-800">14<span className="text-sm text-slate-500 font-bold">días</span></p>
+                                 <p className="text-2xl sm:text-3xl font-black text-slate-800">14<span className="text-sm text-slate-500 font-bold">días</span></p>
                                  <span className="bg-green-100 text-success text-[9px] font-bold px-1.5 py-0.5 rounded mb-1">En tiempo</span>
                               </div>
                            </div>
@@ -1782,7 +1782,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                          {/* BLOQUE 6: Emisión de Factura Final */}
                          <div>
                            <h3 className="font-bold text-slate-400 text-[10px] uppercase tracking-wider mb-3">6. Emisión Factura Final (CAI)</h3>
@@ -1805,7 +1805,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                          </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-6 pt-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
                          {/* BLOQUE 7: Cierre de Ciclo en ERP/CRM */}
                          <div className="border border-slate-200 bg-slate-50 rounded-lg p-3 flex flex-col justify-center">
                             <p className="text-[10px] font-bold text-slate-600 mb-2 uppercase">7. Integración Cliente</p>

@@ -57,7 +57,7 @@ export default function RevisionDocumental() {
         </div>
       )}
 
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* Left: documento list */}
         <div className="col-span-2">
           <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">

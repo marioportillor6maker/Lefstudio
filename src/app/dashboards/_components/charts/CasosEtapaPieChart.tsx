@@ -23,10 +23,10 @@ const renderLabel = (props: PieLabelRenderProps) => {
 
 export function CasosEtapaPieChart({ data }: { data: EtapaPieData[] }) {
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
+    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-3 sm:p-4 md:p-6">
       <h3 className="text-sm font-bold text-slate-800 mb-1">Distribucion de Casos por Etapa</h3>
       <p className="text-xs text-slate-500 mb-4">Estado consolidado — 142 casos activos</p>
-      <div className="h-[300px]">
+      <div className="h-[280px] sm:h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie data={data} cx="50%" cy="45%" innerRadius={65} outerRadius={100} dataKey="value" labelLine={false} label={renderLabel}>

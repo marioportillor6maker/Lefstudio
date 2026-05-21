@@ -31,7 +31,7 @@ export default function Rt38Page() {
         </h3>
 
         {/* Header fields */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
           <Field label="Recepción *">
             <input className={INPUT} defaultValue="REC-2024-00147 — AMOXICILINA 500mg" />
           </Field>

@@ -14,7 +14,7 @@ export function TabLaboratorios() {
       <PruebasLabChart data={pruebasTipoData} />
 
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
-        <div className="px-6 py-4 border-b border-slate-100">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100">
           <h3 className="text-sm font-bold text-slate-800">Carga por Analista</h3>
           <p className="text-xs text-slate-500 mt-0.5">Progreso individual FFQQ y Microbiologia</p>
         </div>

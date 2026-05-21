@@ -47,7 +47,7 @@ export function TabRoles() {
   return (
     <div className="space-y-4">
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0 px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100">
           <h3 className="text-sm font-bold text-slate-800">Roles del Sistema</h3>
           <button onClick={openNew} className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-semibold transition-colors">
             <Plus className="w-4 h-4" />Nuevo Rol
@@ -55,7 +55,7 @@ export function TabRoles() {
         </div>
         <div className="divide-y divide-slate-100">
           {roles.map(rol => (
-            <div key={rol.id} className="flex items-center gap-4 px-6 py-4 hover:bg-slate-50 transition-colors">
+            <div key={rol.id} className="flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4 hover:bg-slate-50 transition-colors">
               <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                 <Shield className="w-4 h-4 text-primary" />
               </div>
@@ -82,7 +82,7 @@ export function TabRoles() {
 
       <AdminModal open={modalOpen} onClose={() => setModalOpen(false)} title={editTarget ? 'Editar Rol' : 'Nuevo Rol'} maxWidth="max-w-2xl">
         <form onSubmit={handleSubmit} className="space-y-5">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <FormField label="Nombre del rol" required>
               <input value={form.nombre} onChange={e => setForm(p => ({...p, nombre: e.target.value}))} className={inputCls} placeholder="Ej. Analista FFQQ" />
             </FormField>

@@ -55,7 +55,7 @@ function TabRevisionFinal() {
   );
 
   return (
-    <div className="flex gap-4 items-start">
+    <div className="flex flex-col lg:flex-row gap-4 items-start">
       {/* Main card */}
       <div className="flex-1 bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-200">
@@ -63,7 +63,7 @@ function TabRevisionFinal() {
         </div>
 
         {/* Metadata grid */}
-        <div className="grid grid-cols-3 gap-x-6 gap-y-4 px-5 py-4 border-b border-slate-100 bg-slate-50/50">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-4 sm:gap-x-6 gap-y-3 sm:gap-y-4 px-5 py-4 border-b border-slate-100 bg-slate-50/50">
           {[
             { label: "Producto",         value: "AMOXICILINA 500mg Cápsulas",  highlight: false },
             { label: "Fabricante",       value: "Laboratorios Vijosa S.A.",     highlight: false },
@@ -104,7 +104,7 @@ function TabRevisionFinal() {
       </div>
 
       {/* Right panel */}
-      <div className="w-72 shrink-0 flex flex-col gap-4">
+      <div className="w-full lg:w-72 lg:shrink-0 flex flex-col gap-4">
         {/* Decisión DG */}
         <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-4">
           <h4 className="text-sm font-semibold text-slate-800 mb-3">Decisión DG</h4>
@@ -169,7 +169,7 @@ function TabAprobacionObservaciones() {
       <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-5 space-y-4">
         <h3 className="text-sm font-semibold text-slate-800">Observaciones / Correcciones al RT-39</h3>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Recepción <span className="text-danger">*</span></label>
             <input type="text" defaultValue="REC-2024-00147 — AMOXICILINA 500mg" className={INPUT} />
@@ -251,7 +251,7 @@ function TabEmisionCliente() {
         <h3 className="text-sm font-semibold text-slate-800">Emisión del Informe al Cliente</h3>
       </div>
       <div className="p-5 space-y-4">
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Recepción <span className="text-danger">*</span></label>
             <input type="text" defaultValue="REC-2024-00147 — AMOXICILINA 500mg" className={INPUT} />
@@ -266,7 +266,7 @@ function TabEmisionCliente() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Dirigido a</label>
             <input type="text" defaultValue="SESAL — Secretaría de Salud" className={INPUT} />
@@ -281,7 +281,7 @@ function TabEmisionCliente() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Correo Electrónico del Cliente</label>
             <input type="email" placeholder="correo@cliente.hn" className={INPUT} />
@@ -331,7 +331,7 @@ function TabCierreArchivo() {
           <h3 className="text-sm font-semibold text-slate-800">Cierre y Archivo del Expediente</h3>
         </div>
         <div className="p-5 space-y-4">
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-[11px] font-medium text-slate-600 mb-1">Recepción <span className="text-danger">*</span></label>
               <input type="text" defaultValue="REC-2024-00145 — LOSARTÁN 50mg (Emitido)" className={INPUT} />
@@ -346,7 +346,7 @@ function TabCierreArchivo() {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-[11px] font-medium text-slate-600 mb-1">Ubicación Física del Expediente</label>
               <input type="text" placeholder="Ej. Archivo Central, Estante 8, Gaveta 3" className={INPUT} />
@@ -363,7 +363,7 @@ function TabCierreArchivo() {
 
           <div>
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Verificación de Cierre</p>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {VERIFICACION_CIERRE.map((label, i) => (
                 <label key={i} className="flex items-center gap-2 cursor-pointer">
                   <input
@@ -539,7 +539,7 @@ function DGPageContent() {
 
   return (
     <div className="space-y-5 pb-12">
-      <div className="flex gap-1 border-b border-slate-200">
+      <div className="flex gap-1 border-b border-slate-200 overflow-x-auto">
         {TABS.map((t) => (
           <button
             key={t.key}

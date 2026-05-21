@@ -35,7 +35,7 @@ export function QuickPanel({ record, onClose }: Props) {
                                'A Tiempo';
 
   return (
-    <div className="w-80 shrink-0 bg-white border-l border-slate-200 flex flex-col h-full shadow-xl">
+    <div className="fixed inset-0 sm:relative sm:inset-auto w-full sm:w-80 sm:shrink-0 bg-white sm:border-l border-slate-200 flex flex-col h-full shadow-xl z-30 sm:z-auto">
 
       {/* Header */}
       <div className="flex items-start justify-between px-4 py-3.5 border-b border-slate-100 bg-slate-50 shrink-0">

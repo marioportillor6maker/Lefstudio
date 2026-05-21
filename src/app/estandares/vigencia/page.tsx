@@ -23,7 +23,7 @@ export default function ControlVigencia() {
   return (
     <div className="space-y-5 pb-12">
       {/* Alert cards row */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Vencen 30 días */}
         <div className="bg-amber-50 border border-amber-200 rounded-md p-4">
           <p className="text-xs font-bold text-amber-800 mb-3">Vencen en 30 días</p>
@@ -72,7 +72,7 @@ export default function ControlVigencia() {
 
       {/* Movimientos table */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-100">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100">
           <p className="font-semibold text-slate-800 text-sm">Movimientos de Estándares</p>
         </div>
         <div className="overflow-x-auto">

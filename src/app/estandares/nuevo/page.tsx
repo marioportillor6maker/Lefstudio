@@ -76,14 +76,14 @@ export default function RegistroRG44() {
       {/* Main form card */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
         {/* Card title */}
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100 flex items-center gap-2">
           <Star className="w-4 h-4 text-[var(--color-primary)] fill-[var(--color-primary)]" />
           <span className="font-semibold text-slate-800 text-sm">Registro de Estándar de Referencia — RG-44</span>
         </div>
 
-        <div className="px-6 py-5 space-y-5">
+        <div className="px-4 sm:px-6 py-4 sm:py-5 space-y-4 sm:space-y-5">
           {/* Row 1: Nombre (2 cols) + Tipo */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div className="col-span-2">
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Nombre del Estándar <span className="text-red-500">*</span>
@@ -114,7 +114,7 @@ export default function RegistroRG44() {
           </div>
 
           {/* Row 2: Lote + Certificado + Proveedor */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Número de Lote <span className="text-red-500">*</span>
@@ -152,7 +152,7 @@ export default function RegistroRG44() {
           </div>
 
           {/* Row 3: Cantidad + Unidad + Pureza */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Cantidad Recibida <span className="text-red-500">*</span>
@@ -188,7 +188,7 @@ export default function RegistroRG44() {
           </div>
 
           {/* Row 4: Fecha Recepción + Vencimiento + Apertura */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Fecha de Recepción <span className="text-red-500">*</span>
@@ -226,7 +226,7 @@ export default function RegistroRG44() {
           </div>
 
           {/* Row 5: Condición + Ubicación + Responsable */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">Condición de Almacenamiento</label>
               <select
@@ -297,7 +297,7 @@ export default function RegistroRG44() {
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">
               Recepción Asociada (RT-30)
             </p>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1.5">RT-30 de Origen</label>
                 <input
@@ -323,7 +323,7 @@ export default function RegistroRG44() {
         </div>
 
         {/* Action buttons */}
-        <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/40 flex items-center gap-3">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-100 bg-slate-50/40 flex items-center gap-3">
           <button
             onClick={handleRegistrar}
             className="flex items-center gap-2 px-5 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded text-sm font-bold shadow-sm transition-colors"

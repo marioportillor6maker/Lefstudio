@@ -37,17 +37,17 @@ function RT84() {
         <p className="text-xs text-slate-400 mt-0.5">REC-2024-00147 · AMOXICILINA 500mg · Analista: Q.F. Karla Suazo</p>
       </div>
       <div className="border border-slate-200 rounded-lg p-4 space-y-3">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div><Label>Columna HPLC</Label><Field value="C18, 250mm x 4.6mm, 5μm" /></div>
           <div><Label>Fase Móvil</Label><Field value="Buffer pH 4.5 / Acetonitrilo 95:5" /></div>
           <div><Label>Flujo (mL/min)</Label><Field value="1.0" /></div>
         </div>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div><Label>Longitud de Onda (nm)</Label><Field value="254" /></div>
           <div><Label>Temperatura Columna (°C)</Label><Field value="30" /></div>
           <div><Label>Volumen Inyección (μL)</Label><Field value="20" /></div>
         </div>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div><Label>Tiempo de Corrida (min)</Label><Field value="15" /></div>
           <div><Label>Tiempo de Retención Estándar (min)</Label><Field value="6.42" /></div>
           <div><Label>Factor de Respuesta Estándar</Label><Field value="1.0023" /></div>
@@ -66,13 +66,13 @@ function RT84() {
           {corridas.map(n => (
             <div key={n} className="border border-slate-200 rounded-lg p-4 space-y-3">
               <p className="text-xs font-semibold text-slate-600">Corrida #{n}</p>
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div><Label>Área Estándar</Label><Input placeholder="0" /></div>
                 <div><Label>Área Muestra</Label><Input placeholder="0" /></div>
                 <div><Label>Peso Muestra (mg)</Label><Input placeholder="0.0000" /></div>
                 <div><Label>Tiempo Retención (min)</Label><Input placeholder="0.00" /></div>
               </div>
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div><Label>Concentración Calculada (%)</Label><div className="border border-slate-200 rounded px-2.5 py-1.5 text-sm bg-slate-50 text-slate-400">0.00</div></div>
                 <div><Label>Factor de Dilución</Label><Input defaultValue="1" /></div>
                 <div><Label>Cumple (90-110%)</Label><Input defaultValue="Sí — Conforme" /></div>
@@ -84,7 +84,7 @@ function RT84() {
       </div>
 
       <div className="border border-slate-200 rounded-lg p-4">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div><Label>Promedio de Valoración (%)</Label><div className="border border-slate-200 rounded px-2.5 py-1.5 text-sm bg-slate-50 text-slate-400">Calculado automáticamente</div></div>
           <div><Label>RSD (%)</Label><div className="border border-slate-200 rounded px-2.5 py-1.5 text-sm bg-slate-50 text-slate-400">0.000</div></div>
           <div><Label>Resultado Final</Label><div className="border border-slate-200 rounded px-2.5 py-1.5 text-sm bg-white text-slate-700">Conforme (90.0-110.0%)</div></div>
@@ -111,12 +111,12 @@ function RT85() {
         <p className="text-xs text-slate-400 mt-0.5">REC-2024-00147 · AMOXICILINA 500mg</p>
       </div>
       <div className="border border-slate-200 rounded-lg p-4 space-y-3">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div><Label>Aparato</Label><Field value="Aparato II (Paletas)" /></div>
           <div><Label>Velocidad (rpm)</Label><Field value="50" /></div>
           <div><Label>Medio de Disolución</Label><Field value="Buffer pH 6.8, 900 mL" /></div>
         </div>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div><Label>Temperatura (°C)</Label><Field value="37.0" /></div>
           <div><Label>Tiempo de Muestreo (min)</Label><Field value="45" /></div>
           <div><Label>Especificación (Q)</Label><Field value="NLT 80% en 45 min" /></div>
@@ -150,7 +150,7 @@ function RT85() {
       </div>
 
       <div className="border border-slate-200 rounded-lg p-4">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div><Label>Promedio % Disuelto</Label><div className="border border-slate-200 rounded px-2.5 py-1.5 text-sm bg-slate-50 text-slate-400">Calculado</div></div>
           <div><Label>RSD (%)</Label><div className="border border-slate-200 rounded px-2.5 py-1.5 text-sm bg-slate-50 text-slate-400">0.000</div></div>
           <div><Label>Resultado Final</Label><Field value="Conforme (NLT 80%)" /></div>
@@ -182,12 +182,12 @@ function RT86() {
         <h3 className="text-sm font-semibold text-slate-800">Auxiliar Espectrofotometría IR (RT-86)</h3>
       </div>
       <div className="border border-slate-200 rounded-lg p-4 space-y-3">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div><Label>Equipo IR</Label><Field value="Perkin Elmer Spectrum Two" /></div>
           <div><Label>Técnica de Preparación</Label><Field value="Pastilla KBr" /></div>
           <div><Label>Rango de Barrido (cm⁻¹)</Label><Field value="4000-400" /></div>
         </div>
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div><Label>Número de Barridos</Label><Field value="32" /></div>
           <div><Label>Resolución (cm⁻¹)</Label><Field value="4" /></div>
           <div><Label>Fecha de Análisis</Label><Input type="date" placeholder="dd/mm/aaaa" /></div>
@@ -214,7 +214,7 @@ function RT86() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div><Label>Concordancia con Estándar</Label><Input defaultValue="Conforme — Espectros concordantes" /></div>
         <div><Label>% Concordancia (si aplica)</Label><Input placeholder="0.0" /></div>
       </div>
@@ -237,7 +237,7 @@ function RT87() {
         <h3 className="text-sm font-semibold text-slate-800">Auxiliar Uniformidad de Contenido (RT-87)</h3>
       </div>
       <div className="border border-slate-200 rounded-lg p-4">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div><Label>Método</Label><Field value="Uniformidad de Contenido (USP)" /></div>
           <div><Label>Número de Unidades</Label><Field value="10" /></div>
           <div><Label>Especificación</Label><Field value="85.0-115.0% (AV ≤ 15)" /></div>
@@ -269,7 +269,7 @@ function RT87() {
       </div>
 
       <div className="border border-slate-200 rounded-lg p-4">
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div><Label>Promedio (%)</Label><div className="border border-slate-200 rounded px-2.5 py-1.5 text-sm bg-slate-50 text-slate-400">Calculado</div></div>
           <div><Label>Desv. Estándar</Label><div className="border border-slate-200 rounded px-2.5 py-1.5 text-sm bg-slate-50 text-slate-400">0.000</div></div>
           <div><Label>AV (Acceptance Value)</Label><div className="border border-slate-200 rounded px-2.5 py-1.5 text-sm bg-slate-50 text-slate-400">0.0</div></div>
@@ -289,15 +289,15 @@ function RT71() {
         <h3 className="text-sm font-semibold text-slate-800">Auxiliar Descripción Visual (RT-71)</h3>
       </div>
       <div className="border border-slate-200 rounded-lg p-4 space-y-3">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div><Label>Forma</Label><Input defaultValue="Cápsulas" /></div>
           <div><Label>Color</Label><Input placeholder="Ej. Blanco opaco" /></div>
         </div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div><Label>Tamaño (mm)</Label><Input placeholder="Ej. 22 x 7" /></div>
           <div><Label>Olor</Label><Input defaultValue="Característico" /></div>
         </div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div><Label>Superficie</Label><Input defaultValue="Lisa" /></div>
           <div><Label>Marcado / Impresión</Label><Input placeholder="Ej. AMX 500" /></div>
         </div>
@@ -306,7 +306,7 @@ function RT71() {
           <textarea rows={3} placeholder="Descripción detallada de los caracteres organolépticos..."
             className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm text-slate-700 focus:outline-none focus:border-[var(--color-primary)] resize-none" />
         </div>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div><Label>Defectos Observados</Label><Input defaultValue="Sin defectos" /></div>
           <div><Label>Resultado</Label><Input defaultValue="Conforme" /></div>
         </div>
@@ -325,7 +325,7 @@ function RT55() {
         <h3 className="text-sm font-semibold text-slate-800">Auxiliar Desintegración (RT-55)</h3>
       </div>
       <div className="border border-slate-200 rounded-lg p-4">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div><Label>Medio</Label><Field value="Agua" /></div>
           <div><Label>Temperatura (°C)</Label><Field value="37.0" /></div>
           <div><Label>Especificación (min)</Label><Field value="NMT 30 min" /></div>
@@ -354,7 +354,7 @@ function RT55() {
       </div>
 
       <div className="border border-slate-200 rounded-lg p-4">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div><Label>Tiempo Máximo (min)</Label><div className="border border-slate-200 rounded px-2.5 py-1.5 text-sm bg-slate-50 text-slate-400">Calculado</div></div>
           <div><Label>Tiempo Promedio (min)</Label><div className="border border-slate-200 rounded px-2.5 py-1.5 text-sm bg-slate-50 text-slate-400">Calculado</div></div>
           <div><Label>Resultado</Label><Field value="Conforme (NMT 30 min)" /></div>
@@ -390,10 +390,10 @@ export default function FfqqReactivosPage() {
   const [selected, setSelected] = useState<TecnicaKey>('RT-84')
 
   return (
-    <div className="p-6">
-      <div className="flex gap-5 items-start">
+    <div className="p-3 sm:p-4 md:p-6">
+      <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 items-start">
         {/* Left panel */}
-        <div className="w-56 flex-shrink-0 bg-white border border-slate-200 rounded-lg overflow-hidden">
+        <div className="w-full sm:w-56 sm:flex-shrink-0 bg-white border border-slate-200 rounded-lg overflow-hidden">
           <div className="px-4 py-3 border-b border-slate-200">
             <p className="text-[10px] uppercase tracking-wide text-slate-400 font-semibold">Técnicas / Auxiliares</p>
           </div>

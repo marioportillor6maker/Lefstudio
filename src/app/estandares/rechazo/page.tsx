@@ -33,12 +33,12 @@ export default function RechazoRG58() {
 
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
         {/* Title */}
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100 flex items-center gap-2">
           <XCircle className="w-4 h-4 text-red-500" />
           <span className="font-semibold text-slate-800 text-sm">Rechazo / Devolución de Estándar — RG-58</span>
         </div>
 
-        <div className="px-6 py-5 space-y-5">
+        <div className="px-4 sm:px-6 py-4 sm:py-5 space-y-4 sm:space-y-5">
           {/* Warning banner */}
           <div className="flex items-center gap-3 bg-orange-50 border border-orange-200 rounded px-4 py-3">
             <AlertTriangle className="w-4 h-4 text-orange-500 shrink-0" />
@@ -48,7 +48,7 @@ export default function RechazoRG58() {
           </div>
 
           {/* Row 1: Estándar + Recepción */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Estándar a Rechazar <span className="text-red-500">*</span>
@@ -77,7 +77,7 @@ export default function RechazoRG58() {
           </div>
 
           {/* Row 2: Fecha + Responsable */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Fecha de Rechazo <span className="text-red-500">*</span>
@@ -130,7 +130,7 @@ export default function RechazoRG58() {
           </div>
 
           {/* Row 5: Acción + Fecha devolución */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">Acción a Tomar</label>
               <select
@@ -157,7 +157,7 @@ export default function RechazoRG58() {
         </div>
 
         {/* Buttons */}
-        <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/40 flex items-center gap-3">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-100 bg-slate-50/40 flex items-center gap-3">
           <button
             onClick={handleRegistrar}
             className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded text-sm font-bold shadow-sm transition-colors"

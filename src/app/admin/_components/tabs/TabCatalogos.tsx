@@ -67,7 +67,7 @@ export function TabCatalogos() {
 
       {/* Right: items list */}
       <div className="md:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0 px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100">
           <h3 className="text-sm font-bold text-slate-800">{CATALOG_LABELS[active]}</h3>
           <button onClick={openNew} className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-semibold transition-colors">
             <Plus className="w-4 h-4" />Agregar
@@ -75,7 +75,7 @@ export function TabCatalogos() {
         </div>
         <div className="divide-y divide-slate-100">
           {items.map((item, idx) => (
-            <div key={item.id} className="flex items-center gap-4 px-6 py-3 hover:bg-slate-50 transition-colors">
+            <div key={item.id} className="flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-3 hover:bg-slate-50 transition-colors">
               <span className="text-sm text-slate-400 w-5 shrink-0">{idx + 1}</span>
               <span className="flex-1 text-sm font-medium text-slate-700">{item.nombre}</span>
               {item.codigo && <span className="text-xs text-slate-400 font-mono">{item.codigo}</span>}

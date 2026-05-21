@@ -41,7 +41,7 @@ export function TabTecnicas() {
   return (
     <div className="space-y-4">
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0 px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100">
           <h3 className="text-sm font-bold text-slate-800">Tecnicas Analiticas</h3>
           <button onClick={openNew} className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-semibold transition-colors">
             <Plus className="w-4 h-4" />Nueva Tecnica
@@ -79,7 +79,7 @@ export function TabTecnicas() {
 
       <AdminModal open={modalOpen} onClose={() => setModalOpen(false)} title={editTarget ? 'Editar Tecnica' : 'Nueva Tecnica'}>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <FormField label="Codigo" required>
               <input value={form.codigo} onChange={e => setForm(p => ({...p, codigo: e.target.value}))} className={inputCls} placeholder="HPLC" />
             </FormField>
@@ -90,7 +90,7 @@ export function TabTecnicas() {
           <FormField label="Nombre de la tecnica" required>
             <input value={form.nombre} onChange={e => setForm(p => ({...p, nombre: e.target.value}))} className={inputCls} placeholder="Nombre completo" />
           </FormField>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <FormField label="Area">
               <select value={form.area} onChange={e => setForm(p => ({...p, area: e.target.value}))} className={selectCls}>
                 <option value="">Seleccionar...</option>

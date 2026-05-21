@@ -34,14 +34,14 @@ export default function Devoluciones() {
 
       {/* Form card */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100 flex items-center gap-2">
           <RotateCcw className="w-4 h-4 text-orange-500" />
           <span className="font-semibold text-slate-800 text-sm">Registrar Devolución a DOCT</span>
         </div>
 
-        <div className="px-6 py-5 space-y-4">
+        <div className="px-4 sm:px-6 py-4 sm:py-5 space-y-4">
           {/* Row 1: Recepción + Fecha */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Recepción <span className="text-red-500">*</span>
@@ -59,7 +59,7 @@ export default function Devoluciones() {
           </div>
 
           {/* Row 2: Motivo + Responsable */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Motivo Principal <span className="text-red-500">*</span>
@@ -95,7 +95,7 @@ export default function Devoluciones() {
           </div>
         </div>
 
-        <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/40">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-100 bg-slate-50/40">
           <button onClick={handleRegistrar}
             className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded text-sm font-bold shadow-sm transition-colors">
             <RotateCcw className="w-4 h-4" /> Registrar Devolución
@@ -105,7 +105,7 @@ export default function Devoluciones() {
 
       {/* Historial */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-100">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100">
           <p className="font-semibold text-slate-800 text-sm">Historial de Devoluciones STR</p>
         </div>
         <div className="overflow-x-auto">

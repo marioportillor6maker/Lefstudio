@@ -65,7 +65,7 @@ function CapturaForm({ prueba }: { prueba: Prueba }) {
   return (
     <div className="mt-3 pt-3 border-t border-slate-100 space-y-3">
       {/* Row 1: Fecha / Hora inicio / Hora fin */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div>
           <label className="block text-[10px] uppercase tracking-wide text-slate-400 mb-1">Fecha de Ejecución</label>
           <input type="date" value={form.fecha} onChange={set('fecha')}
@@ -92,7 +92,7 @@ function CapturaForm({ prueba }: { prueba: Prueba }) {
       </div>
 
       {/* Row 3: Resultado Numérico / Unidad / Especificación */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div>
           <label className="block text-[10px] uppercase tracking-wide text-slate-400 mb-1">Resultado Numérico</label>
           <input type="number" step="0.01" value={form.resultadoNum} onChange={set('resultadoNum')}
@@ -114,7 +114,7 @@ function CapturaForm({ prueba }: { prueba: Prueba }) {
       </div>
 
       {/* Row 4: Cumple Especificación / Auxiliar Asociado */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
           <label className="block text-[10px] uppercase tracking-wide text-slate-400 mb-1">Cumple Especificación</label>
           <select value={form.cumple} onChange={set('cumple')}
@@ -149,18 +149,18 @@ export default function FfqqHojaPage() {
   const toggle = (id: number) => setExpandedRow(prev => prev === id ? null : id)
 
   return (
-    <div className="p-6 space-y-5">
+    <div className="p-3 sm:p-4 md:p-6 space-y-5">
       {/* Main card */}
       <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
 
         {/* Card header */}
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-200">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 px-4 sm:px-5 py-3 sm:py-3.5 border-b border-slate-200">
           <div>
             <h2 className="text-sm font-semibold text-slate-800">
               Expediente Analítico RT-38 — <span className="text-[var(--color-primary)]">REC-2024-00147</span>
             </h2>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <span className="flex items-center gap-1.5 text-xs font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-full px-3 py-1">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500 inline-block" />
               En Análisis
@@ -173,7 +173,7 @@ export default function FfqqHojaPage() {
         </div>
 
         {/* Info grid */}
-        <div className="grid grid-cols-4 gap-0 border-b border-slate-200">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-0 border-b border-slate-200">
           {[
             { label: 'Recepción', value: 'REC-2024-00147' },
             { label: 'Producto', value: 'AMOXICILINA 500mg Cápsulas' },
@@ -184,7 +184,7 @@ export default function FfqqHojaPage() {
             { label: 'Analista Principal', value: 'Q.F. Karla Suazo' },
             { label: 'Fecha Inicio', value: '18/01/2024' },
           ].map((item, i) => (
-            <div key={i} className={`px-4 py-3 ${i < 4 ? 'border-b border-slate-100' : ''} ${i % 4 !== 3 ? 'border-r border-slate-100' : ''}`}>
+            <div key={i} className={`px-4 py-3 border-slate-100 ${['border-b border-r','border-b border-r-0 md:border-r','border-b border-r','border-b border-r-0','border-b border-r md:border-b-0','border-b border-r-0 md:border-r md:border-b-0','border-r',''][i]}`}>
               <p className="text-[10px] uppercase tracking-wide text-slate-400 mb-0.5">{item.label}</p>
               <p className="text-sm text-slate-700 font-medium">{item.value}</p>
             </div>
@@ -192,7 +192,7 @@ export default function FfqqHojaPage() {
         </div>
 
         {/* Pruebas section */}
-        <div className="px-5 py-4">
+        <div className="px-3 sm:px-5 py-3 sm:py-4">
           <p className="text-[10px] uppercase tracking-wide text-slate-400 font-semibold mb-3">Pruebas del Expediente</p>
 
           <div className="border border-slate-200 rounded-lg overflow-hidden divide-y divide-slate-100">

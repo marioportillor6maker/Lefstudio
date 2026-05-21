@@ -48,14 +48,14 @@ export default function EntregaRT27() {
 
       {/* Form card */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100 flex items-center gap-2">
           <Send className="w-4 h-4 text-[var(--color-primary)]" />
           <span className="font-semibold text-slate-800 text-sm">Entrega de Estándar — RT-27</span>
         </div>
 
-        <div className="px-6 py-5 space-y-5">
+        <div className="px-4 sm:px-6 py-4 sm:py-5 space-y-4 sm:space-y-5">
           {/* Row 1: Estándar + Cantidad + Unidad */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Estándar a Entregar <span className="text-red-500">*</span>
@@ -102,7 +102,7 @@ export default function EntregaRT27() {
           </div>
 
           {/* Row 2: Destino + Analista + Fecha */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Destino / Área Receptora <span className="text-red-500">*</span>
@@ -142,7 +142,7 @@ export default function EntregaRT27() {
           </div>
 
           {/* Row 3: Recepción + Responsable + Temperatura */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">Recepción Asociada</label>
               <input
@@ -189,7 +189,7 @@ export default function EntregaRT27() {
         </div>
 
         {/* Buttons */}
-        <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/40 flex items-center gap-3">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-100 bg-slate-50/40 flex items-center gap-3">
           <button
             onClick={handleRegistrar}
             className="flex items-center gap-2 px-5 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded text-sm font-bold shadow-sm transition-colors"
@@ -204,7 +204,7 @@ export default function EntregaRT27() {
 
       {/* Historial */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-100">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100">
           <p className="font-semibold text-slate-800 text-sm">Historial de Entregas RT-27</p>
         </div>
         <div className="overflow-x-auto">

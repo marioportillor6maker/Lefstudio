@@ -23,34 +23,34 @@ export default function BandejaSTR() {
           <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1">
             <ShieldCheck className="w-3 h-3" /> Pendientes de Revisar
           </p>
-          <p className="text-3xl font-black text-slate-900 mt-2">2</p>
+          <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">2</p>
         </div>
         <div className="bg-orange-50 p-4 rounded-md border border-orange-200 shadow-sm">
           <p className="text-[10px] text-orange-700 font-bold uppercase tracking-wider flex items-center gap-1">
             <Activity className="w-3 h-3" /> Asignación Urgente
           </p>
-          <p className="text-3xl font-black text-orange-600 mt-2">1</p>
+          <p className="text-2xl sm:text-3xl font-black text-orange-600 mt-2">1</p>
         </div>
         <div className="bg-blue-50 p-4 rounded-md border border-blue-200 shadow-sm">
           <p className="text-[10px] text-blue-700 font-bold uppercase tracking-wider flex items-center gap-1">
             <UserPlus className="w-3 h-3" /> Analistas Disponibles
           </p>
-          <p className="text-3xl font-black text-blue-600 mt-2">8</p>
+          <p className="text-2xl sm:text-3xl font-black text-blue-600 mt-2">8</p>
         </div>
         <div className="bg-green-50 p-4 rounded-md border border-green-200 shadow-sm">
           <p className="text-[10px] text-green-700 font-bold uppercase tracking-wider flex items-center gap-1">
             <CheckCircle2 className="w-3 h-3" /> RT-40 Generados Hoy
           </p>
-          <p className="text-3xl font-black text-green-600 mt-2">6</p>
+          <p className="text-2xl sm:text-3xl font-black text-green-600 mt-2">6</p>
         </div>
       </div>
 
       {/* Table */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-5 py-3 border-b border-slate-100 bg-slate-50/60 flex items-center justify-between gap-4">
+        <div className="px-4 sm:px-5 py-3 border-b border-slate-100 bg-slate-50/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <p className="font-semibold text-slate-700 text-sm">Expedientes en STR</p>
-          <div className="flex items-center gap-2">
-            <div className="relative w-64">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="relative w-full sm:w-64">
               <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
               <input type="text" placeholder="Buscar recepción, producto..." className="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-200 rounded text-xs focus:outline-none focus:border-[var(--color-primary)]" />
             </div>

@@ -51,14 +51,14 @@ export default function AsignacionesRT40() {
 
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
         {/* Title */}
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-2">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100 flex items-center gap-2">
           <UserPlus className="w-4 h-4 text-[var(--color-primary)]" />
           <span className="font-semibold text-slate-800 text-sm">Asignación a Analistas — RT-40</span>
         </div>
 
-        <div className="px-6 py-5 space-y-5">
+        <div className="px-4 sm:px-6 py-4 sm:py-5 space-y-4 sm:space-y-5">
           {/* Row 1: Recepción + Fecha + Supervisor */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Recepción <span className="text-red-500">*</span>
@@ -159,7 +159,7 @@ export default function AsignacionesRT40() {
         </div>
 
         {/* Buttons */}
-        <div className="px-6 py-4 border-t border-slate-100 bg-slate-50/40 flex items-center gap-3">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-100 bg-slate-50/40 flex items-center gap-3">
           <button
             onClick={handleEmitir}
             className="flex items-center gap-2 px-5 py-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded text-sm font-bold shadow-sm transition-colors"

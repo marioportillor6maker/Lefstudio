@@ -60,7 +60,7 @@ function AdminInner() {
   return (
     <div className="space-y-5 pb-12">
       <div>
-        <h1 className="text-2xl font-black text-slate-900 tracking-tight">Administracion del Sistema</h1>
+        <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Administracion del Sistema</h1>
         <p className="text-slate-500 text-sm mt-0.5">Configuracion, catalogos, usuarios y parametros del sistema LEF</p>
       </div>
 
@@ -95,7 +95,7 @@ function AdminInner() {
           id={`tabpanel-${activeTab}`}
           role="tabpanel"
           aria-labelledby={`tab-${activeTab}`}
-          className="p-6"
+          className="p-3 sm:p-4 md:p-6"
         >
           <TabContent tab={activeTab} />
         </div>

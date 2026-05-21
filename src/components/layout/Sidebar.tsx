@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   Inbox, Files, FlaskConical, Microscope, ShieldCheck, ClipboardCheck,
   Settings, BarChart, FileText, Activity, ChevronDown, ChevronRight,
-  LogOut, Menu, Home, FileBox, ListTodo, TrendingUp, FileSignature, Leaf,
+  LogOut, Menu, Home, FileBox, ListTodo, TrendingUp, FileSignature, Leaf, X,
 } from "lucide-react";
 import { MENU_SECTIONS_DATA } from "@/lib/sidebar-menu";
 
@@ -28,7 +28,13 @@ const ICON_MAP: Record<string, React.ElementType> = {
   bitacora:   Activity,
 };
 
-export function Sidebar() {
+export function Sidebar({
+  mobileOpen = false,
+  onCloseMobile,
+}: {
+  mobileOpen?: boolean;
+  onCloseMobile?: () => void;
+}) {
   const [expanded, setExpanded] = useState<string | null>("ingresos");
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
@@ -41,7 +47,7 @@ export function Sidebar() {
   const activeRoot = pathname?.split("/").filter(Boolean)[0] ?? "";
 
   return (
-    <aside className={`bg-primary text-white flex flex-col h-full shadow-lg z-10 shrink-0 transition-all duration-300 ${collapsed ? "w-[70px]" : "w-[220px]"}`}>
+    <aside className={`bg-primary text-white flex flex-col h-full shadow-lg shrink-0 transition-all duration-300 fixed inset-y-0 left-0 z-50 md:relative md:inset-auto md:translate-x-0 ${mobileOpen ? "translate-x-0" : "-translate-x-full"} ${collapsed ? "w-[220px] md:w-[70px]" : "w-[220px]"}`}>
       {/* Logo */}
       <div className="p-4 flex items-center justify-between border-b border-white/5 min-h-[64px]">
         {!collapsed && (
@@ -62,9 +68,15 @@ export function Sidebar() {
         )}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className={`p-1.5 hover:bg-white/10 rounded text-slate-400 hover:text-white transition-colors ${collapsed ? "mx-auto mt-3" : ""}`}
+          className={`hidden md:block p-1.5 hover:bg-white/10 rounded text-slate-400 hover:text-white transition-colors ${collapsed ? "mx-auto mt-3" : ""}`}
         >
           <Menu className="w-4 h-4" />
+        </button>
+        <button
+          onClick={onCloseMobile}
+          className="md:hidden p-1.5 hover:bg-white/10 rounded text-slate-400 hover:text-white transition-colors"
+        >
+          <X className="w-4 h-4" />
         </button>
       </div>
 

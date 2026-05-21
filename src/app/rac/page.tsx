@@ -6,10 +6,10 @@ export default function BandejaRACPage() {
   const ingresosRAC = mockIngresosList.filter(i => i.etapa === "RAC" || i.etapa.includes("RAC"));
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-4 sm:space-y-6 pb-8 sm:pb-12">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Recepción y Atención al Cliente (RAC)</h1>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">Recepción y Atención al Cliente (RAC)</h1>
           <p className="text-slate-500 text-sm mt-1">Bandeja de captura inicial, revisión documental y gestión de proformas.</p>
         </div>
         <Link 
@@ -26,25 +26,25 @@ export default function BandejaRACPage() {
           <p className="text-[11px] text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1">
             <ListTodo className="w-3 h-3" /> Total en RAC
           </p>
-          <p className="text-3xl font-black text-slate-900 mt-2">12</p>
+          <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">12</p>
         </div>
         <div className="bg-blue-50 p-4 rounded-md border border-blue-200 shadow-sm flex flex-col">
           <p className="text-[11px] text-blue-700 font-bold uppercase tracking-wider flex items-center gap-1">
             <CheckCircle2 className="w-3 h-3" /> Pendiente Validación
           </p>
-          <p className="text-3xl font-black text-blue-600 mt-2">3</p>
+          <p className="text-2xl sm:text-3xl font-black text-blue-600 mt-2">3</p>
         </div>
         <div className="bg-orange-50 p-4 rounded-md border border-orange-200 shadow-sm flex flex-col">
           <p className="text-[11px] text-orange-700 font-bold uppercase tracking-wider flex items-center gap-1">
             <DollarSign className="w-3 h-3" /> Pendiente Pago
           </p>
-          <p className="text-3xl font-black text-orange-600 mt-2">2</p>
+          <p className="text-2xl sm:text-3xl font-black text-orange-600 mt-2">2</p>
         </div>
         <div className="bg-green-50 p-4 rounded-md border border-green-200 shadow-sm flex flex-col">
           <p className="text-[11px] text-green-700 font-bold uppercase tracking-wider flex items-center gap-1">
             <Filter className="w-3 h-3" /> Listos para Distribuir
           </p>
-          <p className="text-3xl font-black text-green-600 mt-2">4</p>
+          <p className="text-2xl sm:text-3xl font-black text-green-600 mt-2">4</p>
         </div>
       </div>
 

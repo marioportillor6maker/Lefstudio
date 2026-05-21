@@ -76,7 +76,7 @@ export function TabUsuarios() {
           { val: inactivos, label: 'Inactivos',           bg: 'bg-slate-50 border-slate-200',  text: 'text-slate-600'  },
         ].map((c, i) => (
           <div key={i} className={`rounded-xl border p-5 ${c.bg}`}>
-            <p className={`text-3xl font-black ${c.text}`}>{c.val}</p>
+            <p className={`text-2xl sm:text-3xl font-black ${c.text}`}>{c.val}</p>
             <p className="text-xs text-slate-500 mt-1">{c.label}</p>
           </div>
         ))}
@@ -84,7 +84,7 @@ export function TabUsuarios() {
 
       {/* Table card */}
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
-        <div className="flex flex-wrap items-center gap-3 px-5 py-4 border-b border-slate-100">
+        <div className="flex flex-wrap items-center gap-3 px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-100">
           <div className="relative flex-1 min-w-[200px]">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar usuario..." className="w-full pl-9 pr-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
@@ -142,7 +142,7 @@ export function TabUsuarios() {
             <input type="email" value={form.correo} onChange={e => setForm(p => ({...p, correo: e.target.value}))} className={inputCls} placeholder="usuario@cqfh.hn" />
             {errors.correo && <p className="text-xs text-red-500">{errors.correo}</p>}
           </FormField>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <FormField label="Rol" required>
               <select value={form.rol} onChange={e => setForm(p => ({...p, rol: e.target.value}))} className={selectCls}>
                 <option value="">Seleccionar...</option>

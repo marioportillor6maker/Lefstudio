@@ -111,7 +111,7 @@ export default function Dashboard() {
               <span className="text-xs font-bold text-success bg-green-50 px-2 py-0.5 rounded">+3</span>
             </div>
             <div className="flex items-end justify-between">
-              <span className="text-4xl font-black text-slate-900">24</span>
+              <span className="text-2xl sm:text-4xl font-black text-slate-900">24</span>
               <span className="text-xs text-slate-400 mb-1">31 en enero</span>
             </div>
           </div>
@@ -121,7 +121,7 @@ export default function Dashboard() {
               <span className="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded">+2</span>
             </div>
             <div className="flex items-end justify-between">
-              <span className="text-4xl font-black text-slate-900">7</span>
+              <span className="text-2xl sm:text-4xl font-black text-slate-900">7</span>
               <span className="text-xs text-danger font-medium mb-1">Acción inmediata</span>
             </div>
           </div>
@@ -131,7 +131,7 @@ export default function Dashboard() {
               <span className="text-xs font-bold text-success bg-green-50 px-2 py-0.5 rounded">-1</span>
             </div>
             <div className="flex items-end justify-between">
-              <span className="text-4xl font-black text-slate-900">5</span>
+              <span className="text-2xl sm:text-4xl font-black text-slate-900">5</span>
               <span className="text-xs text-slate-400 mb-1">Pago, estándar, info</span>
             </div>
           </div>
@@ -225,7 +225,7 @@ export default function Dashboard() {
               </PieChart>
             </ResponsiveContainer>
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none flex-col">
-              <span className="text-2xl font-black text-slate-800">31</span>
+              <span className="text-xl sm:text-2xl font-black text-slate-800">31</span>
               <span className="text-[9px] font-bold uppercase text-slate-400 tracking-wider">Total</span>
             </div>
           </div>

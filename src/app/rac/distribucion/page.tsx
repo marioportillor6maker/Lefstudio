@@ -145,16 +145,16 @@ export default function DistribucionPage() {
 
   // ─────────────────────────────────────────────────────────────────────────────
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-4 sm:space-y-6 pb-8 sm:pb-12">
 
       {/* ── Header ─────────────────────────────────────────────────────────────── */}
-      <div className="bg-white p-6 rounded-md border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-white p-4 sm:p-6 rounded-md border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link href="/rac" className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors">
             <ArrowLeft className="w-5 h-5 text-slate-600" />
           </Link>
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
               <Network className="w-6 h-6 text-primary" />
               Distribución RT-159
             </h1>
@@ -182,12 +182,12 @@ export default function DistribucionPage() {
 
       {/* ── Panel: Identificación del RT ────────────────────────────────────────── */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 bg-slate-50">
           <h2 className="font-bold text-slate-800 flex items-center gap-2 text-sm">
             <FileCheck className="w-4 h-4 text-primary" /> Identificación del RT-159
           </h2>
         </div>
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
             {/* ID del RT — generado por servidor */}
@@ -237,7 +237,7 @@ export default function DistribucionPage() {
 
       {/* ── Panel: Configurar Distribución ──────────────────────────────────────── */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 bg-slate-50">
           <h2 className="font-bold text-slate-800 flex items-center gap-2 text-sm">
             <Network className="w-4 h-4 text-primary" /> Configurar Distribución
           </h2>
@@ -246,7 +246,7 @@ export default function DistribucionPage() {
           </p>
         </div>
 
-        <div className="p-6 space-y-6">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
 
           {/* Recepción + Cantidad RAC */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -429,7 +429,7 @@ export default function DistribucionPage() {
 
       {/* ── Tabla inferior: Distribuciones del RT ───────────────────────────────── */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
           <h2 className="font-bold text-slate-800 flex items-center gap-2 text-sm">
             <CheckCircle2 className="w-4 h-4 text-primary" aria-hidden /> Distribuciones del RT-159
             {distribuciones.length > 0 && (
@@ -508,7 +508,7 @@ export default function DistribucionPage() {
 
         {/* Error al emitir sin distribuciones */}
         {saveError && (
-          <div className="mx-6 my-3 p-3 bg-red-50 border border-red-200 text-danger text-sm rounded flex items-center gap-2">
+          <div className="mx-4 sm:mx-6 my-3 p-3 bg-red-50 border border-red-200 text-danger text-sm rounded flex items-center gap-2">
             <ShieldAlert className="w-4 h-4 shrink-0" aria-hidden />
             <p data-testid="save-error">{saveError}</p>
           </div>

@@ -98,10 +98,10 @@ function BandejaIngresos() {
       <div className="flex-1 flex flex-col overflow-hidden">
 
         {/* Top bar */}
-        <div className="px-6 pt-5 pb-4 bg-white border-b border-slate-200 space-y-4 shrink-0">
+        <div className="px-3 sm:px-5 md:px-6 pt-3 sm:pt-4 md:pt-5 pb-3 md:pb-4 bg-white border-b border-slate-200 space-y-4 shrink-0">
 
           {/* Summary cards */}
-          <div className="grid grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3">
             <StatCard label="Total Ingresos" value={counts.total}     color="text-slate-700" />
             <StatCard label="En Proceso"     value={counts.activos}   color="text-primary" />
             <StatCard label="Bloqueados"     value={counts.bloqueados} color="text-red-600" />
@@ -110,8 +110,8 @@ function BandejaIngresos() {
           </div>
 
           {/* Search + actions */}
-          <div className="flex items-center gap-3">
-            <div className="relative flex-1 max-w-sm">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <div className="relative flex-1 min-w-[160px] sm:max-w-sm">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 value={filters.search}
@@ -326,7 +326,7 @@ function BandejaIngresos() {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-2.5 border-t border-slate-200 bg-slate-50 flex items-center justify-between shrink-0">
+        <div className="px-3 sm:px-5 md:px-6 py-2 sm:py-2.5 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 sm:gap-0 shrink-0">
           <span className="text-xs text-slate-500">
             Mostrando <strong>{filtered.length}</strong> de <strong>{INCOME_RECORDS.length}</strong> ingresos
             {checked.size > 0 && <> · <strong className="text-primary">{checked.size}</strong> seleccionados</>}
@@ -365,9 +365,9 @@ function BloqueoChips({ record }: { record: IncomeRecord }) {
 
 function StatCard({ label, value, color }: { label: string; value: number; color: string }) {
   return (
-    <div className="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3">
+    <div className="bg-slate-50 border border-slate-200 rounded-lg px-2 sm:px-3 md:px-4 py-2 sm:py-3">
       <p className="text-[10px] text-slate-500 font-medium">{label}</p>
-      <p className={`text-2xl font-black ${color} leading-tight`}>{value}</p>
+      <p className={`text-xl sm:text-2xl font-black ${color} leading-tight`}>{value}</p>
     </div>
   );
 }

@@ -691,7 +691,7 @@ function TabRevisionPreSTCC() {
 
 function TabPlaceholder({ label }: { label: string }) {
   return (
-    <div className="bg-white rounded-lg border border-slate-200 shadow-sm px-6 py-10 flex flex-col items-center gap-2 text-center">
+    <div className="bg-white rounded-lg border border-slate-200 shadow-sm px-4 sm:px-6 py-8 sm:py-10 flex flex-col items-center gap-2 text-center">
       <Clock className="w-8 h-8 text-slate-300" />
       <p className="text-sm font-medium text-slate-500">{label}</p>
       <p className="text-xs text-slate-400">Módulo en construcción</p>
@@ -720,7 +720,7 @@ function MicrobiologiaPageContent() {
   return (
     <div className="space-y-4 pb-12">
       {/* Tabs */}
-      <div className="flex border-b border-slate-200 -mt-2">
+      <div className="flex border-b border-slate-200 -mt-2 overflow-x-auto">
         {TABS.map((tab) => (
           <button
             key={tab.key}

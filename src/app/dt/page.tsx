@@ -127,7 +127,7 @@ function TabDecisionesTecnicas() {
         <h3 className="text-sm font-semibold text-slate-800">Registro de Decisiones Técnicas</h3>
 
         {/* Row 1 */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Recepción <span className="text-danger">*</span></label>
             <input type="text" defaultValue="REC-2024-00147 — AMOXICILINA 500mg" className={INPUT} />
@@ -148,7 +148,7 @@ function TabDecisionesTecnicas() {
         </div>
 
         {/* Row 2 */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Director Técnico</label>
             <input type="text" defaultValue="Q.F. Dr. Roberto Paz" className={INPUT} />
@@ -227,7 +227,7 @@ function TabReanalisisComite() {
       <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-5 space-y-4">
         <h3 className="text-sm font-semibold text-slate-800">Orden de Reanálisis / Verificación</h3>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Recepción <span className="text-danger">*</span></label>
             <input type="text" defaultValue="REC-2024-00147 — AMOXICILINA 500mg" className={INPUT} />
@@ -242,7 +242,7 @@ function TabReanalisisComite() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Analista Asignado</label>
             <input type="text" defaultValue="Q.F. Karla Suazo" className={INPUT} />
@@ -271,7 +271,7 @@ function TabReanalisisComite() {
       <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-5 space-y-4">
         <h3 className="text-sm font-semibold text-slate-800">Escalamiento a Comité de Calidad</h3>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Recepción <span className="text-danger">*</span></label>
             <input type="text" defaultValue="REC-2024-00139 — CAPTOPRIL 25mg" className={INPUT} />
@@ -282,7 +282,7 @@ function TabReanalisisComite() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Miembros del Comité</label>
             <input type="text" defaultValue="DT, DG, STCC, Analista Principal" className={INPUT} />
@@ -360,7 +360,7 @@ function TabElaboracionRT39() {
 
       <div className="p-5 space-y-5">
         {/* Metadata */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Número RT-39</label>
             <input type="text" placeholder="Auto-generado" disabled className={`${INPUT} bg-slate-50 text-slate-400 cursor-not-allowed`} />
@@ -374,7 +374,7 @@ function TabElaboracionRT39() {
             <input type="date" className={INPUT} />
           </div>
         </div>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Director Técnico</label>
             <input type="text" defaultValue="Q.F. Dr. Roberto Paz" className={INPUT} />
@@ -410,7 +410,7 @@ function TabElaboracionRT39() {
         </div>
 
         {/* Footer fields */}
-        <div className="grid grid-cols-2 gap-4 pt-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Resultado Final del Análisis</label>
             <input type="text" defaultValue="CONFORME — El producto cumple con todas las especificaciones" className={INPUT} />
@@ -448,7 +448,7 @@ function TabPlaceholder({ label }: { label: string }) {
 
 function TabRevisionConsolidada() {
   return (
-    <div className="flex gap-4 items-start">
+    <div className="flex flex-col lg:flex-row gap-4 items-start">
       {/* Main card */}
       <div className="flex-1 bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
         <div className="px-5 py-4 border-b border-slate-200">
@@ -458,7 +458,7 @@ function TabRevisionConsolidada() {
         </div>
 
         {/* Metadata */}
-        <div className="grid grid-cols-4 gap-4 px-5 py-3 border-b border-slate-100 bg-slate-50/50">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 px-4 sm:px-5 py-3 border-b border-slate-100 bg-slate-50/50">
           {[
             { label: "Producto",      value: "AMOXICILINA 500mg" },
             { label: "Tipo Trámite",  value: "Control de Calidad" },
@@ -482,7 +482,7 @@ function TabRevisionConsolidada() {
                   {sec.ok}/{sec.total} {sec.ok === sec.total ? "✓" : ""}
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-6 gap-y-1.5">
                 {sec.items.map((item) => (
                   <div key={item.texto} className="flex items-center gap-1.5">
                     {item.warn
@@ -501,7 +501,7 @@ function TabRevisionConsolidada() {
       </div>
 
       {/* Right panel */}
-      <div className="w-64 shrink-0 flex flex-col gap-4">
+      <div className="w-full lg:w-64 lg:shrink-0 flex flex-col gap-4">
         {/* Criterios Técnicos */}
         <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-4">
           <h4 className="text-sm font-semibold text-slate-800 mb-3">Criterios Técnicos DT</h4>
@@ -644,7 +644,7 @@ function DTPageContent() {
 
   return (
     <div className="space-y-5 pb-12">
-      <div className="flex gap-1 border-b border-slate-200">
+      <div className="flex gap-1 border-b border-slate-200 overflow-x-auto">
         {TABS.map((t) => (
           <button
             key={t.key}

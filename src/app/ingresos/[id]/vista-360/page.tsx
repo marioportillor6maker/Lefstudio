@@ -256,7 +256,7 @@ function Vista360Inner() {
             </div>
 
             {/* Tab content */}
-            <div className="p-6">
+            <div className="p-3 sm:p-4 md:p-6">
               {activeTab === 'resumen'    && <TabResumen    detail={detail} />}
               {activeTab === 'rac'        && <TabRac        detail={detail} />}
               {activeTab === 'doct'       && <TabDoct       detail={detail} />}

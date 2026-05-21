@@ -26,30 +26,30 @@ export default function BandejaAnalista() {
   return (
     <div className="space-y-5 pb-12">
       {/* Stat cards */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <div className="bg-white border border-slate-200 rounded-md p-5 shadow-sm">
-          <p className="text-4xl font-black text-slate-900 leading-none">8</p>
+          <p className="text-2xl sm:text-4xl font-black text-slate-900 leading-none">8</p>
           <p className="text-xs text-slate-500 mt-2">Casos Asignados</p>
         </div>
         <div className="bg-yellow-50 border border-yellow-100 rounded-md p-5 shadow-sm">
-          <p className="text-4xl font-black text-slate-900 leading-none">5</p>
+          <p className="text-2xl sm:text-4xl font-black text-slate-900 leading-none">5</p>
           <p className="text-xs text-slate-500 mt-2">En Análisis</p>
         </div>
         <div className="bg-orange-50 border border-orange-100 rounded-md p-5 shadow-sm">
-          <p className="text-4xl font-black text-slate-900 leading-none">23</p>
+          <p className="text-2xl sm:text-4xl font-black text-slate-900 leading-none">23</p>
           <p className="text-xs text-slate-500 mt-2">Pruebas Pendientes</p>
         </div>
         <div className="bg-green-50 border border-green-100 rounded-md p-5 shadow-sm">
-          <p className="text-4xl font-black text-slate-900 leading-none">3</p>
+          <p className="text-2xl sm:text-4xl font-black text-slate-900 leading-none">3</p>
           <p className="text-xs text-slate-500 mt-2">Completados Hoy</p>
         </div>
       </div>
 
       {/* Table */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+        <div className="px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
           <p className="font-semibold text-slate-800 text-sm">Casos Asignados — Q.F. Karla Suazo</p>
-          <div className="relative w-56">
+          <div className="relative w-full sm:w-56">
             <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"

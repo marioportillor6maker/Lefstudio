@@ -83,17 +83,18 @@ export default function FfqqHistorialPage() {
   const pct = Math.round((completadas / total) * 100)
 
   return (
-    <div className="p-6">
+    <div className="p-3 sm:p-4 md:p-6">
       <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
         {/* Header */}
-        <div className="px-5 py-4 border-b border-slate-100">
+        <div className="px-3 sm:px-5 py-3 sm:py-4 border-b border-slate-100">
           <h2 className="text-sm font-semibold text-slate-800">
             Estado de Pruebas — <span className="text-[var(--color-primary)]">REC-2024-00147</span> AMOXICILINA 500mg
           </h2>
         </div>
 
         {/* Rows */}
-        <div className="divide-y divide-slate-100">
+        <div className="overflow-x-auto">
+        <div className="divide-y divide-slate-100 min-w-[580px]">
           {pruebas.map((p, i) => (
             <div key={i} className="flex items-center gap-4 px-5 py-4">
               {/* Dot + name + analista */}
@@ -126,7 +127,8 @@ export default function FfqqHistorialPage() {
         </div>
 
         {/* Progress bar */}
-        <div className="px-5 py-4 border-t border-slate-100 space-y-2">
+        </div>
+        <div className="px-3 sm:px-5 py-3 sm:py-4 border-t border-slate-100 space-y-2">
           <div className="flex items-center justify-between">
             <p className="text-xs text-slate-500">Progreso del análisis</p>
             <p className="text-xs font-medium text-slate-600">{completadas}/{total} pruebas completadas ({pct}%)</p>

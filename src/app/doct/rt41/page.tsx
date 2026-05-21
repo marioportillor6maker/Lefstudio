@@ -35,7 +35,7 @@ export default function Rt41Page() {
         </h3>
 
         {/* Header fields */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <Field label="Recepción Actual *">
             <input className={INPUT} value="REC-2024-00147 — AMOXICILINA 500mg (Lote AM2401X)" readOnly />
           </Field>
@@ -52,7 +52,7 @@ export default function Rt41Page() {
 
         {/* Previous reception cards */}
         <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3">Recepciones Previas del Producto</h4>
-        <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6">
           {PREVIAS.map(p => (
             <button
               key={p.id}

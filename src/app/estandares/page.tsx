@@ -60,10 +60,10 @@ export default function EstandaresBandeja() {
   return (
     <div className="space-y-5 pb-12">
       {/* Stat cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {stats.map(s => (
           <div key={s.label} className={`${s.bg} border ${s.border} rounded-md p-5 shadow-sm`}>
-            <p className={`text-4xl font-black ${s.num} leading-none`}>{s.value}</p>
+            <p className={`text-2xl sm:text-4xl font-black ${s.num} leading-none`}>{s.value}</p>
             <p className="text-xs text-slate-500 mt-2">{s.label}</p>
           </div>
         ))}
@@ -72,7 +72,7 @@ export default function EstandaresBandeja() {
       {/* Table */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
         {/* Table header */}
-        <div className="px-6 py-4 flex items-center justify-between border-b border-slate-100">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-slate-100">
           <p className="font-semibold text-slate-800 text-sm">Inventario de Estándares</p>
           <div className="relative w-64">
             <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />

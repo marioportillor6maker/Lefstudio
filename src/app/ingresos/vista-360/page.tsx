@@ -22,7 +22,7 @@ export default function Vista360SearchPage() {
   return (
     <div className="flex flex-col h-full overflow-hidden">
       {/* Header */}
-      <div className="bg-white border-b border-slate-200 px-6 py-4 shrink-0">
+      <div className="bg-white border-b border-slate-200 px-4 sm:px-6 py-3 sm:py-4 shrink-0">
         <h2 className="text-base font-black text-slate-800">Vista 360 — Expedientes</h2>
         <p className="text-xs text-slate-500 mt-0.5">Selecciona un expediente para ver su Vista 360 completa</p>
         <div className="relative mt-3 max-w-sm">

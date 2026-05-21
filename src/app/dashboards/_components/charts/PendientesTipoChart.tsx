@@ -10,7 +10,7 @@ export function PendientesTipoChart({ data }: { data: PendienteTipoData[] }) {
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
       <h3 className="text-sm font-bold text-slate-800 mb-1">Pendientes por Tipo de Solicitud</h3>
       <p className="text-xs text-slate-500 mb-4">Documentacion en espera por tipo de RT</p>
-      <div className="h-[260px]">
+      <div className="h-[200px] sm:h-[260px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} layout="vertical" margin={{ top: 5, right: 30, left: 20, bottom: 5 }} barSize={18}>
             <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e2e8f0" />

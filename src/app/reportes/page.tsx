@@ -123,7 +123,7 @@ function ReportesPageInner() {
           id={`tabpanel-${activeTab}`}
           role="tabpanel"
           aria-labelledby={`tab-${activeTab}`}
-          className="p-6"
+          className="p-3 sm:p-4 md:p-6"
         >
           <TabContent activeTab={activeTab} />
         </div>

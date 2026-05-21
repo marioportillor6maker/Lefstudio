@@ -1,9 +1,9 @@
 "use client";
 
-import { Bell, Search, HelpCircle, ChevronRight } from "lucide-react";
+import { Bell, Search, HelpCircle, ChevronRight, Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 
-export function Header() {
+export function Header({ onOpenMobile }: { onOpenMobile?: () => void }) {
   const pathname = usePathname();
 
   const routeTitleMap: Record<string, string> = {
@@ -53,15 +53,21 @@ export function Header() {
     routeTitleMap[rootSegment] ?? "Bandeja " + currentSection;
 
   return (
-    <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 shrink-0 z-10 shadow-sm">
-      <div className="flex items-center gap-6 flex-1">
-        <div className="flex flex-col">
+    <header className="h-12 sm:h-14 md:h-16 bg-white border-b border-slate-200 flex items-center justify-between px-3 sm:px-4 md:px-6 shrink-0 z-10 shadow-sm">
+      <div className="flex items-center gap-3 md:gap-6 flex-1 min-w-0">
+        <button
+          onClick={onOpenMobile}
+          className="md:hidden p-1.5 text-slate-500 hover:bg-slate-50 rounded-md transition-colors shrink-0"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        <div className="flex flex-col min-w-0">
           <div className="flex items-center text-[10px] text-slate-500 font-medium mb-0.5">
             <span>SistemaLEF</span>
             <ChevronRight className="w-3 h-3 mx-1 opacity-70" />
             <span className="text-primary">{currentSection}</span>
           </div>
-          <h2 className="text-lg font-bold text-slate-800 leading-tight">
+          <h2 className="text-sm sm:text-base md:text-lg font-bold text-slate-800 leading-tight truncate">
             {screenTitle}
           </h2>
         </div>

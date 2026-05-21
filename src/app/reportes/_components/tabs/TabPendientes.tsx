@@ -20,7 +20,7 @@ export function TabPendientes() {
             <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               {area.titulo}
             </p>
-            <p className="text-4xl font-black text-slate-900">{area.valor}</p>
+            <p className="text-2xl sm:text-4xl font-black text-slate-900">{area.valor}</p>
             <p className="text-sm text-slate-600">{area.descripcion}</p>
             {area.alerta && (
               <div className="mt-2 flex items-center gap-1.5 text-xs font-bold text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5">

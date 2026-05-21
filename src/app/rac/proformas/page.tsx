@@ -371,19 +371,19 @@ export default function ProformasPagoPage() {
           <p className="text-[11px] text-slate-500 font-bold uppercase tracking-wider flex items-center gap-1">
             <FileText className="w-3 h-3" /> Proformas Emitidas
           </p>
-          <p className="text-3xl font-black text-slate-900 mt-2">{totalEmitidas}</p>
+          <p className="text-2xl sm:text-3xl font-black text-slate-900 mt-2">{totalEmitidas}</p>
         </div>
         <div className="bg-green-50 p-4 rounded-md border border-green-200 shadow-sm flex flex-col">
           <p className="text-[11px] text-green-700 font-bold uppercase tracking-wider flex items-center gap-1">
             <CheckCircle2 className="w-3 h-3" /> Pagos Confirmados
           </p>
-          <p className="text-3xl font-black text-green-600 mt-2">{totalPagadas}</p>
+          <p className="text-2xl sm:text-3xl font-black text-green-600 mt-2">{totalPagadas}</p>
         </div>
         <div className="bg-orange-50 p-4 rounded-md border border-orange-200 shadow-sm flex flex-col">
           <p className="text-[11px] text-orange-700 font-bold uppercase tracking-wider flex items-center gap-1">
             <AlertCircle className="w-3 h-3" /> Pendientes / Vencidos
           </p>
-          <p className="text-3xl font-black text-orange-600 mt-2">{totalPendientes}</p>
+          <p className="text-2xl sm:text-3xl font-black text-orange-600 mt-2">{totalPendientes}</p>
         </div>
       </div>
 
@@ -603,7 +603,7 @@ export default function ProformasPagoPage() {
               </div>
 
               {/* Plazo + Método de Pago */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className={labelCls}>Plazo (días)</label>
                   <input
@@ -855,7 +855,7 @@ export default function ProformasPagoPage() {
             </div>
             <div className="p-6 overflow-y-auto space-y-4">
               {/* Datos de la recepción disponibles en el modelo actual */}
-              <div className="grid grid-cols-2 gap-3 text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                 <div>
                   <p className="text-[11px] font-bold text-slate-500 uppercase">Nº Recepción</p>
                   <p className="text-slate-800 font-medium">{recepcionSel.id}</p>
@@ -934,7 +934,7 @@ export default function ProformasPagoPage() {
               <button onClick={() => setShowViewModal(false)} className="text-slate-400 hover:text-slate-600 text-xl leading-none">×</button>
             </div>
             <div className="p-6 overflow-y-auto space-y-4 flex-1">
-              <div className="grid grid-cols-2 gap-3 text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                 <div><p className="text-[11px] font-bold text-slate-500 uppercase">Recepción</p><p className="font-medium text-primary">{viewingProforma.recepcionId}</p></div>
                 <div><p className="text-[11px] font-bold text-slate-500 uppercase">Fecha Emisión</p><p>{viewingProforma.fechaEmision}</p></div>
                 <div><p className="text-[11px] font-bold text-slate-500 uppercase">Producto</p><p className="font-medium">{viewingProforma.producto}</p></div>

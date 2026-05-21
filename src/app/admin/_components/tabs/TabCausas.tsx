@@ -42,7 +42,7 @@ export function TabCausas() {
   return (
     <div className="space-y-4">
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-0 px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100">
           <h3 className="text-sm font-bold text-slate-800">Causas de Reanalisis</h3>
           <button onClick={openNew} className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-semibold transition-colors">
             <Plus className="w-4 h-4" />Nueva Causa
@@ -82,7 +82,7 @@ export function TabCausas() {
           <FormField label="Causa" required>
             <input value={form.causa} onChange={e => setForm(p => ({...p, causa: e.target.value}))} className={inputCls} placeholder="Descripcion de la causa" />
           </FormField>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <FormField label="Tipo">
               <select value={form.tipo} onChange={e => setForm(p => ({...p, tipo: e.target.value as CausaTipo}))} className={selectCls}>
                 {TIPOS.map(t => <option key={t} value={t}>{t}</option>)}

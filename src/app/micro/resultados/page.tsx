@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <div className="space-y-6 pb-12">
       {/* Header */}
-      <div className="bg-white p-6 rounded-md border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="bg-white p-3 sm:p-4 md:p-6 rounded-md border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link href="/" className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors">
             <ArrowLeft className="w-5 h-5 text-slate-600" />

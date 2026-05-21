@@ -19,7 +19,7 @@ export function DashMetricCard({ label, value, sub, trend, trendGood, color = 'p
   return (
     <div className={`rounded-xl border ${c.border} ${c.bg} p-5 flex flex-col gap-2`}>
       <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{label}</p>
-      <p className={`text-3xl font-black ${c.text} leading-none`}>{value}</p>
+      <p className={`text-2xl sm:text-3xl font-black ${c.text} leading-none`}>{value}</p>
       <div className="flex items-center justify-between mt-1">
         {sub && <span className="text-xs text-slate-500">{sub}</span>}
         {!trendNeutral && (

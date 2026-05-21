@@ -10,7 +10,7 @@ export function TendenciaChart({ data }: { data: TendenciaData[] }) {
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
       <h3 className="text-sm font-bold text-slate-800 mb-1">Tendencia de Ingresos — Ultimos 5 Meses</h3>
       <p className="text-xs text-slate-500 mb-4">Ingresos totales vs. casos conformes emitidos</p>
-      <div className="h-[260px]">
+      <div className="h-[200px] sm:h-[260px]">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
             <defs>

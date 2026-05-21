@@ -10,7 +10,7 @@ export function RacTiempoChart({ data }: { data: RacTiempoData[] }) {
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
       <h3 className="text-sm font-bold text-slate-800 mb-1">Tiempo Promedio de Proceso RAC (dias)</h3>
       <p className="text-xs text-slate-500 mb-4">Promedio real vs. meta establecida (3 dias)</p>
-      <div className="h-[260px]">
+      <div className="h-[200px] sm:h-[260px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 10, right: 20, left: -10, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />

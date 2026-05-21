@@ -30,7 +30,7 @@ export function AdminModal({ open, onClose, title, children, maxWidth = 'max-w-l
     >
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
       <div className={`relative bg-white rounded-2xl shadow-xl w-full ${maxWidth} max-h-[90vh] flex flex-col`}>
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100">
           <h3 id="modal-title" className="text-base font-bold text-slate-800">{title}</h3>
           <button
             onClick={onClose}

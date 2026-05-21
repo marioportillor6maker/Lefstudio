@@ -13,8 +13,8 @@ const resumen = [
 
 export default function FfqqValidacionesPage() {
   return (
-    <div className="p-6">
-      <div className="bg-white border border-slate-200 rounded-lg p-6 space-y-6">
+    <div className="p-3 sm:p-4 md:p-6">
+      <div className="bg-white border border-slate-200 rounded-lg p-4 sm:p-6 space-y-4 sm:space-y-6">
 
         {/* Header */}
         <div className="flex items-center gap-2">
@@ -27,7 +27,7 @@ export default function FfqqValidacionesPage() {
         {/* Resumen de resultados */}
         <div className="border border-slate-200 rounded-lg p-4 space-y-3">
           <p className="text-[10px] uppercase tracking-wide text-slate-400 font-semibold">Resumen de Resultados</p>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {resumen.map(r => (
               <div key={r.prueba} className="border border-slate-200 rounded-lg px-4 py-3">
                 <p className="text-xs text-slate-400 mb-1">{r.prueba}</p>
@@ -40,7 +40,7 @@ export default function FfqqValidacionesPage() {
         </div>
 
         {/* Conclusión + Fecha */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-xs text-slate-600 mb-1.5 font-medium">Conclusión General FFQQ</label>
             <input

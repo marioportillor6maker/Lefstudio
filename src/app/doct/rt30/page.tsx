@@ -35,7 +35,7 @@ export default function Rt30Page() {
         </h3>
 
         {/* Form fields */}
-        <div className="grid grid-cols-3 gap-4 mb-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-5">
           <Field label="Recepción Asociada *">
             <input className={INPUT} defaultValue={form.recepcion} />
           </Field>
@@ -144,7 +144,7 @@ export default function Rt30Page() {
       {showPreview && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-100">
               <h3 className="text-sm font-bold text-slate-800">Vista Previa — RT-30</h3>
               <button onClick={() => setShowPreview(false)}><X className="w-4 h-4 text-slate-400" /></button>
             </div>
@@ -164,7 +164,7 @@ export default function Rt30Page() {
                 </ul>
               </div>
             </div>
-            <div className="px-6 py-4 border-t border-slate-100 flex justify-end gap-3">
+            <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-100 flex justify-end gap-3">
               <button onClick={() => setShowPreview(false)} className="px-4 py-2 rounded-lg border border-slate-200 text-xs font-medium text-slate-600">Cerrar</button>
               <button className="px-4 py-2 rounded-lg text-xs font-bold text-white" style={{ backgroundColor:'var(--color-primary)' }}>Imprimir</button>
             </div>
