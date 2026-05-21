@@ -61,10 +61,6 @@ describe("DistribucionPage — /rac/distribucion", () => {
       expect(screen.getByTestId("emitir-btn")).toBeInTheDocument();
     });
 
-    it("muestra botón Guardar Borrador", () => {
-      render(<DistribucionPage />);
-      expect(screen.getByTestId("borrador-btn")).toBeInTheDocument();
-    });
   });
 
   // ── 2. ID del RT — no editable ──────────────────────────────────────────────

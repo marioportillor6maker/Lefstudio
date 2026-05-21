@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Search, Filter, Plus, Eye, CheckCircle2, DollarSign, ListTodo, SlidersHorizontal, AlertTriangle } from "lucide-react";
+import { Search, Filter, Plus, Eye, CheckCircle2, DollarSign, ListTodo, SlidersHorizontal } from "lucide-react";
 import { mockIngresosList } from "@/lib/mockData";
 
 export default function BandejaRACPage() {
@@ -87,7 +87,6 @@ export default function BandejaRACPage() {
                 <th className="px-5 py-3 text-[11px] uppercase tracking-wider">Tipo Trámite</th>
                 <th className="px-5 py-3 text-[11px] uppercase tracking-wider">Fecha Rec.</th>
                 <th className="px-5 py-3 text-[11px] uppercase tracking-wider">Estado</th>
-                <th className="px-5 py-3 text-[11px] uppercase tracking-wider">Bloqueos</th>
                 <th className="px-4 py-3 text-right text-[11px] uppercase tracking-wider min-w-[180px]">Acciones</th>
               </tr>
             </thead>
@@ -123,19 +122,6 @@ export default function BandejaRACPage() {
                     }`}>
                       {item.estado}
                     </span>
-                  </td>
-                  <td className="px-5">
-                    {item.prioridad === "Alta" ? (
-                      <span className="inline-flex items-center gap-1 bg-red-50 text-danger border border-red-200 px-2 py-1 rounded text-[10px] font-bold">
-                        <AlertTriangle className="w-3 h-3" /> URGENTE
-                      </span>
-                    ) : item.estado.includes("Pago") ? (
-                      <span className="inline-flex items-center gap-1 bg-orange-50 text-orange-600 border border-orange-200 px-2 py-1 rounded text-[10px] font-bold">
-                        <DollarSign className="w-3 h-3" /> PAGO
-                      </span>
-                    ) : (
-                      <span className="text-slate-400 text-xs">-</span>
-                    )}
                   </td>
                   <td className="px-4">
                     <div className="flex items-center justify-end gap-1">

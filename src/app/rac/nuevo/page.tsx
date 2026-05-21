@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, Save, CheckCircle2, ChevronRight, User, Package, Building, Hash, FileText, ClipboardCheck, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, CheckCircle2, ChevronRight, User, Package, Building, Hash, FileText, ClipboardCheck, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { catalogoTramites } from "@/lib/mockData";
 
@@ -618,10 +618,7 @@ export default function NuevoIngresoRAC() {
         )}
 
         {/* Action Buttons Footer */}
-        <div className="mt-10 pt-6 border-t border-slate-200 flex items-center justify-between">
-          <button className="text-slate-500 hover:text-slate-800 font-bold text-sm flex items-center gap-2 transition-colors">
-            <Save className="w-4 h-4" /> Guardar Borrador
-          </button>
+        <div className="mt-10 pt-6 border-t border-slate-200 flex items-center justify-end">
           <div className="flex gap-3">
             {step > 1 && (
               <button

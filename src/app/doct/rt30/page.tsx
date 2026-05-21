@@ -1,14 +1,15 @@
 'use client';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Send, Printer, Plus, CheckSquare, X, CheckCircle2 } from 'lucide-react';
 
 interface Item { id: string; label: string; cantidad: string; unidad: string; checked: boolean; estado: 'pendiente' | 'recibido' }
 interface Rt30Row { nro: string; recepcion: string; tipo: string; emision: string; plazo: string; diasRest: string; vencido: boolean; respuesta: string; estado: 'respondido'|'pendiente'|'vencido' }
 
 const SEGUIMIENTO: Rt30Row[] = [
-  { nro:'RT30-2024-0089', recepcion:'REC-2024-00147', tipo:'Estándar Referencia', emision:'11/01/2024', plazo:'11/03/2024', diasRest:'52d', vencido:false, respuesta:'15/01/2024', estado:'respondido' },
-  { nro:'RT30-2024-0090', recepcion:'REC-2024-00148', tipo:'Info. Adicional',      emision:'12/01/2024', plazo:'12/03/2024', diasRest:'38d', vencido:false, respuesta:'—',           estado:'pendiente' },
-  { nro:'RT30-2024-0091', recepcion:'REC-2024-00149', tipo:'Metodología',           emision:'05/01/2024', plazo:'05/03/2024', diasRest:'3d',  vencido:true,  respuesta:'—',           estado:'vencido' },
+  { nro:'RT30-2024-0089', recepcion:'LEF-2024-00147', tipo:'Estándar Referencia', emision:'11/01/2024', plazo:'11/03/2024', diasRest:'52d', vencido:false, respuesta:'15/01/2024', estado:'respondido' },
+  { nro:'RT30-2024-0090', recepcion:'LEF-2024-00148', tipo:'Info. Adicional',     emision:'12/01/2024', plazo:'12/03/2024', diasRest:'38d', vencido:false, respuesta:'—',          estado:'pendiente' },
+  { nro:'RT30-2024-0091', recepcion:'LEF-2024-00153', tipo:'Metodología',          emision:'05/01/2024', plazo:'05/03/2024', diasRest:'3d',  vencido:true,  respuesta:'—',          estado:'vencido' },
 ];
 
 const INIT_ITEMS: Item[] = [
@@ -17,28 +18,63 @@ const INIT_ITEMS: Item[] = [
   { id:'i3', label:'Metodología de Valoración por HPLC',                     cantidad:'1',   unidad:'copia', checked:true, estado:'pendiente' },
 ];
 
-export default function Rt30Page() {
+const INPUT = 'w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-1 placeholder:text-slate-300';
+
+function Rt30PageContent() {
+  const searchParams = useSearchParams();
+  const recepcionCtx = searchParams.get('recepcion') ?? '';
+  const productoCtx  = searchParams.get('producto')  ?? '';
+  const empresaCtx   = searchParams.get('empresa')   ?? '';
+
   const [items, setItems] = useState<Item[]>(INIT_ITEMS);
   const [justif, setJustif] = useState('');
   const [showPreview, setShowPreview] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [form] = useState({ recepcion:'REC-2024-00147 — AMOXICILINA 500mg', tipo:'Estándar de Referencia', emision:'11/01/2024', dirigido:'Cliente / Ente Externo', plazo:'60', limite:'11/03/2024' });
+  const [dirigido, setDirigido] = useState('');
+  const [plazo, setPlazo] = useState('60');
 
-  const toggleItem = (id: string) => setItems(items.map(i => i.id===id ? {...i, checked:!i.checked} : i));
+  const hoy = new Date().toLocaleDateString('es-HN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const toggleItem = (id: string) => setItems(items.map(i => i.id === id ? { ...i, checked: !i.checked } : i));
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl border border-slate-200 p-6">
+      <div className="bg-white rounded-xl border border-slate-200 p-4 sm:p-6">
         <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
-          <Send className="w-4 h-4" style={{ color:'var(--color-primary)' }} />
+          <Send className="w-4 h-4" style={{ color: 'var(--color-primary)' }} />
           Solicitud de Información / Estándar — RT-30
         </h3>
 
+        {/* Recepción context card */}
+        <div className="mb-5 p-3 sm:p-4 bg-slate-50 rounded-lg border border-slate-200">
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Recepción Asociada</p>
+          {recepcionCtx ? (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4">
+              <div>
+                <p className="text-[10px] text-slate-400 mb-0.5">N° Recepción</p>
+                <p className="text-sm font-bold" style={{ color: 'var(--color-primary)' }}>{recepcionCtx}</p>
+              </div>
+              {productoCtx && (
+                <div>
+                  <p className="text-[10px] text-slate-400 mb-0.5">Producto</p>
+                  <p className="text-sm font-semibold text-slate-700">{productoCtx}</p>
+                </div>
+              )}
+              {empresaCtx && (
+                <div>
+                  <p className="text-[10px] text-slate-400 mb-0.5">Cliente</p>
+                  <p className="text-sm text-slate-600">{empresaCtx}</p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <p className="text-xs text-slate-400 italic">
+              Sin recepción seleccionada. Accedé desde la Bandeja DOCT usando el botón &quot;RT-30&quot;.
+            </p>
+          )}
+        </div>
+
         {/* Form fields */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-5">
-          <Field label="Recepción Asociada *">
-            <input className={INPUT} defaultValue={form.recepcion} />
-          </Field>
           <Field label="Tipo de Solicitud *">
             <select className={INPUT}>
               <option>Estándar de Referencia</option>
@@ -47,16 +83,23 @@ export default function Rt30Page() {
             </select>
           </Field>
           <Field label="Fecha de Emisión *">
-            <input type="text" className={INPUT} defaultValue={form.emision} />
+            <input type="text" className={INPUT} value={hoy} readOnly />
           </Field>
           <Field label="Dirigido a">
-            <input className={INPUT} defaultValue={form.dirigido} />
+            <input
+              className={INPUT}
+              value={dirigido}
+              onChange={e => setDirigido(e.target.value)}
+              placeholder="Destinatario de la solicitud..."
+            />
           </Field>
           <Field label="Plazo de Respuesta (días) *">
-            <input type="number" className={INPUT} defaultValue={form.plazo} />
-          </Field>
-          <Field label="Fecha Límite (calculada)">
-            <input className={INPUT} value={form.limite} readOnly />
+            <input
+              type="number"
+              className={INPUT}
+              value={plazo}
+              onChange={e => setPlazo(e.target.value)}
+            />
           </Field>
         </div>
 
@@ -84,14 +127,27 @@ export default function Rt30Page() {
 
         {/* Justificación */}
         <Field label="Justificación / Observaciones">
-          <textarea rows={3} className={INPUT + ' resize-none'} placeholder="Justifique la solicitud y proporcione contexto adicional..." value={justif} onChange={e=>setJustif(e.target.value)} />
+          <textarea
+            rows={3}
+            className={INPUT + ' resize-none'}
+            placeholder="Justifique la solicitud y proporcione contexto adicional..."
+            value={justif}
+            onChange={e => setJustif(e.target.value)}
+          />
         </Field>
 
         <div className="flex gap-3 mt-5">
-          <button onClick={() => setSaved(true)} className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold text-white" style={{ backgroundColor:'var(--color-primary)' }}>
+          <button
+            onClick={() => setSaved(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold text-white"
+            style={{ backgroundColor: 'var(--color-primary)' }}
+          >
             <Send className="w-3.5 h-3.5" /> Emitir RT-30
           </button>
-          <button onClick={() => setShowPreview(true)} className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 hover:bg-slate-50">
+          <button
+            onClick={() => setShowPreview(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 text-xs font-medium text-slate-600 hover:bg-slate-50"
+          >
             <Printer className="w-3.5 h-3.5" /> Vista Previa
           </button>
         </div>
@@ -109,35 +165,45 @@ export default function Rt30Page() {
         <div className="px-5 py-3.5 border-b border-slate-100">
           <h4 className="text-sm font-bold text-slate-700">Seguimiento de Solicitudes RT-30</h4>
         </div>
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-slate-100 bg-slate-50">
-              {['Nº RT-30','RECEPCIÓN','TIPO','EMISIÓN','PLAZO','DÍAS RESTANTES','RESPUESTA','ESTADO'].map(h=>(
-                <th key={h} className="px-4 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-left">{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
-            {SEGUIMIENTO.map(r=>(
-              <tr key={r.nro} className="hover:bg-slate-50">
-                <td className="px-4 py-3 text-xs font-bold" style={{ color:'var(--color-primary)' }}>{r.nro}</td>
-                <td className="px-4 py-3 text-xs text-slate-600">{r.recepcion}</td>
-                <td className="px-4 py-3 text-xs text-slate-700">{r.tipo}</td>
-                <td className="px-4 py-3 text-xs text-slate-500">{r.emision}</td>
-                <td className="px-4 py-3 text-xs text-slate-500">{r.plazo}</td>
-                <td className="px-4 py-3 text-xs font-bold">
-                  <span className={r.vencido ? 'text-red-500' : 'text-amber-500'}>{r.diasRest}{r.vencido ? ' vencido' : ''}</span>
-                </td>
-                <td className="px-4 py-3 text-xs text-slate-500">{r.respuesta}</td>
-                <td className="px-4 py-3">
-                  {r.estado==='respondido' && <span className="flex items-center gap-1 text-xs font-semibold text-green-600"><span className="w-1.5 h-1.5 rounded-full bg-green-500" /> Respondido</span>}
-                  {r.estado==='pendiente'  && <span className="flex items-center gap-1 text-xs font-semibold text-amber-500"><span className="w-1.5 h-1.5 rounded-full bg-amber-400" /> Pendiente</span>}
-                  {r.estado==='vencido'    && <span className="flex items-center gap-1 text-xs font-semibold text-red-500"><span className="w-1.5 h-1.5 rounded-full bg-red-500" /> Vencido</span>}
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm min-w-[720px]">
+            <thead>
+              <tr className="border-b border-slate-100 bg-slate-50">
+                {['Nº RT-30','RECEPCIÓN','TIPO','EMISIÓN','PLAZO','DÍAS RESTANTES','RESPUESTA','ESTADO','ENVIAR A ST'].map(h => (
+                  <th key={h} className="px-4 py-2.5 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-left">{h}</th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {SEGUIMIENTO.map(r => (
+                <tr key={r.nro} className="hover:bg-slate-50">
+                  <td className="px-4 py-3 text-xs font-bold" style={{ color: 'var(--color-primary)' }}>{r.nro}</td>
+                  <td className="px-4 py-3 text-xs text-slate-600">{r.recepcion}</td>
+                  <td className="px-4 py-3 text-xs text-slate-700">{r.tipo}</td>
+                  <td className="px-4 py-3 text-xs text-slate-500">{r.emision}</td>
+                  <td className="px-4 py-3 text-xs text-slate-500">{r.plazo}</td>
+                  <td className="px-4 py-3 text-xs font-bold">
+                    <span className={r.vencido ? 'text-red-500' : 'text-amber-500'}>{r.diasRest}{r.vencido ? ' vencido' : ''}</span>
+                  </td>
+                  <td className="px-4 py-3 text-xs text-slate-500">{r.respuesta}</td>
+                  <td className="px-4 py-3">
+                    {r.estado === 'respondido' && <span className="flex items-center gap-1 text-xs font-semibold text-green-600"><span className="w-1.5 h-1.5 rounded-full bg-green-500" /> Respondido</span>}
+                    {r.estado === 'pendiente'  && <span className="flex items-center gap-1 text-xs font-semibold text-amber-500"><span className="w-1.5 h-1.5 rounded-full bg-amber-400" /> Pendiente</span>}
+                    {r.estado === 'vencido'    && <span className="flex items-center gap-1 text-xs font-semibold text-red-500"><span className="w-1.5 h-1.5 rounded-full bg-red-500" /> Vencido</span>}
+                  </td>
+                  <td className="px-4 py-3">
+                    <button
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-white rounded-md px-2 py-1 whitespace-nowrap"
+                      style={{ backgroundColor: 'var(--color-primary)' }}
+                    >
+                      <Send className="w-3 h-3" /> Enviar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Vista Previa Modal */}
@@ -149,16 +215,16 @@ export default function Rt30Page() {
               <button onClick={() => setShowPreview(false)}><X className="w-4 h-4 text-slate-400" /></button>
             </div>
             <div className="p-6 space-y-3">
-              <PreviewRow label="Recepción" value={form.recepcion} />
-              <PreviewRow label="Tipo"      value={form.tipo} />
-              <PreviewRow label="Emisión"   value={form.emision} />
-              <PreviewRow label="Dirigido"  value={form.dirigido} />
-              <PreviewRow label="Plazo"     value={`${form.plazo} días`} />
-              <PreviewRow label="Límite"    value={form.limite} />
+              {recepcionCtx && <PreviewRow label="Recepción" value={recepcionCtx} />}
+              {productoCtx  && <PreviewRow label="Producto"  value={productoCtx} />}
+              {empresaCtx   && <PreviewRow label="Cliente"   value={empresaCtx} />}
+              <PreviewRow label="Emisión"  value={hoy} />
+              <PreviewRow label="Dirigido" value={dirigido || '—'} />
+              <PreviewRow label="Plazo"    value={`${plazo} días`} />
               <div>
                 <span className="text-[10px] font-bold text-slate-400 uppercase">Ítems</span>
                 <ul className="mt-1 space-y-1">
-                  {items.filter(i=>i.checked).map(i=>(
+                  {items.filter(i => i.checked).map(i => (
                     <li key={i.id} className="text-xs text-slate-600">• {i.label} ({i.cantidad} {i.unidad})</li>
                   ))}
                 </ul>
@@ -166,12 +232,20 @@ export default function Rt30Page() {
             </div>
             <div className="px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-100 flex justify-end gap-3">
               <button onClick={() => setShowPreview(false)} className="px-4 py-2 rounded-lg border border-slate-200 text-xs font-medium text-slate-600">Cerrar</button>
-              <button className="px-4 py-2 rounded-lg text-xs font-bold text-white" style={{ backgroundColor:'var(--color-primary)' }}>Imprimir</button>
+              <button className="px-4 py-2 rounded-lg text-xs font-bold text-white" style={{ backgroundColor: 'var(--color-primary)' }}>Imprimir</button>
             </div>
           </div>
         </div>
       )}
     </div>
+  );
+}
+
+export default function Rt30Page() {
+  return (
+    <Suspense>
+      <Rt30PageContent />
+    </Suspense>
   );
 }
 
@@ -192,5 +266,3 @@ function PreviewRow({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
-
-const INPUT = 'w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-1 placeholder:text-slate-300';

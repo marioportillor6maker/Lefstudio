@@ -51,10 +51,6 @@ describe("NuevoIngresoRAC — /rac/nuevo", () => {
       expect(screen.getByRole("link")).toHaveAttribute("href", "/rac");
     });
 
-    it("Guardar Borrador button is present on step 1", () => {
-      render(<NuevoIngresoRAC />);
-      expect(screen.getByRole("button", { name: /guardar borrador/i })).toBeInTheDocument();
-    });
   });
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -1166,13 +1162,6 @@ describe("NuevoIngresoRAC — /rac/nuevo", () => {
       expect(step6Btn).toBeDisabled();
     });
 
-    it("Guardar Borrador button is always present regardless of step", () => {
-      render(<NuevoIngresoRAC />);
-      [1, 2, 3, 4, 5, 6].forEach(n => {
-        if (n > 1) fireEvent.click(screen.getByRole("button", { name: /siguiente/i }));
-        expect(screen.getByRole("button", { name: /guardar borrador/i })).toBeInTheDocument();
-      });
-    });
   });
 
   // ─────────────────────────────────────────────────────────────────────────

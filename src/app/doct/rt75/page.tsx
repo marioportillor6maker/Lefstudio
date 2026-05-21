@@ -71,7 +71,7 @@ function Rt75PageContent() {
             </div>
           ) : (
             <p className="text-xs text-slate-400 italic">
-              Sin recepción seleccionada. Acceda desde la Bandeja DOCT usando el botón &quot;Solicitar Info&quot;.
+              Sin recepción seleccionada. Accedé desde la Bandeja DOCT usando el botón &quot;RT-75&quot;.
             </p>
           )}
         </div>

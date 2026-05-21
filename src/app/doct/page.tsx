@@ -117,19 +117,31 @@ export default function BandejaDoctPage() {
                     <span className={row.estadoColor}>{row.estado}</span>
                   </td>
                   <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 flex-wrap">
                       <Link
                         href={`/ingresos/${row.recepcion}/vista-360`}
-                        className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-slate-600 transition-colors"
+                        className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-slate-600 transition-colors mr-1"
                       >
                         <Eye className="w-3.5 h-3.5" /> Ver
                       </Link>
                       <Link
                         href={`/doct/rt75?recepcion=${encodeURIComponent(row.recepcion)}&producto=${encodeURIComponent(row.producto)}&empresa=${encodeURIComponent(row.empresa)}`}
-                        className="inline-flex items-center gap-1 text-xs font-semibold text-white rounded-md px-2 py-1 whitespace-nowrap"
+                        className="inline-flex items-center text-xs font-semibold text-white rounded-md px-2 py-1 whitespace-nowrap"
                         style={{ backgroundColor: 'var(--color-primary)' }}
                       >
-                        Solicitar Info
+                        RT-75
+                      </Link>
+                      <Link
+                        href={`/doct/rt30?recepcion=${encodeURIComponent(row.recepcion)}&producto=${encodeURIComponent(row.producto)}&empresa=${encodeURIComponent(row.empresa)}`}
+                        className="inline-flex items-center text-xs font-semibold text-slate-600 border border-slate-300 rounded-md px-2 py-1 whitespace-nowrap hover:bg-slate-50"
+                      >
+                        RT-30
+                      </Link>
+                      <Link
+                        href={`/rac/distribucion?recepcion=${encodeURIComponent(row.recepcion)}`}
+                        className="inline-flex items-center text-xs font-semibold text-teal-700 border border-teal-200 rounded-md px-2 py-1 whitespace-nowrap hover:bg-teal-50"
+                      >
+                        RT-159
                       </Link>
                     </div>
                   </td>
