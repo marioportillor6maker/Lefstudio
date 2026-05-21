@@ -10,6 +10,10 @@ vi.mock("next/link", () => ({
   ),
 }));
 
+vi.mock("next/navigation", () => ({
+  useSearchParams: () => new URLSearchParams(),
+}));
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 function selectRecepcion(id = "REC-2024-1030") {
   fireEvent.change(screen.getByTestId("recepcion-select"), { target: { value: id } });

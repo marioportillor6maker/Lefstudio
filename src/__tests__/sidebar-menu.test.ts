@@ -13,7 +13,7 @@ const allSubItems = expandableItems.flatMap((item) => item.subItems!);
 const EXPECTED_COUNTS: Record<string, number> = {
   ingresos:   3,
   rac:        4,
-  doct:       6,
+  doct:       4,
   est:        6,
   str:        6,
   ffqq:       8,
