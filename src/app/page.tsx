@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowRight, Clock, AlertCircle, FileText, AlertTriangle, Activity, CheckCircle2, X, ChevronRight, BarChart2 } from "lucide-react";
+import { ArrowRight, Clock, FileText, Activity, CheckCircle2, ChevronRight, BarChart2 } from "lucide-react";
 import Link from "next/link";
 import { 
   LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, ResponsiveContainer,
@@ -9,17 +8,6 @@ import {
 } from "recharts";
 
 export default function Dashboard() {
-  const [alerts, setAlerts] = useState([
-    { id: 1, type: "critical", text: "LEF-2024-00156 — Paracetamol 500mg escalado a Comité de Calidad", tag: "DT" },
-    { id: 2, type: "warning", text: "LEF-2024-00148 — Metformina 850mg con pago pendiente hace 10 días", tag: "RAC" },
-    { id: 3, type: "warning", text: "LEF-2024-00152 — RT-30 con 7 días transcurridos", tag: "DOCT" },
-    { id: 4, type: "info", text: "LEF-2024-00149 — Auxiliar RT-84 pendiente de actualización", tag: "STCC" }
-  ]);
-
-  const dismissAlert = (id: number) => {
-    setAlerts(alerts.filter(a => a.id !== id));
-  };
-
   // Gráfico: Tiempo Promedio de Análisis
   const timeData = [
     { name: "S48", promedio: 5.8 },
@@ -62,37 +50,6 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6 pb-12">
-      {/* 2.1 Banners de Alerta */}
-      {alerts.length > 0 && (
-        <div className="space-y-2 mb-6">
-          {alerts.map(alert => (
-            <div key={alert.id} className={`flex items-center justify-between p-3 rounded-lg border text-sm shadow-sm ${
-              alert.type === 'critical' ? 'bg-red-50 border-red-200 text-red-900' :
-              alert.type === 'warning' ? 'bg-orange-50 border-orange-200 text-orange-900' :
-              'bg-blue-50 border-blue-200 text-blue-900'
-            }`}>
-              <div className="flex items-center gap-3">
-                {alert.type === 'critical' ? <AlertCircle className="w-5 h-5 text-red-600" /> :
-                 alert.type === 'warning' ? <AlertTriangle className="w-5 h-5 text-orange-600" /> :
-                 <AlertCircle className="w-5 h-5 text-blue-600" />}
-                <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                  alert.type === 'critical' ? 'bg-red-100 text-red-700' :
-                  alert.type === 'warning' ? 'bg-orange-100 text-orange-700' :
-                  'bg-blue-100 text-blue-700'
-                }`}>
-                  {alert.tag}
-                </span>
-                <span className="font-medium">{alert.text}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <button className="px-3 py-1 bg-white hover:bg-slate-50 border border-slate-200 rounded text-xs font-bold transition-colors">Ver</button>
-                <button onClick={() => dismissAlert(alert.id)} className="p-1 hover:bg-black/5 rounded transition-colors"><X className="w-4 h-4" /></button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
       {/* Header Título */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
         <div>
