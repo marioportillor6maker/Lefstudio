@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState, useRef, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
   ArrowLeft, Network, FileCheck, FlaskConical, Archive,
   Send, ShieldAlert, CheckCircle2, Clock, Plus, Trash2,
-  User, Calendar,
+  User, Calendar, Search, X,
 } from "lucide-react";
 import type { AreaRow, DistribucionRecepcion, FormErrors, RT159Payload } from "./_types/distribucion.types";
 import {
@@ -34,6 +34,11 @@ function DistribucionPageContent() {
   const [recepcionSel, setRecepcionSel] = useState<RecepcionRAC | null>(
     () => (recepcionParam ? MOCK_RECEPCIONES_RAC.find(r => r.id === recepcionParam) ?? null : null)
   );
+  const [recepcionQuery, setRecepcionQuery] = useState<string>(
+    () => recepcionParam && MOCK_RECEPCIONES_RAC.some(r => r.id === recepcionParam) ? recepcionParam : ''
+  );
+  const [showDropdown, setShowDropdown] = useState(false);
+  const autocompleteRef = useRef<HTMLDivElement>(null);
 
   // ── Filas de distribución por área ───────────────────────────────────────────
   const [areaRows, setAreaRows] = useState<AreaRow[]>(makeInitialRows());
@@ -53,11 +58,43 @@ function DistribucionPageContent() {
   // IDs ya agregados — evita duplicados en el mismo RT
   const addedIds = new Set(distribuciones.map(d => d.recepcionId));
 
+  // ── Click-outside: cierra el dropdown ────────────────────────────────────────
+  useEffect(() => {
+    function handler(e: MouseEvent) {
+      if (autocompleteRef.current && !autocompleteRef.current.contains(e.target as Node)) {
+        setShowDropdown(false);
+      }
+    }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  // ── Autocomplete ─────────────────────────────────────────────────────────────
+  const recepcionOptions = recepcionQuery.trim().length > 0
+    ? MOCK_RECEPCIONES_RAC.filter(r => {
+        const q = recepcionQuery.toLowerCase();
+        return r.id.toLowerCase().includes(q)
+          || r.producto.toLowerCase().includes(q)
+          || r.cliente.toLowerCase().includes(q);
+      }).slice(0, 8)
+    : [];
+
   // ── Handlers ──────────────────────────────────────────────────────────────────
 
-  const handleRecepcionChange = (id: string) => {
-    const found = MOCK_RECEPCIONES_RAC.find(r => r.id === id) ?? null;
-    setRecepcionSel(found);
+  const handleRecepcionQueryChange = (val: string) => {
+    setRecepcionQuery(val);
+    setShowDropdown(true);
+    if (recepcionSel && val !== recepcionSel.id) {
+      setRecepcionSel(null);
+      setAreaRows(makeInitialRows());
+    }
+    if (errors.recepcion) setErrors(prev => { const n = { ...prev }; delete n.recepcion; return n; });
+  };
+
+  const handleRecepcionSelect = (rec: RecepcionRAC) => {
+    setRecepcionSel(rec);
+    setRecepcionQuery(rec.id);
+    setShowDropdown(false);
     setAreaRows(makeInitialRows());
     if (errors.recepcion) setErrors(prev => { const n = { ...prev }; delete n.recepcion; return n; });
   };
@@ -251,19 +288,56 @@ function DistribucionPageContent() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className={labelCls}>Recepción Asociada <span className="text-danger">*</span></label>
-              <select
-                data-testid="recepcion-select"
-                value={recepcionSel?.id ?? ""}
-                onChange={e => handleRecepcionChange(e.target.value)}
-                className={`${inputCls} font-medium text-slate-800 ${errors.recepcion ? "border-danger" : ""}`}
-              >
-                <option value="">Seleccione recepción RAC...</option>
-                {MOCK_RECEPCIONES_RAC.map(r => (
-                  <option key={r.id} value={r.id} disabled={addedIds.has(r.id)}>
-                    {r.id} — {r.producto}{addedIds.has(r.id) ? " (ya agregada)" : ""}
-                  </option>
-                ))}
-              </select>
+              <div ref={autocompleteRef} className="relative">
+                <div className="relative">
+                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input
+                    data-testid="recepcion-search"
+                    type="text"
+                    value={recepcionQuery}
+                    onChange={e => handleRecepcionQueryChange(e.target.value)}
+                    onFocus={() => { if (recepcionQuery) setShowDropdown(true); }}
+                    placeholder="Buscar por Nº recepción, producto o cliente..."
+                    className={`pl-9 pr-8 ${inputCls} ${errors.recepcion ? "border-danger" : ""}`}
+                    autoComplete="off"
+                  />
+                  {recepcionQuery && (
+                    <button
+                      data-testid="clear-recepcion"
+                      type="button"
+                      onClick={() => { setRecepcionSel(null); setRecepcionQuery(""); setShowDropdown(false); setAreaRows(makeInitialRows()); }}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+                {showDropdown && recepcionOptions.length > 0 && (
+                  <ul
+                    data-testid="recepcion-dropdown"
+                    className="absolute z-30 w-full mt-1 bg-white border border-slate-200 rounded shadow-lg max-h-60 overflow-y-auto"
+                  >
+                    {recepcionOptions.map(r => {
+                      const alreadyAdded = addedIds.has(r.id);
+                      return (
+                        <li key={r.id}>
+                          <button
+                            data-testid="recepcion-option"
+                            type="button"
+                            disabled={alreadyAdded}
+                            onClick={() => !alreadyAdded && handleRecepcionSelect(r)}
+                            className={`w-full text-left px-3 py-2.5 transition-colors ${alreadyAdded ? "opacity-50 cursor-not-allowed bg-slate-50" : "hover:bg-blue-50"}`}
+                          >
+                            <span className="block text-xs font-bold text-primary">{r.id}{alreadyAdded ? " (ya agregada)" : ""}</span>
+                            <span className="block text-xs text-slate-700">{r.producto}</span>
+                            <span className="block text-[10px] text-slate-500">{r.cliente} — {r.formaFarmaceutica}</span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
               {errors.recepcion && <p className={errorCls}>{errors.recepcion}</p>}
             </div>
 
