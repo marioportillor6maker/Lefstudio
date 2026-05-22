@@ -11,42 +11,41 @@ export interface RecepcionRAC {
   unidadRAC: string;
 }
 
-// Extiende mockIngresosList con campo cantidadIngresadaRAC y unidadRAC
-// que el modelo de bandeja actual no expone (pendiente de integración).
+// IDs alineados con incomeMockData.ts y Bandeja DOCT (LEF-2024-00XXX)
 export const MOCK_RECEPCIONES_RAC: RecepcionRAC[] = [
   {
-    id: "REC-2024-1030",
-    producto: "Metformina 850mg",
+    id: "LEF-2024-00143",
+    producto: "Metformina 850mg Tabletas",
     formaFarmaceutica: "Tableta",
     lote: "L-993021",
-    cliente: "FarmaSalud S.A.",
+    cliente: "MedFarma S.R.L.",
     cantidadIngresadaRAC: 120,
     unidadRAC: "tabletas",
   },
   {
-    id: "REC-2024-1029",
-    producto: "Losartán 50mg",
+    id: "LEF-2024-00150",
+    producto: "Losartán 50mg Tabletas",
     formaFarmaceutica: "Tableta",
     lote: "L-887412",
-    cliente: "Droguería Central",
+    cliente: "Importadora MedSalud",
     cantidadIngresadaRAC: 80,
     unidadRAC: "tabletas",
   },
   {
-    id: "REC-2024-1028",
-    producto: "Amoxicilina Susp. 250mg/5ml",
-    formaFarmaceutica: "Suspensión",
+    id: "LEF-2024-00141",
+    producto: "Dexametasona 4mg/2ml Inyectable",
+    formaFarmaceutica: "Inyectable",
     lote: "L-552083",
-    cliente: "IHSS",
+    cliente: "AgroPharma S.A.",
     cantidadIngresadaRAC: 48,
     unidadRAC: "frascos",
   },
   {
-    id: "REC-2024-1024",
-    producto: "Ibuprofeno 400mg",
+    id: "LEF-2024-00148",
+    producto: "Ibuprofeno 400mg Tabletas",
     formaFarmaceutica: "Tableta",
     lote: "L-443110",
-    cliente: "FarmaSalud S.A.",
+    cliente: "BioTech Honduras",
     cantidadIngresadaRAC: 200,
     unidadRAC: "tabletas",
   },

@@ -15,7 +15,7 @@ vi.mock("next/navigation", () => ({
 }));
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
-function selectRecepcion(id = "REC-2024-1030") {
+function selectRecepcion(id = "LEF-2024-00143") {
   fireEvent.change(screen.getByTestId("recepcion-select"), { target: { value: id } });
 }
 
@@ -27,7 +27,7 @@ function setUnidad(areaId: string, value: string) {
   fireEvent.change(screen.getByTestId(`unidad-${areaId}`), { target: { value: value } });
 }
 
-function agregarDistribucion(recepcionId = "REC-2024-1030", cantidad = "5", unidad = "tabletas") {
+function agregarDistribucion(recepcionId = "LEF-2024-00143", cantidad = "5", unidad = "tabletas") {
   selectRecepcion(recepcionId);
   setCantidad("doct", cantidad);
   setUnidad("doct", unidad);
@@ -145,8 +145,8 @@ describe("DistribucionPage — /rac/distribucion", () => {
 
     it("muestra las recepciones mock como opciones", () => {
       render(<DistribucionPage />);
-      expect(screen.getByText(/REC-2024-1030/)).toBeInTheDocument();
-      expect(screen.getByText(/REC-2024-1029/)).toBeInTheDocument();
+      expect(screen.getByText(/LEF-2024-00143/)).toBeInTheDocument();
+      expect(screen.getByText(/LEF-2024-00150/)).toBeInTheDocument();
     });
 
     it("al seleccionar recepción, los campos de área se habilitan", () => {
@@ -159,9 +159,9 @@ describe("DistribucionPage — /rac/distribucion", () => {
 
     it("al seleccionar otra recepción, resetea los campos de área", () => {
       render(<DistribucionPage />);
-      selectRecepcion("REC-2024-1030");
+      selectRecepcion("LEF-2024-00143");
       setCantidad("doct", "10");
-      selectRecepcion("REC-2024-1029");
+      selectRecepcion("LEF-2024-00150");
       expect(screen.getByTestId("cantidad-doct")).toHaveValue(null);
     });
   });
@@ -175,21 +175,21 @@ describe("DistribucionPage — /rac/distribucion", () => {
 
     it("muestra cantidad-rac-info al seleccionar recepción", () => {
       render(<DistribucionPage />);
-      selectRecepcion("REC-2024-1030");
+      selectRecepcion("LEF-2024-00143");
       expect(screen.getByTestId("cantidad-rac-info")).toBeInTheDocument();
     });
 
-    it("muestra el número correcto para REC-2024-1030 (120 tabletas)", () => {
+    it("muestra el número correcto para LEF-2024-00143 (120 tabletas)", () => {
       render(<DistribucionPage />);
-      selectRecepcion("REC-2024-1030");
+      selectRecepcion("LEF-2024-00143");
       const info = screen.getByTestId("cantidad-rac-info");
       expect(info).toHaveTextContent("120");
       expect(info).toHaveTextContent("tabletas");
     });
 
-    it("muestra el número correcto para REC-2024-1028 (48 frascos)", () => {
+    it("muestra el número correcto para LEF-2024-00141 (48 frascos)", () => {
       render(<DistribucionPage />);
-      selectRecepcion("REC-2024-1028");
+      selectRecepcion("LEF-2024-00141");
       const info = screen.getByTestId("cantidad-rac-info");
       expect(info).toHaveTextContent("48");
       expect(info).toHaveTextContent("frascos");
@@ -356,59 +356,59 @@ describe("DistribucionPage — /rac/distribucion", () => {
   describe("Agregar distribución", () => {
     it("agrega correctamente a la tabla inferior", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
       expect(screen.getByTestId("distribuciones-table")).toBeInTheDocument();
     });
 
     it("la tabla inferior muestra el recepcionId agregado", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
-      const row = screen.getByTestId("dist-row-REC-2024-1030");
-      expect(within(row).getByText("REC-2024-1030")).toBeInTheDocument();
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      const row = screen.getByTestId("dist-row-LEF-2024-00143");
+      expect(within(row).getByText("LEF-2024-00143")).toBeInTheDocument();
     });
 
     it("limpia el formulario tras agregar (recepción vuelve a vacío)", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
       expect(screen.getByTestId("recepcion-select")).toHaveValue("");
     });
 
     it("limpia las cantidades de área tras agregar", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
       // After reset, fields are disabled — but their value should be empty
       expect(screen.queryByTestId("cantidad-rac-info")).not.toBeInTheDocument();
     });
 
     it("las observaciones se conservan en la distribución agregada", () => {
       render(<DistribucionPage />);
-      selectRecepcion("REC-2024-1030");
+      selectRecepcion("LEF-2024-00143");
       fireEvent.change(screen.getByTestId("observaciones"), { target: { value: "Observación de prueba" } });
       setCantidad("doct", "5");
       setUnidad("doct", "tabletas");
       fireEvent.click(screen.getByTestId("agregar-btn"));
-      const row = screen.getByTestId("dist-row-REC-2024-1030");
+      const row = screen.getByTestId("dist-row-LEF-2024-00143");
       expect(within(row).getByTitle("Observación de prueba")).toBeInTheDocument();
     });
 
     it("muestra el producto de la recepción en la tabla", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
-      const row = screen.getByTestId("dist-row-REC-2024-1030");
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      const row = screen.getByTestId("dist-row-LEF-2024-00143");
       expect(within(row).getByText(/Metformina 850mg/i)).toBeInTheDocument();
     });
 
     it("muestra la cantidad RAC en la tabla", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
-      const row = screen.getByTestId("dist-row-REC-2024-1030");
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      const row = screen.getByTestId("dist-row-LEF-2024-00143");
       expect(within(row).getByText("120")).toBeInTheDocument();
     });
 
     it("muestra el área y cantidad distribuida en la tabla", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
-      const row = screen.getByTestId("dist-row-REC-2024-1030");
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      const row = screen.getByTestId("dist-row-LEF-2024-00143");
       expect(within(row).getByText(/Documentación/i)).toBeInTheDocument();
     });
   });
@@ -417,16 +417,16 @@ describe("DistribucionPage — /rac/distribucion", () => {
   describe("Múltiples distribuciones en el mismo RT", () => {
     it("permite agregar segunda distribución con distinta recepción", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
-      agregarDistribucion("REC-2024-1029", "3", "tabletas");
-      expect(screen.getByTestId("dist-row-REC-2024-1030")).toBeInTheDocument();
-      expect(screen.getByTestId("dist-row-REC-2024-1029")).toBeInTheDocument();
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00150", "3", "tabletas");
+      expect(screen.getByTestId("dist-row-LEF-2024-00143")).toBeInTheDocument();
+      expect(screen.getByTestId("dist-row-LEF-2024-00150")).toBeInTheDocument();
     });
 
     it("la tabla inferior muestra ambas distribuciones", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
-      agregarDistribucion("REC-2024-1029", "3", "tabletas");
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00150", "3", "tabletas");
       const rows = screen.getAllByRole("row");
       // thead + 2 data rows
       expect(rows.length).toBeGreaterThanOrEqual(3);
@@ -434,9 +434,9 @@ describe("DistribucionPage — /rac/distribucion", () => {
 
     it("no permite duplicar la misma recepción en el mismo RT", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
       // Try to add same recepcion again
-      selectRecepcion("REC-2024-1030");
+      selectRecepcion("LEF-2024-00143");
       setCantidad("doct", "2");
       setUnidad("doct", "tabletas");
       fireEvent.click(screen.getByTestId("agregar-btn"));
@@ -445,9 +445,9 @@ describe("DistribucionPage — /rac/distribucion", () => {
 
     it("la recepción ya agregada aparece marcada como deshabilitada en el select", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
       const select = screen.getByTestId("recepcion-select");
-      const opt = Array.from(select.querySelectorAll("option")).find(o => o.value === "REC-2024-1030");
+      const opt = Array.from(select.querySelectorAll("option")).find(o => o.value === "LEF-2024-00143");
       expect(opt).toBeDefined();
       expect(opt!.disabled).toBe(true);
     });
@@ -457,30 +457,30 @@ describe("DistribucionPage — /rac/distribucion", () => {
   describe("Eliminar distribución de la tabla", () => {
     it("existe botón eliminar por cada fila", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
-      expect(screen.getByTestId("eliminar-REC-2024-1030")).toBeInTheDocument();
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      expect(screen.getByTestId("eliminar-LEF-2024-00143")).toBeInTheDocument();
     });
 
     it("al eliminar, la distribución desaparece de la tabla", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
-      fireEvent.click(screen.getByTestId("eliminar-REC-2024-1030"));
-      expect(screen.queryByTestId("dist-row-REC-2024-1030")).not.toBeInTheDocument();
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      fireEvent.click(screen.getByTestId("eliminar-LEF-2024-00143"));
+      expect(screen.queryByTestId("dist-row-LEF-2024-00143")).not.toBeInTheDocument();
     });
 
     it("al eliminar la única distribución, vuelve a mostrar mensaje vacío", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
-      fireEvent.click(screen.getByTestId("eliminar-REC-2024-1030"));
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      fireEvent.click(screen.getByTestId("eliminar-LEF-2024-00143"));
       expect(screen.getByTestId("distribuciones-empty")).toBeInTheDocument();
     });
 
     it("la recepción eliminada queda disponible para agregar de nuevo", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
-      fireEvent.click(screen.getByTestId("eliminar-REC-2024-1030"));
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      fireEvent.click(screen.getByTestId("eliminar-LEF-2024-00143"));
       const select = screen.getByTestId("recepcion-select");
-      const opt = Array.from(select.querySelectorAll("option")).find(o => o.value === "REC-2024-1030");
+      const opt = Array.from(select.querySelectorAll("option")).find(o => o.value === "LEF-2024-00143");
       expect(opt?.disabled).toBeFalsy();
     });
   });
@@ -495,7 +495,7 @@ describe("DistribucionPage — /rac/distribucion", () => {
 
     it("no muestra error de guardado si hay al menos una distribución", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
       fireEvent.click(screen.getByTestId("emitir-btn"));
       expect(screen.queryByTestId("save-error")).not.toBeInTheDocument();
     });
@@ -504,7 +504,7 @@ describe("DistribucionPage — /rac/distribucion", () => {
       render(<DistribucionPage />);
       fireEvent.click(screen.getByTestId("emitir-btn"));
       expect(screen.getByTestId("save-error")).toBeInTheDocument();
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
       expect(screen.queryByTestId("save-error")).not.toBeInTheDocument();
     });
   });
@@ -513,18 +513,18 @@ describe("DistribucionPage — /rac/distribucion", () => {
   describe("Payload y estado final", () => {
     it("la tabla inferior refleja múltiples distribuciones con distintas recepciones", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1028", "10", "frascos");
-      agregarDistribucion("REC-2024-1024", "20", "tabletas");
-      expect(screen.getByTestId("dist-row-REC-2024-1028")).toBeInTheDocument();
-      expect(screen.getByTestId("dist-row-REC-2024-1024")).toBeInTheDocument();
+      agregarDistribucion("LEF-2024-00141", "10", "frascos");
+      agregarDistribucion("LEF-2024-00148", "20", "tabletas");
+      expect(screen.getByTestId("dist-row-LEF-2024-00141")).toBeInTheDocument();
+      expect(screen.getByTestId("dist-row-LEF-2024-00148")).toBeInTheDocument();
     });
 
     it("cada distribución conserva su unidad independientemente", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1028", "10", "frascos");
-      agregarDistribucion("REC-2024-1024", "20", "tabletas");
-      const row1 = screen.getByTestId("dist-row-REC-2024-1028");
-      const row2 = screen.getByTestId("dist-row-REC-2024-1024");
+      agregarDistribucion("LEF-2024-00141", "10", "frascos");
+      agregarDistribucion("LEF-2024-00148", "20", "tabletas");
+      const row1 = screen.getByTestId("dist-row-LEF-2024-00141");
+      const row2 = screen.getByTestId("dist-row-LEF-2024-00148");
       // getAllByText avoids "multiple matches" error — the unit appears in RAC qty cell and area cell
       expect(within(row1).getAllByText(/frascos/)[0]).toBeInTheDocument();
       expect(within(row2).getAllByText(/tabletas/)[0]).toBeInTheDocument();
@@ -532,8 +532,8 @@ describe("DistribucionPage — /rac/distribucion", () => {
 
     it("el counter del panel muestra la cantidad de distribuciones agregadas", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("REC-2024-1030", "5", "tabletas");
-      agregarDistribucion("REC-2024-1029", "3", "tabletas");
+      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00150", "3", "tabletas");
       // Table has thead + 2 data rows = at least 3 rows total
       const rows = screen.getAllByRole("row");
       expect(rows.length).toBeGreaterThanOrEqual(3);
