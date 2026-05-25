@@ -9,6 +9,9 @@ export interface RecepcionRAC {
   cliente: string;
   cantidadIngresadaRAC: number;
   unidadRAC: string;
+  cantidadDocto: number;
+  cantidadMicro: number;
+  cantidadMuestroteca: number;
 }
 
 // IDs alineados con incomeMockData.ts y Bandeja DOCT (LEF-2024-00XXX)
@@ -21,6 +24,9 @@ export const MOCK_RECEPCIONES_RAC: RecepcionRAC[] = [
     cliente: "MedFarma S.R.L.",
     cantidadIngresadaRAC: 120,
     unidadRAC: "tabletas",
+    cantidadDocto: 50,
+    cantidadMicro: 40,
+    cantidadMuestroteca: 30,
   },
   {
     id: "LEF-2024-00150",
@@ -30,6 +36,9 @@ export const MOCK_RECEPCIONES_RAC: RecepcionRAC[] = [
     cliente: "Importadora MedSalud",
     cantidadIngresadaRAC: 80,
     unidadRAC: "tabletas",
+    cantidadDocto: 30,
+    cantidadMicro: 30,
+    cantidadMuestroteca: 20,
   },
   {
     id: "LEF-2024-00141",
@@ -39,6 +48,9 @@ export const MOCK_RECEPCIONES_RAC: RecepcionRAC[] = [
     cliente: "AgroPharma S.A.",
     cantidadIngresadaRAC: 48,
     unidadRAC: "frascos",
+    cantidadDocto: 20,
+    cantidadMicro: 18,
+    cantidadMuestroteca: 10,
   },
   {
     id: "LEF-2024-00148",
@@ -48,6 +60,9 @@ export const MOCK_RECEPCIONES_RAC: RecepcionRAC[] = [
     cliente: "BioTech Honduras",
     cantidadIngresadaRAC: 200,
     unidadRAC: "tabletas",
+    cantidadDocto: 80,
+    cantidadMicro: 80,
+    cantidadMuestroteca: 40,
   },
   {
     id: "LEF-2024-00147",
@@ -57,6 +72,9 @@ export const MOCK_RECEPCIONES_RAC: RecepcionRAC[] = [
     cliente: "Laboratorios Farma S.A.",
     cantidadIngresadaRAC: 150,
     unidadRAC: "cápsulas",
+    cantidadDocto: 60,
+    cantidadMicro: 60,
+    cantidadMuestroteca: 30,
   },
   {
     id: "LEF-2024-00139",
@@ -66,6 +84,9 @@ export const MOCK_RECEPCIONES_RAC: RecepcionRAC[] = [
     cliente: "PharmaCentral",
     cantidadIngresadaRAC: 100,
     unidadRAC: "tabletas",
+    cantidadDocto: 40,
+    cantidadMicro: 40,
+    cantidadMuestroteca: 20,
   },
   {
     id: "LEF-2024-00135",
@@ -75,6 +96,9 @@ export const MOCK_RECEPCIONES_RAC: RecepcionRAC[] = [
     cliente: "Laboratorio El Sol",
     cantidadIngresadaRAC: 90,
     unidadRAC: "tabletas",
+    cantidadDocto: 36,
+    cantidadMicro: 36,
+    cantidadMuestroteca: 18,
   },
   {
     id: "LEF-2024-00153",
@@ -84,6 +108,9 @@ export const MOCK_RECEPCIONES_RAC: RecepcionRAC[] = [
     cliente: "NovaMed Honduras",
     cantidadIngresadaRAC: 180,
     unidadRAC: "tabletas",
+    cantidadDocto: 70,
+    cantidadMicro: 70,
+    cantidadMuestroteca: 40,
   },
   {
     id: "LEF-2024-00144",
@@ -93,6 +120,9 @@ export const MOCK_RECEPCIONES_RAC: RecepcionRAC[] = [
     cliente: "Distribuidora Salud Total",
     cantidadIngresadaRAC: 60,
     unidadRAC: "tabletas",
+    cantidadDocto: 24,
+    cantidadMicro: 24,
+    cantidadMuestroteca: 12,
   },
 ];
 
@@ -124,8 +154,8 @@ export const AREAS_DESTINO = [
     responsables: ["Dra. Ana Torres (Micro)", "Lic. Juan Pérez (Micro)"],
   },
   {
-    id: "biblioteca",
-    name: "Muestra Biblioteca",
+    id: "muestroteca",
+    name: "Muestroteca",
     responsables: ["Custodio STR", "Almacén Central"],
   },
 ];

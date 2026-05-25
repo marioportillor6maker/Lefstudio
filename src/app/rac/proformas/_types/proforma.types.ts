@@ -14,6 +14,14 @@
 export type TipoAnalisis = "completo" | "parcial" | "micro";
 export type Moneda = "L" | "$";
 export type MetodoPago = "transferencia" | "deposito" | "tgr";
+
+export interface MonedaCatalog {
+  code: Moneda;
+  label: string;       // "Lempiras", "Dólares"
+  symbol: string;      // "L.", "US$"
+  nombreLetras: string;// "LEMPIRAS", "DÓLARES" — usado en número a letras
+  slug: string;        // slug sin tildes, minúsculas — para data-testid
+}
 export type EstadoProforma = "Pendiente" | "Pagado" | "Vencido";
 
 export interface ProformaGenerada {

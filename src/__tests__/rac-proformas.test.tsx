@@ -4,6 +4,7 @@ import React from "react";
 import { render, screen, fireEvent, within } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import ProformasPagoPage, { numeroALetras } from "@/app/rac/proformas/page";
+import { MONEDAS_CATALOG } from "@/app/rac/proformas/_data/monedasCatalog";
 
 vi.mock("next/link", () => ({
   default: ({ children, href }: { children: React.ReactNode; href: string }) => (
@@ -161,47 +162,52 @@ describe("ProformasPagoPage — /rac/proformas", () => {
     });
   });
 
-  // ── Precio L / $ — exclusión mutua ──────────────────────────────────────────
-  describe("Precio — Lempiras y Dólares (exclusión mutua)", () => {
-    it("tiene input de precio en Lempiras", () => {
+  // ── Precio — radio de moneda + input único ───────────────────────────────────
+  describe("Precio — selección de moneda + input único", () => {
+    it("tiene radio button para Lempiras", () => {
       render(<ProformasPagoPage />);
-      expect(screen.getByTestId("precio-l")).toBeInTheDocument();
+      expect(screen.getByTestId("moneda-lempiras")).toBeInTheDocument();
     });
-    it("tiene input de precio en Dólares", () => {
+    it("tiene radio button para Dólares", () => {
       render(<ProformasPagoPage />);
-      expect(screen.getByTestId("precio-d")).toBeInTheDocument();
+      expect(screen.getByTestId("moneda-dolares")).toBeInTheDocument();
     });
-    it("los dos campos están habilitados cuando no hay moneda activa", () => {
+    it("tiene input único para el precio", () => {
       render(<ProformasPagoPage />);
-      expect(screen.getByTestId("precio-l")).not.toBeDisabled();
-      expect(screen.getByTestId("precio-d")).not.toBeDisabled();
+      expect(screen.getByTestId("precio-input")).toBeInTheDocument();
     });
-    it("al ingresar Lempiras deshabilita el campo Dólares", () => {
+    it("el input de precio está deshabilitado cuando no hay moneda seleccionada", () => {
       render(<ProformasPagoPage />);
-      fireEvent.change(screen.getByTestId("precio-l"), { target: { value: "1000" } });
-      expect(screen.getByTestId("precio-d")).toBeDisabled();
+      expect(screen.getByTestId("precio-input")).toBeDisabled();
     });
-    it("al ingresar Dólares deshabilita el campo Lempiras", () => {
+    it("al seleccionar Lempiras, el input se habilita", () => {
       render(<ProformasPagoPage />);
-      fireEvent.change(screen.getByTestId("precio-d"), { target: { value: "50" } });
-      expect(screen.getByTestId("precio-l")).toBeDisabled();
+      fireEvent.click(screen.getByTestId("moneda-lempiras"));
+      expect(screen.getByTestId("precio-input")).not.toBeDisabled();
     });
-    it("al limpiar el campo L se rehabilita el campo $", () => {
+    it("al seleccionar Dólares, el input se habilita", () => {
       render(<ProformasPagoPage />);
-      fireEvent.change(screen.getByTestId("precio-l"), { target: { value: "1000" } });
-      fireEvent.change(screen.getByTestId("precio-l"), { target: { value: "" } });
-      expect(screen.getByTestId("precio-d")).not.toBeDisabled();
+      fireEvent.click(screen.getByTestId("moneda-dolares"));
+      expect(screen.getByTestId("precio-input")).not.toBeDisabled();
     });
-    it("al limpiar el campo $ se rehabilita el campo L", () => {
+    it("al cambiar de moneda, el precio se limpia", () => {
       render(<ProformasPagoPage />);
-      fireEvent.change(screen.getByTestId("precio-d"), { target: { value: "100" } });
-      fireEvent.change(screen.getByTestId("precio-d"), { target: { value: "" } });
-      expect(screen.getByTestId("precio-l")).not.toBeDisabled();
+      fireEvent.click(screen.getByTestId("moneda-lempiras"));
+      fireEvent.change(screen.getByTestId("precio-input"), { target: { value: "1000" } });
+      fireEvent.click(screen.getByTestId("moneda-dolares"));
+      expect(screen.getByTestId("precio-input")).toHaveValue(null);
     });
-    it("los inputs son de tipo number", () => {
+    it("el input es de tipo number", () => {
       render(<ProformasPagoPage />);
-      expect(screen.getByTestId("precio-l")).toHaveAttribute("type", "number");
-      expect(screen.getByTestId("precio-d")).toHaveAttribute("type", "number");
+      expect(screen.getByTestId("precio-input")).toHaveAttribute("type", "number");
+    });
+    it("los radios son mutuamente excluyentes", () => {
+      render(<ProformasPagoPage />);
+      fireEvent.click(screen.getByTestId("moneda-lempiras"));
+      expect(screen.getByTestId("moneda-lempiras")).toBeChecked();
+      fireEvent.click(screen.getByTestId("moneda-dolares"));
+      expect(screen.getByTestId("moneda-dolares")).toBeChecked();
+      expect(screen.getByTestId("moneda-lempiras")).not.toBeChecked();
     });
   });
 
@@ -213,30 +219,35 @@ describe("ProformasPagoPage — /rac/proformas", () => {
     });
     it("la sección ISV aparece al ingresar precio en L", () => {
       render(<ProformasPagoPage />);
-      fireEvent.change(screen.getByTestId("precio-l"), { target: { value: "1000" } });
+      fireEvent.click(screen.getByTestId("moneda-lempiras"));
+      fireEvent.change(screen.getByTestId("precio-input"), { target: { value: "1000" } });
       expect(screen.getByTestId("isv-value")).toBeInTheDocument();
     });
     it("calcula ISV = 15% del precio base", () => {
       render(<ProformasPagoPage />);
-      fireEvent.change(screen.getByTestId("precio-l"), { target: { value: "1000" } });
+      fireEvent.click(screen.getByTestId("moneda-lempiras"));
+      fireEvent.change(screen.getByTestId("precio-input"), { target: { value: "1000" } });
       // ISV = 1000 * 0.15 = 150.00
       expect(screen.getByTestId("isv-value")).toHaveTextContent("150");
     });
     it("recalcula ISV al cambiar el precio", () => {
       render(<ProformasPagoPage />);
-      fireEvent.change(screen.getByTestId("precio-l"), { target: { value: "2000" } });
+      fireEvent.click(screen.getByTestId("moneda-lempiras"));
+      fireEvent.change(screen.getByTestId("precio-input"), { target: { value: "2000" } });
       // ISV = 2000 * 0.15 = 300.00
       expect(screen.getByTestId("isv-value")).toHaveTextContent("300");
     });
     it("el ISV se muestra como texto (no input), no es editable", () => {
       render(<ProformasPagoPage />);
-      fireEvent.change(screen.getByTestId("precio-l"), { target: { value: "1000" } });
+      fireEvent.click(screen.getByTestId("moneda-lempiras"));
+      fireEvent.change(screen.getByTestId("precio-input"), { target: { value: "1000" } });
       expect(screen.getByTestId("isv-value").tagName).not.toBe("INPUT");
       expect(screen.getByTestId("isv-value").tagName).not.toBe("TEXTAREA");
     });
     it("ISV también calcula con precio en Dólares", () => {
       render(<ProformasPagoPage />);
-      fireEvent.change(screen.getByTestId("precio-d"), { target: { value: "200" } });
+      fireEvent.click(screen.getByTestId("moneda-dolares"));
+      fireEvent.change(screen.getByTestId("precio-input"), { target: { value: "200" } });
       // ISV = 200 * 0.15 = 30.00
       expect(screen.getByTestId("isv-value")).toHaveTextContent("30");
     });
@@ -246,23 +257,27 @@ describe("ProformasPagoPage — /rac/proformas", () => {
   describe("Total — cálculo correcto y letras", () => {
     it("calcula total = precio + ISV", () => {
       render(<ProformasPagoPage />);
-      fireEvent.change(screen.getByTestId("precio-l"), { target: { value: "1000" } });
+      fireEvent.click(screen.getByTestId("moneda-lempiras"));
+      fireEvent.change(screen.getByTestId("precio-input"), { target: { value: "1000" } });
       // 1000 + 150 = 1150
       expect(screen.getByTestId("total-value")).toHaveTextContent("1,150");
     });
     it("total en letras visible cuando hay precio", () => {
       render(<ProformasPagoPage />);
-      fireEvent.change(screen.getByTestId("precio-l"), { target: { value: "1000" } });
+      fireEvent.click(screen.getByTestId("moneda-lempiras"));
+      fireEvent.change(screen.getByTestId("precio-input"), { target: { value: "1000" } });
       expect(screen.getByTestId("total-letras")).toBeInTheDocument();
     });
     it("total en letras muestra el valor correcto en L", () => {
       render(<ProformasPagoPage />);
-      fireEvent.change(screen.getByTestId("precio-l"), { target: { value: "1000" } });
+      fireEvent.click(screen.getByTestId("moneda-lempiras"));
+      fireEvent.change(screen.getByTestId("precio-input"), { target: { value: "1000" } });
       expect(screen.getByTestId("total-letras")).toHaveTextContent("MIL CIENTO CINCUENTA LEMPIRAS");
     });
     it("total en letras muestra el valor correcto en $", () => {
       render(<ProformasPagoPage />);
-      fireEvent.change(screen.getByTestId("precio-d"), { target: { value: "100" } });
+      fireEvent.click(screen.getByTestId("moneda-dolares"));
+      fireEvent.change(screen.getByTestId("precio-input"), { target: { value: "100" } });
       // total = 100 + 15 = 115
       expect(screen.getByTestId("total-letras")).toHaveTextContent("CIENTO QUINCE DÓLARES");
     });
@@ -272,8 +287,9 @@ describe("ProformasPagoPage — /rac/proformas", () => {
     });
     it("total en letras desaparece al limpiar el precio", () => {
       render(<ProformasPagoPage />);
-      fireEvent.change(screen.getByTestId("precio-l"), { target: { value: "1000" } });
-      fireEvent.change(screen.getByTestId("precio-l"), { target: { value: "" } });
+      fireEvent.click(screen.getByTestId("moneda-lempiras"));
+      fireEvent.change(screen.getByTestId("precio-input"), { target: { value: "1000" } });
+      fireEvent.change(screen.getByTestId("precio-input"), { target: { value: "" } });
       expect(screen.queryByTestId("total-letras")).not.toBeInTheDocument();
     });
   });
@@ -374,7 +390,8 @@ describe("ProformasPagoPage — /rac/proformas", () => {
       fireEvent.change(screen.getByTestId("recepcion-search"), { target: { value: "metformina" } });
       fireEvent.click(screen.getAllByTestId("recepcion-option")[0]);
       fireEvent.change(screen.getByTestId("tipo-analisis"), { target: { value: "completo" } });
-      fireEvent.change(screen.getByTestId("precio-l"), { target: { value: "1000" } });
+      fireEvent.click(screen.getByTestId("moneda-lempiras"));
+      fireEvent.change(screen.getByTestId("precio-input"), { target: { value: "1000" } });
     }
 
     beforeEach(() => {
@@ -424,7 +441,7 @@ describe("ProformasPagoPage — /rac/proformas", () => {
       fireEvent.click(screen.getByTestId("generar-proforma"));
       fireEvent.click(screen.getByTestId("success-cerrar"));
       expect(screen.getByTestId("recepcion-search")).toHaveValue("");
-      expect(screen.getByTestId("precio-l")).toHaveValue(null);
+      expect(screen.getByTestId("precio-input")).toHaveValue(null);
     });
     it("el total en letras persiste en el modal de éxito (no desaparece al guardar)", () => {
       fillForm();
@@ -629,6 +646,27 @@ describe("ProformasPagoPage — /rac/proformas", () => {
       fireEvent.change(tableSearch, { target: { value: "PROF-2024-089" } });
       fireEvent.change(tableSearch, { target: { value: "" } });
       expect(screen.getAllByTestId("ver-btn").length).toBe(3);
+    });
+  });
+
+  // ── Dinamismo — radio buttons desde catálogo ─────────────────────────────────
+  describe("Dinamismo — radio buttons desde MONEDAS_CATALOG", () => {
+    it("renderiza un radio por cada entrada del catálogo", () => {
+      render(<ProformasPagoPage />);
+      const radios = screen.getAllByRole("radio");
+      expect(radios.length).toBe(MONEDAS_CATALOG.length);
+    });
+    it("los labels de los radios coinciden con el catálogo", () => {
+      render(<ProformasPagoPage />);
+      MONEDAS_CATALOG.forEach(m => {
+        expect(screen.getByText(m.label)).toBeInTheDocument();
+      });
+    });
+    it("cada radio tiene data-testid derivado del slug del catálogo", () => {
+      render(<ProformasPagoPage />);
+      MONEDAS_CATALOG.forEach(m => {
+        expect(screen.getByTestId(`moneda-${m.slug}`)).toBeInTheDocument();
+      });
     });
   });
 

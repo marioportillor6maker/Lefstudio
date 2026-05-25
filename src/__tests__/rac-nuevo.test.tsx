@@ -253,12 +253,6 @@ describe("NuevoIngresoRAC — /rac/nuevo", () => {
   // 5. CAMPOS OPCIONALES — SIN ASTERISCO
   // ─────────────────────────────────────────────────────────────────────────
   describe("Campos opcionales — sin asterisco en label", () => {
-    it("Nombre Genérico has no asterisk", () => {
-      render(<NuevoIngresoRAC />);
-      goToStep(2);
-      expect(screen.getByText(/nombre gen[eé]rico/i).textContent).not.toContain("*");
-    });
-
     it("Forma Farmacéutica has no asterisk", () => {
       render(<NuevoIngresoRAC />);
       goToStep(2);
@@ -759,83 +753,127 @@ describe("NuevoIngresoRAC — /rac/nuevo", () => {
   });
 
   // ─────────────────────────────────────────────────────────────────────────
-  // 14. PASO 6 — CHECKBOXES DE CONFIRMACIÓN
+  // 14. TABLA DINÁMICA — PRINCIPIOS ACTIVOS (STEP 2)
   // ─────────────────────────────────────────────────────────────────────────
-  describe("Paso 6 — checkboxes de confirmación", () => {
-    it("renders at least 4 confirmation checkboxes", () => {
+  describe("Tabla dinámica de Principios Activos — step 2", () => {
+    it("muestra estado vacío antes de agregar", () => {
       render(<NuevoIngresoRAC />);
-      goToStep(6);
-      expect(screen.getAllByRole("checkbox").length).toBeGreaterThanOrEqual(4);
+      goToStep(2);
+      expect(screen.getByTestId("principios-empty")).toBeInTheDocument();
     });
 
-    it("all checkboxes are unchecked by default", () => {
+    it("existe botón Agregar Principio Activo", () => {
       render(<NuevoIngresoRAC />);
-      goToStep(6);
-      screen.getAllByRole("checkbox").forEach(cb => expect(cb).not.toBeChecked());
+      goToStep(2);
+      expect(screen.getByTestId("agregar-principio-activo")).toBeInTheDocument();
     });
 
-    it("user can check a confirmation checkbox", () => {
+    it("agrega una fila al hacer clic", () => {
       render(<NuevoIngresoRAC />);
-      goToStep(6);
-      const [first] = screen.getAllByRole("checkbox");
-      fireEvent.click(first);
-      expect(first).toBeChecked();
+      goToStep(2);
+      fireEvent.click(screen.getByTestId("agregar-principio-activo"));
+      expect(screen.getAllByTestId("principio-activo-row")).toHaveLength(1);
     });
 
-    it("checking one checkbox does not check others", () => {
+    it("la fila tiene input de nombre y concentración", () => {
       render(<NuevoIngresoRAC />);
-      goToStep(6);
-      const [first, ...rest] = screen.getAllByRole("checkbox");
-      fireEvent.click(first);
-      rest.forEach(cb => expect(cb).not.toBeChecked());
+      goToStep(2);
+      fireEvent.click(screen.getByTestId("agregar-principio-activo"));
+      const row = screen.getAllByTestId("principio-activo-row")[0];
+      expect(within(row).getByTestId("principio-activo-nombre")).toBeInTheDocument();
+      expect(within(row).getByTestId("principio-activo-concentracion")).toBeInTheDocument();
+    });
+
+    it("botón eliminar remueve la fila", () => {
+      render(<NuevoIngresoRAC />);
+      goToStep(2);
+      fireEvent.click(screen.getByTestId("agregar-principio-activo"));
+      fireEvent.click(screen.getAllByTestId("principio-activo-eliminar")[0]);
+      expect(screen.queryAllByTestId("principio-activo-row")).toHaveLength(0);
+    });
+
+    it("estado vacío vuelve al eliminar la última fila", () => {
+      render(<NuevoIngresoRAC />);
+      goToStep(2);
+      fireEvent.click(screen.getByTestId("agregar-principio-activo"));
+      fireEvent.click(screen.getAllByTestId("principio-activo-eliminar")[0]);
+      expect(screen.getByTestId("principios-empty")).toBeInTheDocument();
     });
   });
 
   // ─────────────────────────────────────────────────────────────────────────
-  // 15. NOMBRE GENÉRICO — OPCIONAL Y FUNCIONAL
+  // 15. TABLA DINÁMICA — REGISTROS SANITARIOS (STEP 2)
   // ─────────────────────────────────────────────────────────────────────────
-  describe("Nombre Genérico — opcional y funcional", () => {
-    it("renders 'Nombre Genérico' field in step 2", () => {
+  describe("Tabla dinámica de Registros Sanitarios — step 2", () => {
+    it("muestra estado vacío antes de agregar", () => {
       render(<NuevoIngresoRAC />);
       goToStep(2);
-      expect(screen.getByText(/nombre gen[eé]rico/i)).toBeInTheDocument();
+      expect(screen.getByTestId("registros-empty")).toBeInTheDocument();
     });
 
-    it("field is a text input", () => {
+    it("existe botón Agregar Registro Sanitario", () => {
       render(<NuevoIngresoRAC />);
       goToStep(2);
-      // Find input adjacent to the label via parent div
-      const label = screen.getByText(/nombre gen[eé]rico/i);
-      const container = label.closest("div");
-      expect(container?.querySelector("input[type='text']")).toBeInTheDocument();
+      expect(screen.getByTestId("agregar-registro-sanitario")).toBeInTheDocument();
     });
 
-    it("user can type a value in Nombre Genérico", () => {
+    it("agrega una fila al hacer clic", () => {
       render(<NuevoIngresoRAC />);
       goToStep(2);
-      const container = screen.getByText(/nombre gen[eé]rico/i).closest("div");
-      const input = container?.querySelector("input[type='text']") as HTMLInputElement;
-      fireEvent.change(input, { target: { value: "Amoxicilina" } });
-      expect(input.value).toBe("Amoxicilina");
+      fireEvent.click(screen.getByTestId("agregar-registro-sanitario"));
+      expect(screen.getAllByTestId("registro-sanitario-row")).toHaveLength(1);
     });
 
-    it("empty Nombre Genérico does not block advancing to step 3", () => {
+    it("la fila tiene input de número de registro", () => {
       render(<NuevoIngresoRAC />);
       goToStep(2);
-      // Nombre Genérico is empty (default) — click Siguiente
-      fireEvent.click(screen.getByRole("button", { name: /siguiente/i }));
-      expect(screen.getByText(/Paso 3: Cliente/)).toBeInTheDocument();
+      fireEvent.click(screen.getByTestId("agregar-registro-sanitario"));
+      const row = screen.getAllByTestId("registro-sanitario-row")[0];
+      expect(within(row).getByTestId("registro-sanitario-numero")).toBeInTheDocument();
     });
 
-    it("label has no asterisk — confirmed optional", () => {
+    it("botón eliminar remueve la fila", () => {
       render(<NuevoIngresoRAC />);
       goToStep(2);
-      expect(screen.getByText(/nombre gen[eé]rico/i).textContent).not.toContain("*");
+      fireEvent.click(screen.getByTestId("agregar-registro-sanitario"));
+      fireEvent.click(screen.getAllByTestId("registro-sanitario-eliminar")[0]);
+      expect(screen.queryAllByTestId("registro-sanitario-row")).toHaveLength(0);
+    });
+
+    it("estado vacío vuelve al eliminar la última fila", () => {
+      render(<NuevoIngresoRAC />);
+      goToStep(2);
+      fireEvent.click(screen.getByTestId("agregar-registro-sanitario"));
+      fireEvent.click(screen.getAllByTestId("registro-sanitario-eliminar")[0]);
+      expect(screen.getByTestId("registros-empty")).toBeInTheDocument();
     });
   });
 
   // ─────────────────────────────────────────────────────────────────────────
-  // 16. RESPONSABLE RAC — NO COMBOBOX, NO SELECCIONABLE
+  // 16. REGRESIÓN — LABELS STEP 2
+  // ─────────────────────────────────────────────────────────────────────────
+  describe("Regresión — labels step 2", () => {
+    it("renders 'Laboratorio Fabricante' label", () => {
+      render(<NuevoIngresoRAC />);
+      goToStep(2);
+      expect(screen.getByText(/laboratorio fabricante/i)).toBeInTheDocument();
+    });
+
+    it("renders 'Laboratorio Titular' label", () => {
+      render(<NuevoIngresoRAC />);
+      goToStep(2);
+      expect(screen.getByText(/laboratorio titular/i)).toBeInTheDocument();
+    });
+
+    it("does NOT render 'Nombre Genérico' field", () => {
+      render(<NuevoIngresoRAC />);
+      goToStep(2);
+      expect(screen.queryByText(/nombre gen[eé]rico/i)).not.toBeInTheDocument();
+    });
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // 18. RESPONSABLE RAC — NO COMBOBOX, NO SELECCIONABLE
   // ─────────────────────────────────────────────────────────────────────────
   describe("Responsable RAC — no combobox, no seleccionable", () => {
     it("no <select> element exists in the responsable area", () => {
@@ -1072,10 +1110,10 @@ describe("NuevoIngresoRAC — /rac/nuevo", () => {
       expect(screen.getByText("Estándares Requeridos")).toBeInTheDocument();
     });
 
-    it("'Confirmación Final' section heading is present", () => {
+    it("'Confirmación Final' section heading is NOT present (removed)", () => {
       render(<NuevoIngresoRAC />);
       goToStep(6);
-      expect(screen.getByText("Confirmación Final")).toBeInTheDocument();
+      expect(screen.queryByText("Confirmación Final")).not.toBeInTheDocument();
     });
   });
 

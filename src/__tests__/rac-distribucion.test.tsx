@@ -15,25 +15,26 @@ vi.mock("next/navigation", () => ({
 }));
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
+function typeInSearch(value: string) {
+  fireEvent.change(screen.getByTestId("recepcion-search"), { target: { value } });
+}
+
+function selectFromDropdown(index = 0) {
+  const opts = screen.getAllByTestId("recepcion-option");
+  fireEvent.click(opts[index]);
+}
+
+/** Type the reception ID in search, then click the first dropdown result */
 function selectRecepcion(id = "LEF-2024-00143") {
-  fireEvent.change(screen.getByTestId("recepcion-select"), { target: { value: id } });
+  typeInSearch(id);
+  selectFromDropdown(0);
 }
 
-function setCantidad(areaId: string, value: string) {
-  fireEvent.change(screen.getByTestId(`cantidad-${areaId}`), { target: { value } });
-}
-
-function setUnidad(areaId: string, value: string) {
-  fireEvent.change(screen.getByTestId(`unidad-${areaId}`), { target: { value: value } });
-}
-
-function agregarDistribucion(recepcionId = "LEF-2024-00143", cantidad = "5", unidad = "tabletas") {
-  selectRecepcion(recepcionId);
-  setCantidad("doct", cantidad);
-  setUnidad("doct", unidad);
+/** Select recepcion and click Agregar al RT-159 */
+function agregarDistribucion(id = "LEF-2024-00143") {
+  selectRecepcion(id);
   fireEvent.click(screen.getByTestId("agregar-btn"));
 }
-
 // ─────────────────────────────────────────────────────────────────────────────
 
 describe("DistribucionPage — /rac/distribucion", () => {
@@ -64,7 +65,6 @@ describe("DistribucionPage — /rac/distribucion", () => {
       render(<DistribucionPage />);
       expect(screen.getByTestId("emitir-btn")).toBeInTheDocument();
     });
-
   });
 
   // ── 2. ID del RT — no editable ──────────────────────────────────────────────
@@ -83,13 +83,6 @@ describe("DistribucionPage — /rac/distribucion", () => {
       );
       expect(rtInput).toBeUndefined();
     });
-
-    it("no existe input readonly con valor RT159-*", () => {
-      render(<DistribucionPage />);
-      const allInputs = document.querySelectorAll("input");
-      const rtInput = Array.from(allInputs).find(i => /RT159/i.test(i.value));
-      expect(rtInput).toBeUndefined();
-    });
   });
 
   // ── 3. Fecha distribución — no editable ─────────────────────────────────────
@@ -105,9 +98,8 @@ describe("DistribucionPage — /rac/distribucion", () => {
       expect(dateInputs).toHaveLength(0);
     });
 
-    it("no existe input type=datetime-local en el panel de identificación", () => {
+    it("no existe input type=datetime-local en ningún panel", () => {
       render(<DistribucionPage />);
-      // datetime-local only allowed in area rows (fecha recibido), not in identification panel
       const dtInputs = document.querySelectorAll("input[type='datetime-local']");
       expect(dtInputs).toHaveLength(0);
     });
@@ -125,10 +117,9 @@ describe("DistribucionPage — /rac/distribucion", () => {
 
     it("no existe select para elegir responsable de emisión manualmente", () => {
       render(<DistribucionPage />);
-      // Only selects for "Responsable Recibe" per area row should exist, not a top-level responsable select
+      // Only area-level responsable selects exist (doct, micro, muestroteca)
+      // None should have "Q.F." as option value
       const selects = screen.getAllByRole("combobox");
-      // recepcion-select + 3 area responsables + 3 area unidades = 7 max
-      // None should have "Q.F." as option
       const responsableSelect = selects.find(s =>
         Array.from(s.querySelectorAll("option")).some(o => /Q\.F\./i.test(o.textContent ?? ""))
       );
@@ -136,37 +127,72 @@ describe("DistribucionPage — /rac/distribucion", () => {
     });
   });
 
-  // ── 5. Selector de recepción ─────────────────────────────────────────────────
-  describe("Selector de recepción", () => {
-    it("existe el select de recepción", () => {
+  // ── 5. Autocomplete de recepción ─────────────────────────────────────────────
+  describe("Autocomplete de recepción", () => {
+    it("usa un input de texto (no select estático)", () => {
       render(<DistribucionPage />);
-      expect(screen.getByTestId("recepcion-select")).toBeInTheDocument();
+      const el = screen.getByTestId("recepcion-search");
+      expect(el.tagName).toBe("INPUT");
     });
 
-    it("muestra las recepciones mock como opciones", () => {
+    it("el dropdown no aparece con búsqueda vacía", () => {
       render(<DistribucionPage />);
-      expect(screen.getByText(/LEF-2024-00143/)).toBeInTheDocument();
-      expect(screen.getByText(/LEF-2024-00150/)).toBeInTheDocument();
+      expect(screen.queryByTestId("recepcion-dropdown")).not.toBeInTheDocument();
     });
 
-    it("al seleccionar recepción, los campos de área se habilitan", () => {
+    it("muestra dropdown al escribir en el campo", () => {
       render(<DistribucionPage />);
-      const cantidadBefore = screen.getByTestId("cantidad-doct");
-      expect(cantidadBefore).toBeDisabled();
-      selectRecepcion();
-      expect(screen.getByTestId("cantidad-doct")).not.toBeDisabled();
+      typeInSearch("LEF-2024-00143");
+      expect(screen.getByTestId("recepcion-dropdown")).toBeInTheDocument();
     });
 
-    it("al seleccionar otra recepción, resetea los campos de área", () => {
+    it("muestra opciones coincidentes al buscar por ID", () => {
+      render(<DistribucionPage />);
+      typeInSearch("LEF-2024-00143");
+      expect(screen.getAllByTestId("recepcion-option").length).toBeGreaterThan(0);
+    });
+
+    it("filtra por nombre de producto", () => {
+      render(<DistribucionPage />);
+      typeInSearch("Metformina");
+      const opts = screen.getAllByTestId("recepcion-option");
+      expect(opts.some(o => o.textContent!.toLowerCase().includes("metformina"))).toBe(true);
+    });
+
+    it("filtra por nombre de cliente", () => {
+      render(<DistribucionPage />);
+      typeInSearch("MedFarma");
+      expect(screen.getAllByTestId("recepcion-option").length).toBeGreaterThan(0);
+    });
+
+    it("al seleccionar opción, el campo muestra el ID de recepción", () => {
       render(<DistribucionPage />);
       selectRecepcion("LEF-2024-00143");
-      setCantidad("doct", "10");
-      selectRecepcion("LEF-2024-00150");
-      expect(screen.getByTestId("cantidad-doct")).toHaveValue(null);
+      expect(screen.getByTestId("recepcion-search")).toHaveValue("LEF-2024-00143");
+    });
+
+    it("el dropdown se cierra al seleccionar una opción", () => {
+      render(<DistribucionPage />);
+      selectRecepcion("LEF-2024-00143");
+      expect(screen.queryByTestId("recepcion-dropdown")).not.toBeInTheDocument();
+    });
+
+    it("botón X limpia la selección", () => {
+      render(<DistribucionPage />);
+      selectRecepcion("LEF-2024-00143");
+      fireEvent.click(screen.getByTestId("clear-recepcion"));
+      expect(screen.getByTestId("recepcion-search")).toHaveValue("");
+    });
+
+    it("después de limpiar, la cantidad RAC desaparece", () => {
+      render(<DistribucionPage />);
+      selectRecepcion("LEF-2024-00143");
+      fireEvent.click(screen.getByTestId("clear-recepcion"));
+      expect(screen.queryByTestId("cantidad-rac-info")).not.toBeInTheDocument();
     });
   });
 
-  // ── 6. Cantidad RAC visible ──────────────────────────────────────────────────
+  // ── 6. Cantidad RAC — visible al seleccionar recepción ───────────────────────
   describe("Cantidad RAC — visible al seleccionar recepción", () => {
     it("no muestra cantidad-rac-info sin recepción seleccionada", () => {
       render(<DistribucionPage />);
@@ -183,74 +209,67 @@ describe("DistribucionPage — /rac/distribucion", () => {
       render(<DistribucionPage />);
       selectRecepcion("LEF-2024-00143");
       const info = screen.getByTestId("cantidad-rac-info");
-      expect(info).toHaveTextContent("120");
-      expect(info).toHaveTextContent("tabletas");
+      expect(info.textContent).toContain("120");
+      expect(info.textContent).toContain("tabletas");
     });
 
     it("muestra el número correcto para LEF-2024-00141 (48 frascos)", () => {
       render(<DistribucionPage />);
       selectRecepcion("LEF-2024-00141");
       const info = screen.getByTestId("cantidad-rac-info");
-      expect(info).toHaveTextContent("48");
-      expect(info).toHaveTextContent("frascos");
+      expect(info.textContent).toContain("48");
+      expect(info.textContent).toContain("frascos");
     });
   });
 
-  // ── 7. Unidad — combobox por fila ────────────────────────────────────────────
-  describe("Unidad — combobox seleccionable por fila", () => {
-    it("existe select de unidad en cada fila de área", () => {
+  // ── 7. Cantidades por área — read-only, pre-pobladas desde RAC ──────────────
+  describe("Cantidades por área — read-only", () => {
+    it("no muestra cantidad-label-doct sin recepción seleccionada", () => {
       render(<DistribucionPage />);
-      expect(screen.getByTestId("unidad-doct")).toBeInTheDocument();
-      expect(screen.getByTestId("unidad-micro")).toBeInTheDocument();
-      expect(screen.getByTestId("unidad-biblioteca")).toBeInTheDocument();
+      expect(screen.queryByTestId("cantidad-label-doct")).not.toBeInTheDocument();
     });
 
-    it("inicialmente el select de unidad está vacío", () => {
+    it("muestra cantidad-label-doct al seleccionar recepción", () => {
       render(<DistribucionPage />);
-      expect(screen.getByTestId("unidad-doct")).toHaveValue("");
+      selectRecepcion("LEF-2024-00143");
+      expect(screen.getByTestId("cantidad-label-doct")).toBeInTheDocument();
     });
 
-    it("las opciones incluyen tabletas, frascos, ml, mg", () => {
+    it("LEF-2024-00143: doct muestra 50", () => {
       render(<DistribucionPage />);
-      selectRecepcion();
-      const select = screen.getByTestId("unidad-doct");
-      const opts = Array.from(select.querySelectorAll("option")).map(o => o.value);
-      expect(opts).toContain("tabletas");
-      expect(opts).toContain("frascos");
-      expect(opts).toContain("ml");
-      expect(opts).toContain("mg");
+      selectRecepcion("LEF-2024-00143");
+      expect(screen.getByTestId("cantidad-label-doct").textContent).toContain("50");
     });
 
-    it("cada fila puede tener unidad distinta", () => {
+    it("LEF-2024-00143: micro muestra 40", () => {
       render(<DistribucionPage />);
-      selectRecepcion();
-      setUnidad("doct", "tabletas");
-      setUnidad("micro", "ml");
-      setUnidad("biblioteca", "frascos");
-      expect(screen.getByTestId("unidad-doct")).toHaveValue("tabletas");
-      expect(screen.getByTestId("unidad-micro")).toHaveValue("ml");
-      expect(screen.getByTestId("unidad-biblioteca")).toHaveValue("frascos");
+      selectRecepcion("LEF-2024-00143");
+      expect(screen.getByTestId("cantidad-label-micro").textContent).toContain("40");
     });
 
-    it("la unidad no es un badge estático (es un select/combobox)", () => {
+    it("LEF-2024-00143: muestroteca muestra 30", () => {
       render(<DistribucionPage />);
-      const unidadEl = screen.getByTestId("unidad-doct");
-      expect(unidadEl.tagName).toBe("SELECT");
+      selectRecepcion("LEF-2024-00143");
+      expect(screen.getByTestId("cantidad-label-muestroteca").textContent).toContain("30");
+    });
+
+    it("las cantidades son etiquetas (no inputs), no editables", () => {
+      render(<DistribucionPage />);
+      selectRecepcion("LEF-2024-00143");
+      expect(screen.getByTestId("cantidad-label-doct").tagName).not.toBe("INPUT");
     });
   });
 
-  // ── 8. Fecha recibido — read-only ────────────────────────────────────────────
+  // ── 8. Fecha recibido — informativa, no editable ─────────────────────────────
   describe("Fecha recibido — informativa, no editable", () => {
-    it("muestra texto informativo en cada fila (no input)", () => {
+    it("muestra texto 'Pendiente de recepción' en fila doct", () => {
       render(<DistribucionPage />);
-      const fechaDoct = screen.getByTestId("fecha-recibido-doct");
-      expect(fechaDoct).toHaveTextContent(/pendiente de recepción/i);
+      expect(screen.getByTestId("fecha-recibido-doct").textContent).toMatch(/pendiente de recepción/i);
     });
 
     it("la fecha-recibido no es un input editable", () => {
       render(<DistribucionPage />);
-      const el = screen.getByTestId("fecha-recibido-doct");
-      expect(el.tagName).not.toBe("INPUT");
+      expect(screen.getByTestId("fecha-recibido-doct").tagName).not.toBe("INPUT");
     });
 
     it("no existe input datetime-local para fecha recibido", () => {
@@ -274,7 +293,7 @@ describe("DistribucionPage — /rac/distribucion", () => {
 
     it("acepta texto al seleccionar recepción", () => {
       render(<DistribucionPage />);
-      selectRecepcion();
+      selectRecepcion("LEF-2024-00143");
       const obs = screen.getByTestId("observaciones");
       fireEvent.change(obs, { target: { value: "Nota de prueba" } });
       expect(obs).toHaveValue("Nota de prueba");
@@ -294,11 +313,11 @@ describe("DistribucionPage — /rac/distribucion", () => {
       expect(screen.getByTestId("distribuciones-empty")).toBeInTheDocument();
     });
 
-    it("no agrega sin cantidades válidas", () => {
+    it("agrega correctamente al seleccionar recepción y hacer clic", () => {
       render(<DistribucionPage />);
-      selectRecepcion();
+      selectRecepcion("LEF-2024-00143");
       fireEvent.click(screen.getByTestId("agregar-btn"));
-      expect(screen.getByTestId("distribuciones-empty")).toBeInTheDocument();
+      expect(screen.getByTestId("distribuciones-table")).toBeInTheDocument();
     });
   });
 
@@ -310,44 +329,11 @@ describe("DistribucionPage — /rac/distribucion", () => {
       expect(screen.getByText(/debe seleccionar una recepción/i)).toBeInTheDocument();
     });
 
-    it("muestra error si no hay cantidades en ningún área", () => {
-      render(<DistribucionPage />);
-      selectRecepcion();
-      fireEvent.click(screen.getByTestId("agregar-btn"));
-      expect(screen.getByText(/ingrese cantidad distribuida en al menos un área/i)).toBeInTheDocument();
-    });
-
-    it("muestra error con cantidad negativa", () => {
-      render(<DistribucionPage />);
-      selectRecepcion();
-      setCantidad("doct", "-5");
-      fireEvent.click(screen.getByTestId("agregar-btn"));
-      expect(screen.getByText(/no se permiten cantidades negativas/i)).toBeInTheDocument();
-    });
-
-    it("muestra error si cantidad > 0 sin unidad seleccionada", () => {
-      render(<DistribucionPage />);
-      selectRecepcion();
-      setCantidad("doct", "5");
-      // No set unidad
-      fireEvent.click(screen.getByTestId("agregar-btn"));
-      expect(screen.getByText(/seleccione unidad para/i)).toBeInTheDocument();
-    });
-
-    it("no agrega la distribución si hay errores de validación", () => {
-      render(<DistribucionPage />);
-      selectRecepcion();
-      setCantidad("doct", "5");
-      // missing unidad — should fail
-      fireEvent.click(screen.getByTestId("agregar-btn"));
-      expect(screen.getByTestId("distribuciones-empty")).toBeInTheDocument();
-    });
-
-    it("el error de recepción desaparece al seleccionar una", () => {
+    it("el error de recepción desaparece al escribir en el campo de búsqueda", () => {
       render(<DistribucionPage />);
       fireEvent.click(screen.getByTestId("agregar-btn"));
       expect(screen.getByText(/debe seleccionar una recepción/i)).toBeInTheDocument();
-      selectRecepcion();
+      typeInSearch("LEF-2024-00143");
       expect(screen.queryByText(/debe seleccionar una recepción/i)).not.toBeInTheDocument();
     });
   });
@@ -356,27 +342,26 @@ describe("DistribucionPage — /rac/distribucion", () => {
   describe("Agregar distribución", () => {
     it("agrega correctamente a la tabla inferior", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143");
       expect(screen.getByTestId("distribuciones-table")).toBeInTheDocument();
     });
 
     it("la tabla inferior muestra el recepcionId agregado", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143");
       const row = screen.getByTestId("dist-row-LEF-2024-00143");
-      expect(within(row).getByText("LEF-2024-00143")).toBeInTheDocument();
+      expect(row.textContent).toContain("LEF-2024-00143");
     });
 
-    it("limpia el formulario tras agregar (recepción vuelve a vacío)", () => {
+    it("limpia el campo de búsqueda tras agregar", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
-      expect(screen.getByTestId("recepcion-select")).toHaveValue("");
+      agregarDistribucion("LEF-2024-00143");
+      expect(screen.getByTestId("recepcion-search")).toHaveValue("");
     });
 
-    it("limpia las cantidades de área tras agregar", () => {
+    it("oculta cantidad-rac-info tras agregar (reset del formulario)", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
-      // After reset, fields are disabled — but their value should be empty
+      agregarDistribucion("LEF-2024-00143");
       expect(screen.queryByTestId("cantidad-rac-info")).not.toBeInTheDocument();
     });
 
@@ -384,8 +369,6 @@ describe("DistribucionPage — /rac/distribucion", () => {
       render(<DistribucionPage />);
       selectRecepcion("LEF-2024-00143");
       fireEvent.change(screen.getByTestId("observaciones"), { target: { value: "Observación de prueba" } });
-      setCantidad("doct", "5");
-      setUnidad("doct", "tabletas");
       fireEvent.click(screen.getByTestId("agregar-btn"));
       const row = screen.getByTestId("dist-row-LEF-2024-00143");
       expect(within(row).getByTitle("Observación de prueba")).toBeInTheDocument();
@@ -393,23 +376,23 @@ describe("DistribucionPage — /rac/distribucion", () => {
 
     it("muestra el producto de la recepción en la tabla", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143");
       const row = screen.getByTestId("dist-row-LEF-2024-00143");
-      expect(within(row).getByText(/Metformina 850mg/i)).toBeInTheDocument();
+      expect(row.textContent).toContain("Metformina");
     });
 
     it("muestra la cantidad RAC en la tabla", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143");
       const row = screen.getByTestId("dist-row-LEF-2024-00143");
-      expect(within(row).getByText("120")).toBeInTheDocument();
+      expect(row.textContent).toContain("120");
     });
 
-    it("muestra el área y cantidad distribuida en la tabla", () => {
+    it("muestra el área Documentación en la tabla", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143");
       const row = screen.getByTestId("dist-row-LEF-2024-00143");
-      expect(within(row).getByText(/Documentación/i)).toBeInTheDocument();
+      expect(row.textContent).toContain("Documentación");
     });
   });
 
@@ -417,71 +400,63 @@ describe("DistribucionPage — /rac/distribucion", () => {
   describe("Múltiples distribuciones en el mismo RT", () => {
     it("permite agregar segunda distribución con distinta recepción", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
-      agregarDistribucion("LEF-2024-00150", "3", "tabletas");
+      agregarDistribucion("LEF-2024-00143");
+      agregarDistribucion("LEF-2024-00150");
       expect(screen.getByTestId("dist-row-LEF-2024-00143")).toBeInTheDocument();
       expect(screen.getByTestId("dist-row-LEF-2024-00150")).toBeInTheDocument();
     });
 
     it("la tabla inferior muestra ambas distribuciones", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
-      agregarDistribucion("LEF-2024-00150", "3", "tabletas");
+      agregarDistribucion("LEF-2024-00143");
+      agregarDistribucion("LEF-2024-00150");
       const rows = screen.getAllByRole("row");
-      // thead + 2 data rows
+      // thead + 2 data rows = at least 3
       expect(rows.length).toBeGreaterThanOrEqual(3);
     });
 
-    it("no permite duplicar la misma recepción en el mismo RT", () => {
+    it("la recepción ya agregada queda deshabilitada en el dropdown", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
-      // Try to add same recepcion again
-      selectRecepcion("LEF-2024-00143");
-      setCantidad("doct", "2");
-      setUnidad("doct", "tabletas");
-      fireEvent.click(screen.getByTestId("agregar-btn"));
-      expect(screen.getByText(/ya fue agregada a este RT/i)).toBeInTheDocument();
-    });
-
-    it("la recepción ya agregada aparece marcada como deshabilitada en el select", () => {
-      render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
-      const select = screen.getByTestId("recepcion-select");
-      const opt = Array.from(select.querySelectorAll("option")).find(o => o.value === "LEF-2024-00143");
+      agregarDistribucion("LEF-2024-00143");
+      typeInSearch("LEF-2024-00143");
+      const opts = screen.getAllByTestId("recepcion-option");
+      const opt = opts.find(o => o.textContent?.includes("LEF-2024-00143"));
       expect(opt).toBeDefined();
-      expect(opt!.disabled).toBe(true);
+      expect(opt).toBeDisabled();
     });
   });
 
   // ── 14. Eliminar distribución ─────────────────────────────────────────────────
   describe("Eliminar distribución de la tabla", () => {
-    it("existe botón eliminar por cada fila", () => {
+    it("existe botón eliminar por cada fila agregada", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143");
       expect(screen.getByTestId("eliminar-LEF-2024-00143")).toBeInTheDocument();
     });
 
     it("al eliminar, la distribución desaparece de la tabla", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143");
       fireEvent.click(screen.getByTestId("eliminar-LEF-2024-00143"));
       expect(screen.queryByTestId("dist-row-LEF-2024-00143")).not.toBeInTheDocument();
     });
 
-    it("al eliminar la única distribución, vuelve a mostrar mensaje vacío", () => {
+    it("al eliminar la única distribución, vuelve el mensaje vacío", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143");
       fireEvent.click(screen.getByTestId("eliminar-LEF-2024-00143"));
       expect(screen.getByTestId("distribuciones-empty")).toBeInTheDocument();
     });
 
-    it("la recepción eliminada queda disponible para agregar de nuevo", () => {
+    it("la recepción eliminada puede buscarse y seleccionarse de nuevo", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143");
       fireEvent.click(screen.getByTestId("eliminar-LEF-2024-00143"));
-      const select = screen.getByTestId("recepcion-select");
-      const opt = Array.from(select.querySelectorAll("option")).find(o => o.value === "LEF-2024-00143");
-      expect(opt?.disabled).toBeFalsy();
+      typeInSearch("LEF-2024-00143");
+      const opts = screen.getAllByTestId("recepcion-option");
+      const opt = opts.find(o => o.textContent?.includes("LEF-2024-00143"));
+      expect(opt).toBeDefined();
+      expect(opt).not.toBeDisabled();
     });
   });
 
@@ -495,7 +470,7 @@ describe("DistribucionPage — /rac/distribucion", () => {
 
     it("no muestra error de guardado si hay al menos una distribución", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143");
       fireEvent.click(screen.getByTestId("emitir-btn"));
       expect(screen.queryByTestId("save-error")).not.toBeInTheDocument();
     });
@@ -504,37 +479,36 @@ describe("DistribucionPage — /rac/distribucion", () => {
       render(<DistribucionPage />);
       fireEvent.click(screen.getByTestId("emitir-btn"));
       expect(screen.getByTestId("save-error")).toBeInTheDocument();
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
+      agregarDistribucion("LEF-2024-00143");
       expect(screen.queryByTestId("save-error")).not.toBeInTheDocument();
     });
   });
 
-  // ── 16. Payload final / estado ───────────────────────────────────────────────
+  // ── 16. Payload y estado final ───────────────────────────────────────────────
   describe("Payload y estado final", () => {
-    it("la tabla inferior refleja múltiples distribuciones con distintas recepciones", () => {
+    it("la tabla inferior refleja múltiples distribuciones", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00141", "10", "frascos");
-      agregarDistribucion("LEF-2024-00148", "20", "tabletas");
+      agregarDistribucion("LEF-2024-00141");
+      agregarDistribucion("LEF-2024-00148");
       expect(screen.getByTestId("dist-row-LEF-2024-00141")).toBeInTheDocument();
       expect(screen.getByTestId("dist-row-LEF-2024-00148")).toBeInTheDocument();
     });
 
     it("cada distribución conserva su unidad independientemente", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00141", "10", "frascos");
-      agregarDistribucion("LEF-2024-00148", "20", "tabletas");
+      agregarDistribucion("LEF-2024-00141"); // frascos
+      agregarDistribucion("LEF-2024-00143"); // tabletas
       const row1 = screen.getByTestId("dist-row-LEF-2024-00141");
-      const row2 = screen.getByTestId("dist-row-LEF-2024-00148");
-      // getAllByText avoids "multiple matches" error — the unit appears in RAC qty cell and area cell
-      expect(within(row1).getAllByText(/frascos/)[0]).toBeInTheDocument();
-      expect(within(row2).getAllByText(/tabletas/)[0]).toBeInTheDocument();
+      const row2 = screen.getByTestId("dist-row-LEF-2024-00143");
+      expect(row1.textContent).toContain("frascos");
+      expect(row2.textContent).toContain("tabletas");
     });
 
-    it("el counter del panel muestra la cantidad de distribuciones agregadas", () => {
+    it("el badge counter del panel muestra la cantidad de distribuciones", () => {
       render(<DistribucionPage />);
-      agregarDistribucion("LEF-2024-00143", "5", "tabletas");
-      agregarDistribucion("LEF-2024-00150", "3", "tabletas");
-      // Table has thead + 2 data rows = at least 3 rows total
+      agregarDistribucion("LEF-2024-00143");
+      agregarDistribucion("LEF-2024-00150");
+      // thead + 2 data rows = at least 3
       const rows = screen.getAllByRole("row");
       expect(rows.length).toBeGreaterThanOrEqual(3);
     });

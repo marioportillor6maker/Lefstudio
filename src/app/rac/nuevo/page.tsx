@@ -5,7 +5,6 @@ import { ArrowLeft, CheckCircle2, ChevronRight, User, Package, Building, Hash, F
 import Link from "next/link";
 import { catalogoTramites } from "@/lib/mockData";
 
-// Mock session user — replace with real auth session when backend is integrated
 const SESSION_USER = "María Rodríguez";
 
 interface Estandar {
@@ -15,26 +14,51 @@ interface Estandar {
   observacion: string;
 }
 
+interface PrincipioActivo {
+  id: string;
+  nombre: string;
+  concentracion: string;
+}
+
+interface RegistroSanitario {
+  id: string;
+  numero: string;
+}
+
 export default function NuevoIngresoRAC() {
   const [step, setStep] = useState(1);
   const [tramiteS, setTramiteS] = useState("");
   const [fechaRecepcion, setFechaRecepcion] = useState(() => new Date().toISOString().split("T")[0]);
   const [horaRecepcion, setHoraRecepcion] = useState(() => new Date().toTimeString().slice(0, 5));
   const [estandares, setEstandares] = useState<Estandar[]>([]);
+  const [principiosActivos, setPrincipiosActivos] = useState<PrincipioActivo[]>([]);
+  const [registrosSanitarios, setRegistrosSanitarios] = useState<RegistroSanitario[]>([]);
 
+  // Estándares handlers
   const agregarEstandar = () => {
-    setEstandares(prev => [
-      ...prev,
-      { id: crypto.randomUUID(), nombre: "", cantidad: "", observacion: "" },
-    ]);
+    setEstandares(prev => [...prev, { id: crypto.randomUUID(), nombre: "", cantidad: "", observacion: "" }]);
   };
-
-  const quitarEstandar = (id: string) => {
-    setEstandares(prev => prev.filter(e => e.id !== id));
-  };
-
+  const quitarEstandar = (id: string) => setEstandares(prev => prev.filter(e => e.id !== id));
   const actualizarEstandar = (id: string, campo: keyof Omit<Estandar, "id">, valor: string) => {
     setEstandares(prev => prev.map(e => e.id === id ? { ...e, [campo]: valor } : e));
+  };
+
+  // Principios activos handlers
+  const agregarPrincipioActivo = () => {
+    setPrincipiosActivos(prev => [...prev, { id: crypto.randomUUID(), nombre: "", concentracion: "" }]);
+  };
+  const quitarPrincipioActivo = (id: string) => setPrincipiosActivos(prev => prev.filter(p => p.id !== id));
+  const actualizarPrincipioActivo = (id: string, campo: keyof Omit<PrincipioActivo, "id">, valor: string) => {
+    setPrincipiosActivos(prev => prev.map(p => p.id === id ? { ...p, [campo]: valor } : p));
+  };
+
+  // Registros sanitarios handlers
+  const agregarRegistroSanitario = () => {
+    setRegistrosSanitarios(prev => [...prev, { id: crypto.randomUUID(), numero: "" }]);
+  };
+  const quitarRegistroSanitario = (id: string) => setRegistrosSanitarios(prev => prev.filter(r => r.id !== id));
+  const actualizarRegistroSanitario = (id: string, valor: string) => {
+    setRegistrosSanitarios(prev => prev.map(r => r.id === id ? { ...r, numero: valor } : r));
   };
 
   const steps = [
@@ -188,19 +212,74 @@ export default function NuevoIngresoRAC() {
                 <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
               </div>
 
+              {/* Tabla Principio Activo + Concentración */}
               <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-700 uppercase">Nombre Genérico</label>
-                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-700 uppercase">Principio Activo (DCI)</label>
-                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-700 uppercase">Concentración <span className="text-danger">*</span></label>
-                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase">Principio Activo y Concentración</label>
+                  <button
+                    type="button"
+                    data-testid="agregar-principio-activo"
+                    onClick={agregarPrincipioActivo}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded text-xs font-bold transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5" /> Agregar
+                  </button>
+                </div>
+                {principiosActivos.length === 0 ? (
+                  <p data-testid="principios-empty" className="text-xs text-slate-400 italic py-4 text-center bg-slate-50 border border-dashed border-slate-200 rounded">
+                    Haz clic en &quot;Agregar&quot; para registrar principios activos y concentraciones.
+                  </p>
+                ) : (
+                  <div className="border border-slate-200 rounded overflow-hidden">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="bg-slate-50 border-b border-slate-200">
+                          <th className="px-3 py-2 text-left text-xs font-bold text-slate-600 uppercase w-8">#</th>
+                          <th className="px-3 py-2 text-left text-xs font-bold text-slate-600 uppercase">Principio Activo</th>
+                          <th className="px-3 py-2 text-left text-xs font-bold text-slate-600 uppercase">Concentración</th>
+                          <th className="px-3 py-2 w-10"></th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {principiosActivos.map((p, idx) => (
+                          <tr key={p.id} data-testid="principio-activo-row" className="bg-white hover:bg-slate-50 transition-colors">
+                            <td className="px-3 py-2 text-slate-400 text-xs font-bold">{idx + 1}</td>
+                            <td className="px-3 py-2">
+                              <input
+                                type="text"
+                                value={p.nombre}
+                                onChange={(e) => actualizarPrincipioActivo(p.id, "nombre", e.target.value)}
+                                placeholder="Nombre del principio activo"
+                                data-testid="principio-activo-nombre"
+                                className="w-full h-8 px-2 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary"
+                              />
+                            </td>
+                            <td className="px-3 py-2">
+                              <input
+                                type="text"
+                                value={p.concentracion}
+                                onChange={(e) => actualizarPrincipioActivo(p.id, "concentracion", e.target.value)}
+                                placeholder="Ej. 500mg, 10%"
+                                data-testid="principio-activo-concentracion"
+                                className="w-full h-8 px-2 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary"
+                              />
+                            </td>
+                            <td className="px-3 py-2">
+                              <button
+                                type="button"
+                                onClick={() => quitarPrincipioActivo(p.id)}
+                                data-testid="principio-activo-eliminar"
+                                className="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-danger hover:bg-danger/10 rounded transition-colors"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
 
               <div className="flex flex-col gap-1.5">
@@ -223,9 +302,63 @@ export default function NuevoIngresoRAC() {
                 <input type="date" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-700 uppercase">Registro Sanitario</label>
-                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+              {/* Tabla Registro Sanitario */}
+              <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-xs font-bold text-slate-700 uppercase">Registro Sanitario</label>
+                  <button
+                    type="button"
+                    data-testid="agregar-registro-sanitario"
+                    onClick={agregarRegistroSanitario}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded text-xs font-bold transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5" /> Agregar
+                  </button>
+                </div>
+                {registrosSanitarios.length === 0 ? (
+                  <p data-testid="registros-empty" className="text-xs text-slate-400 italic py-4 text-center bg-slate-50 border border-dashed border-slate-200 rounded">
+                    Haz clic en &quot;Agregar&quot; para registrar números de registro sanitario. Se puede agregar más de uno.
+                  </p>
+                ) : (
+                  <div className="border border-slate-200 rounded overflow-hidden">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="bg-slate-50 border-b border-slate-200">
+                          <th className="px-3 py-2 text-left text-xs font-bold text-slate-600 uppercase w-8">#</th>
+                          <th className="px-3 py-2 text-left text-xs font-bold text-slate-600 uppercase">Número de Registro Sanitario</th>
+                          <th className="px-3 py-2 w-10"></th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {registrosSanitarios.map((r, idx) => (
+                          <tr key={r.id} data-testid="registro-sanitario-row" className="bg-white hover:bg-slate-50 transition-colors">
+                            <td className="px-3 py-2 text-slate-400 text-xs font-bold">{idx + 1}</td>
+                            <td className="px-3 py-2">
+                              <input
+                                type="text"
+                                value={r.numero}
+                                onChange={(e) => actualizarRegistroSanitario(r.id, e.target.value)}
+                                placeholder="Nº de Registro Sanitario"
+                                data-testid="registro-sanitario-numero"
+                                className="w-full h-8 px-2 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary"
+                              />
+                            </td>
+                            <td className="px-3 py-2">
+                              <button
+                                type="button"
+                                onClick={() => quitarRegistroSanitario(r.id)}
+                                data-testid="registro-sanitario-eliminar"
+                                className="w-7 h-7 flex items-center justify-center text-slate-400 hover:text-danger hover:bg-danger/10 rounded transition-colors"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
 
               <div className="flex flex-col gap-1.5">
@@ -239,12 +372,12 @@ export default function NuevoIngresoRAC() {
               </div>
 
               <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-700 uppercase">Fabricante</label>
+                <label className="text-xs font-bold text-slate-700 uppercase">Laboratorio Fabricante</label>
                 <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
               </div>
 
               <div className="col-span-1 md:col-span-2 flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-700 uppercase">Titular</label>
+                <label className="text-xs font-bold text-slate-700 uppercase">Laboratorio Titular</label>
                 <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
               </div>
 
@@ -317,11 +450,6 @@ export default function NuevoIngresoRAC() {
                 <label className="text-xs font-bold text-slate-700 uppercase">Persona que Entrega</label>
                 <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
               </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-700 uppercase">Identificación</label>
-                <input type="text" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
-              </div>
             </div>
           </div>
         )}
@@ -337,15 +465,6 @@ export default function NuevoIngresoRAC() {
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="cantidad-total" className="text-xs font-bold text-slate-700 uppercase">Cantidad Total Muestra Recibida <span className="text-danger">*</span></label>
                 <input id="cantidad-total" type="number" step="0.01" min="0" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary font-bold text-lg" />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-bold text-slate-700 uppercase">Unidad de Medida <span className="text-danger">*</span></label>
-                <select className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary">
-                  <option>Unidades</option>
-                  <option>Cajas</option>
-                  <option>Blisters</option>
-                </select>
               </div>
 
               <div className="flex flex-col gap-1.5">
@@ -402,7 +521,6 @@ export default function NuevoIngresoRAC() {
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Orden de Compra */}
               <div className="flex flex-col gap-1.5 p-4 border border-slate-200 rounded bg-slate-50">
                 <label className="text-xs font-bold text-slate-700 uppercase">Orden de Compra</label>
                 <div className="flex gap-2 mt-1">
@@ -413,13 +531,11 @@ export default function NuevoIngresoRAC() {
                 </div>
               </div>
 
-              {/* Expediente — solo referencia textual, sin adjuntar */}
               <div className="flex flex-col gap-1.5 p-4 border border-slate-200 rounded bg-slate-50" data-testid="expediente-card">
                 <label className="text-xs font-bold text-slate-700 uppercase">Nº de Expediente</label>
                 <input type="text" placeholder="Número de expediente" className="h-9 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
               </div>
 
-              {/* Licitación */}
               <div className="flex flex-col gap-1.5 p-4 border border-slate-200 rounded bg-slate-50">
                 <label className="text-xs font-bold text-slate-700 uppercase">Licitación</label>
                 <div className="flex gap-2 mt-1">
@@ -430,7 +546,6 @@ export default function NuevoIngresoRAC() {
                 </div>
               </div>
 
-              {/* Carta / Oficio con fecha */}
               <div className="flex flex-col gap-2 p-4 border border-slate-200 rounded bg-slate-50">
                 <label className="text-xs font-bold text-slate-700 uppercase">Carta / Oficio</label>
                 <div className="flex gap-2">
@@ -445,7 +560,6 @@ export default function NuevoIngresoRAC() {
                 </div>
               </div>
 
-              {/* Acta Toma de Muestra con fecha */}
               <div className="flex flex-col gap-2 p-4 border border-slate-200 rounded bg-slate-50">
                 <label className="text-xs font-bold text-slate-700 uppercase">Acta Toma de Muestra</label>
                 <div className="flex gap-2">
@@ -460,7 +574,6 @@ export default function NuevoIngresoRAC() {
                 </div>
               </div>
 
-              {/* Contrato */}
               <div className="flex flex-col gap-1.5 p-4 border border-slate-200 rounded bg-slate-50">
                 <label className="text-xs font-bold text-slate-700 uppercase">Contrato</label>
                 <div className="flex gap-2 mt-1">
@@ -471,7 +584,6 @@ export default function NuevoIngresoRAC() {
                 </div>
               </div>
 
-              {/* Resolución ARSA */}
               <div className="flex flex-col gap-1.5 p-4 border border-slate-200 rounded bg-slate-50">
                 <label className="text-xs font-bold text-slate-700 uppercase">Resolución ARSA</label>
                 <div className="flex gap-2 mt-1">
@@ -594,24 +706,6 @@ export default function NuevoIngresoRAC() {
                     </table>
                   </div>
                 )}
-              </div>
-
-              {/* Checkboxes de confirmación final */}
-              <div className="pt-4 border-t border-slate-100">
-                <h4 className="text-sm font-bold text-slate-800 mb-4">Confirmación Final</h4>
-                <div className="space-y-3">
-                  {[
-                    "Verificación de documentos obligatorios completada.",
-                    "Verificación de identidad del solicitante completada.",
-                    "Verificación del estado físico de la muestra completada.",
-                    "Certifico la veracidad de los datos ingresados en este formulario.",
-                  ].map((check, i) => (
-                    <label key={i} className="flex items-start gap-3 p-3 bg-slate-50 border border-slate-200 rounded cursor-pointer hover:bg-slate-100 transition-colors">
-                      <input type="checkbox" className="mt-0.5 w-4 h-4 text-primary border-slate-300 rounded focus:ring-primary" />
-                      <span className="text-sm font-medium text-slate-800">{check}</span>
-                    </label>
-                  ))}
-                </div>
               </div>
             </div>
           </div>

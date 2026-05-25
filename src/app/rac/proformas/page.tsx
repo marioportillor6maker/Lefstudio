@@ -8,8 +8,9 @@ import {
   ChevronLeft, ChevronRight, DollarSign, Info,
 } from "lucide-react";
 import { mockIngresosList } from "@/lib/mockData";
-import type { ProformaGenerada, FormErrors, TipoAnalisis, MetodoPago } from "./_types/proforma.types";
+import type { ProformaGenerada, FormErrors, TipoAnalisis, MetodoPago, Moneda } from "./_types/proforma.types";
 import { MOCK_PROFORMAS } from "./_data/proformaMockData";
+import { MONEDAS_CATALOG, getMoneda } from "./_data/monedasCatalog";
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 // ISV 15% — Artículo 15 Ley del ISV, Honduras.
@@ -81,7 +82,7 @@ export function numeroALetras(num: number, moneda: "L" | "$" = "L"): string {
     }
   }
 
-  const monedaLabel = moneda === "L" ? "LEMPIRAS" : "DÓLARES";
+  const monedaLabel = getMoneda(moneda).nombreLetras;
   return `${texto} ${monedaLabel} ${centavos.toString().padStart(2, "0")}/100`;
 }
 
@@ -92,7 +93,7 @@ export function numeroALetras(num: number, moneda: "L" | "$" = "L"): string {
 function printProforma(p: ProformaGenerada) {
   const win = window.open("", "_blank", "width=820,height=680");
   if (!win) return;
-  const sym = p.moneda === "L" ? "L." : "US$";
+  const sym = getMoneda(p.moneda).symbol;
   const fmt = (n: number) => `${sym} ${n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
   const tipoLabel = p.tipoAnalisis === "completo" ? "Análisis Completo"
     : p.tipoAnalisis === "parcial" ? "Análisis Parcial" : "Solo Microbiología";
@@ -147,7 +148,7 @@ ${p.observaciones ? `<p><strong>Observaciones:</strong> ${p.observaciones}</p>` 
 
 // ─── Helpers de formato ───────────────────────────────────────────────────────
 function fmtProformaMonto(p: ProformaGenerada): string {
-  const sym = p.moneda === "L" ? "L." : "US$";
+  const sym = getMoneda(p.moneda).symbol;
   return `${sym} ${p.total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 }
 
@@ -161,8 +162,7 @@ export default function ProformasPagoPage() {
   const [recepcionSel, setRecepcionSel] = useState<typeof mockIngresosList[0] | null>(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [tipoAnalisis, setTipoAnalisis] = useState("");
-  const [precioL, setPrecioL] = useState("");
-  const [precioD, setPrecioD] = useState("");
+  const [precio, setPrecio] = useState("");
   const [monedaActiva, setMonedaActiva] = useState<"L" | "$" | null>(null);
   const [plazoDias, setPlazoDias] = useState("15");
   const [metodoPago, setMetodoPago] = useState<MetodoPago>("transferencia");
@@ -172,7 +172,8 @@ export default function ProformasPagoPage() {
   const [errors, setErrors] = useState<FormErrors>({});
 
   // ── Calculated ───────────────────────────────────────────────────────────────
-  const precioBase = monedaActiva === "L" ? (parseFloat(precioL) || 0) : (parseFloat(precioD) || 0);
+  const monedaInfo = MONEDAS_CATALOG.find(m => m.code === monedaActiva) ?? null;
+  const precioBase = monedaActiva ? (parseFloat(precio) || 0) : 0;
   const isvAmount = precioBase * ISV_RATE;
   const totalAmount = precioBase + isvAmount;
   const totalLetras = precioBase > 0 ? numeroALetras(totalAmount, monedaActiva ?? "L") : "";
@@ -230,17 +231,14 @@ export default function ProformasPagoPage() {
   };
 
   // ── Precio handlers ───────────────────────────────────────────────────────────
-  const handlePrecioLChange = (val: string) => {
-    setPrecioL(val);
-    if (val) { setPrecioD(""); setMonedaActiva("L"); }
-    else setMonedaActiva(null);
+  const handleMonedaChange = (m: "L" | "$") => {
+    setMonedaActiva(m);
+    setPrecio("");
     if (errors.precio) setErrors(prev => { const n = { ...prev }; delete n.precio; return n; });
   };
 
-  const handlePrecioDChange = (val: string) => {
-    setPrecioD(val);
-    if (val) { setPrecioL(""); setMonedaActiva("$"); }
-    else setMonedaActiva(null);
+  const handlePrecioChange = (val: string) => {
+    setPrecio(val);
     if (errors.precio) setErrors(prev => { const n = { ...prev }; delete n.precio; return n; });
   };
 
@@ -267,8 +265,7 @@ export default function ProformasPagoPage() {
     const newErrors: FormErrors = {};
     if (!recepcionSel) newErrors.recepcion = "Debe seleccionar una recepción";
     if (!tipoAnalisis) newErrors.tipoAnalisis = "Debe seleccionar el tipo de análisis";
-    if (precioL && precioD) newErrors.precio = "Solo puede ingresar precio en una moneda";
-    else if (!monedaActiva || precioBase <= 0) newErrors.precio = "Ingrese un precio mayor a cero";
+    if (!monedaActiva || precioBase <= 0) newErrors.precio = "Ingrese un precio mayor a cero";
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
 
@@ -308,8 +305,7 @@ export default function ProformasPagoPage() {
     setRecepcionSel(null);
     setRecepcionQuery("");
     setTipoAnalisis("");
-    setPrecioL("");
-    setPrecioD("");
+    setPrecio("");
     setMonedaActiva(null);
     setPlazoDias("15");
     setMetodoPago("transferencia");
@@ -495,45 +491,45 @@ export default function ProformasPagoPage() {
                 {errors.tipoAnalisis && <p className={errorCls}>{errors.tipoAnalisis}</p>}
               </div>
 
-              {/* Precio — L o $ (mutuamente exclusivos) */}
+              {/* Precio — selección de moneda + input único */}
               <div className="space-y-2">
-                <label className={labelCls}>Precio <span className="text-danger">*</span> — ingrese en una sola moneda</label>
+                <label className={labelCls}>Precio <span className="text-danger">*</span></label>
                 {errors.precio && <p className={errorCls}>{errors.precio}</p>}
 
-                {/* Lempiras */}
-                <div className={`flex items-center gap-2 px-3 py-2 border rounded transition-colors ${
-                  monedaActiva === "L" ? "border-primary bg-blue-50" : "border-slate-300 bg-white"
-                } ${errors.precio && !precioL ? "border-danger" : ""}`}>
-                  <span className="text-xs font-bold text-slate-600 w-6 flex-shrink-0">L.</span>
-                  <input
-                    data-testid="precio-l"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    placeholder="Precio en Lempiras"
-                    value={precioL}
-                    onChange={e => handlePrecioLChange(e.target.value)}
-                    disabled={monedaActiva === "$"}
-                    className="flex-1 bg-transparent focus:outline-none text-sm disabled:opacity-40 disabled:cursor-not-allowed"
-                  />
+                {/* Radio moneda — dinámico desde MONEDAS_CATALOG */}
+                <div className="flex items-center gap-5">
+                  {MONEDAS_CATALOG.map(m => (
+                    <label key={m.code} className="flex items-center gap-1.5 cursor-pointer text-sm text-slate-700 select-none">
+                      <input
+                        data-testid={`moneda-${m.slug}`}
+                        type="radio"
+                        name="moneda"
+                        value={m.code}
+                        checked={monedaActiva === m.code}
+                        onChange={() => handleMonedaChange(m.code as Moneda)}
+                        className="accent-primary"
+                      />
+                      {m.label}
+                    </label>
+                  ))}
                 </div>
 
-                <div className="text-center text-[10px] text-slate-400 font-bold">— O —</div>
-
-                {/* Dólares */}
+                {/* Input único */}
                 <div className={`flex items-center gap-2 px-3 py-2 border rounded transition-colors ${
-                  monedaActiva === "$" ? "border-primary bg-blue-50" : "border-slate-300 bg-white"
-                } ${errors.precio && !precioD ? "border-danger" : ""}`}>
-                  <DollarSign className="w-3.5 h-3.5 text-slate-500 flex-shrink-0" />
+                  monedaActiva ? "border-primary bg-blue-50" : "border-slate-300 bg-white"
+                } ${errors.precio && !precio ? "border-danger" : ""}`}>
+                  <span className="text-xs font-bold text-slate-600 w-8 flex-shrink-0">
+                    {monedaInfo?.symbol ?? "L."}
+                  </span>
                   <input
-                    data-testid="precio-d"
+                    data-testid="precio-input"
                     type="number"
                     min="0"
                     step="0.01"
-                    placeholder="Precio en Dólares"
-                    value={precioD}
-                    onChange={e => handlePrecioDChange(e.target.value)}
-                    disabled={monedaActiva === "L"}
+                    placeholder={monedaInfo ? `Precio en ${monedaInfo.label}` : "Seleccione moneda primero..."}
+                    value={precio}
+                    onChange={e => handlePrecioChange(e.target.value)}
+                    disabled={!monedaActiva}
                     className="flex-1 bg-transparent focus:outline-none text-sm disabled:opacity-40 disabled:cursor-not-allowed"
                   />
                 </div>
@@ -545,19 +541,19 @@ export default function ProformasPagoPage() {
                   <div className="flex justify-between text-xs text-slate-600">
                     <span>Precio base</span>
                     <span className="font-medium">
-                      {monedaActiva === "L" ? "L." : "US$"} {precioBase.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      {monedaInfo?.symbol ?? "L."} {precioBase.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                     </span>
                   </div>
                   <div className="flex justify-between text-xs text-slate-600">
                     <span>ISV (15%) <span className="text-slate-400 italic">— read-only</span></span>
                     <span data-testid="isv-value" className="font-medium text-slate-500">
-                      {monedaActiva === "L" ? "L." : "US$"} {isvAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      {monedaInfo?.symbol ?? "L."} {isvAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm font-bold text-slate-900 border-t border-slate-300 pt-1.5">
                     <span>TOTAL</span>
                     <span data-testid="total-value">
-                      {monedaActiva === "L" ? "L." : "US$"} {totalAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      {monedaInfo?.symbol ?? "L."} {totalAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                     </span>
                   </div>
                   {totalLetras && (

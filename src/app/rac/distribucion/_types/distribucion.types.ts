@@ -17,18 +17,19 @@ export type UnidadMedida =
 export interface AreaRow {
   id: string;
   name: string;
-  cantidad: string;
+  cantidad: number;
   unidad: UnidadMedida | "";
   responsable: string;
+  observacion: string;
 }
 
 export interface DistribucionPorArea {
   area: string;
   areaId: string;
   cantidad: number;
-  unidad: UnidadMedida;
+  unidad: UnidadMedida | "";
   responsable: string;
-  // PENDIENTE BACKEND: se registrará cuando el área confirme recepción de la muestra.
+  observacion: string;
   fechaRecibido: string | null;
 }
 

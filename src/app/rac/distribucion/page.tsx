@@ -10,27 +10,38 @@ import {
 } from "lucide-react";
 import type { AreaRow, DistribucionRecepcion, FormErrors, RT159Payload } from "./_types/distribucion.types";
 import {
-  MOCK_RECEPCIONES_RAC, AREAS_DESTINO, UNIDADES_MEDIDA, MOCK_RESPONSABLE_SESION,
+  MOCK_RECEPCIONES_RAC, AREAS_DESTINO, MOCK_RESPONSABLE_SESION,
   type RecepcionRAC,
 } from "./_data/distribucionMockData";
 
-// ─── Iconos por área (separados del estado para evitar recreación en cada render) ──
 const AREA_ICONS: Record<string, React.ReactNode> = {
-  doct:      <FileCheck   className="w-4 h-4 text-blue-600"   aria-hidden />,
-  micro:     <FlaskConical className="w-4 h-4 text-purple-600" aria-hidden />,
-  biblioteca: <Archive    className="w-4 h-4 text-orange-600" aria-hidden />,
+  doct:        <FileCheck    className="w-4 h-4 text-blue-600"   aria-hidden />,
+  micro:       <FlaskConical className="w-4 h-4 text-purple-600" aria-hidden />,
+  muestroteca: <Archive      className="w-4 h-4 text-orange-600" aria-hidden />,
 };
 
-function makeInitialRows(): AreaRow[] {
-  return AREAS_DESTINO.map(a => ({ id: a.id, name: a.name, cantidad: "", unidad: "", responsable: "" }));
+function getCantidadPorArea(rec: RecepcionRAC, areaId: string): number {
+  if (areaId === "doct")        return rec.cantidadDocto;
+  if (areaId === "micro")       return rec.cantidadMicro;
+  if (areaId === "muestroteca") return rec.cantidadMuestroteca;
+  return 0;
 }
 
-// ─── Componente principal ─────────────────────────────────────────────────────
+function makeInitialRows(rec: RecepcionRAC | null = null): AreaRow[] {
+  return AREAS_DESTINO.map(a => ({
+    id: a.id,
+    name: a.name,
+    cantidad: rec ? getCantidadPorArea(rec, a.id) : 0,
+    unidad: rec ? (rec.unidadRAC as AreaRow["unidad"]) : "",
+    responsable: "",
+    observacion: "",
+  }));
+}
+
 function DistribucionPageContent() {
   const searchParams = useSearchParams();
   const recepcionParam = searchParams.get('recepcion') ?? '';
 
-  // ── Selección de recepción ────────────────────────────────────────────────────
   const [recepcionSel, setRecepcionSel] = useState<RecepcionRAC | null>(
     () => (recepcionParam ? MOCK_RECEPCIONES_RAC.find(r => r.id === recepcionParam) ?? null : null)
   );
@@ -40,25 +51,16 @@ function DistribucionPageContent() {
   const [showDropdown, setShowDropdown] = useState(false);
   const autocompleteRef = useRef<HTMLDivElement>(null);
 
-  // ── Filas de distribución por área ───────────────────────────────────────────
-  const [areaRows, setAreaRows] = useState<AreaRow[]>(makeInitialRows());
-
-  // ── Observaciones de la distribución actual ───────────────────────────────────
+  const [areaRows, setAreaRows] = useState<AreaRow[]>(() => makeInitialRows(
+    recepcionParam ? MOCK_RECEPCIONES_RAC.find(r => r.id === recepcionParam) ?? null : null
+  ));
   const [observaciones, setObservaciones] = useState("");
-
-  // ── Lista de distribuciones agregadas al RT ───────────────────────────────────
   const [distribuciones, setDistribuciones] = useState<DistribucionRecepcion[]>([]);
-
-  // ── Errores de validación (form de configuración) ────────────────────────────
   const [errors, setErrors] = useState<FormErrors>({});
-
-  // ── Error al intentar emitir sin distribuciones ───────────────────────────────
   const [saveError, setSaveError] = useState("");
 
-  // IDs ya agregados — evita duplicados en el mismo RT
   const addedIds = new Set(distribuciones.map(d => d.recepcionId));
 
-  // ── Click-outside: cierra el dropdown ────────────────────────────────────────
   useEffect(() => {
     function handler(e: MouseEvent) {
       if (autocompleteRef.current && !autocompleteRef.current.contains(e.target as Node)) {
@@ -69,7 +71,6 @@ function DistribucionPageContent() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // ── Autocomplete ─────────────────────────────────────────────────────────────
   const recepcionOptions = recepcionQuery.trim().length > 0
     ? MOCK_RECEPCIONES_RAC.filter(r => {
         const q = recepcionQuery.toLowerCase();
@@ -78,8 +79,6 @@ function DistribucionPageContent() {
           || r.cliente.toLowerCase().includes(q);
       }).slice(0, 8)
     : [];
-
-  // ── Handlers ──────────────────────────────────────────────────────────────────
 
   const handleRecepcionQueryChange = (val: string) => {
     setRecepcionQuery(val);
@@ -95,49 +94,31 @@ function DistribucionPageContent() {
     setRecepcionSel(rec);
     setRecepcionQuery(rec.id);
     setShowDropdown(false);
-    setAreaRows(makeInitialRows());
+    setAreaRows(makeInitialRows(rec));
     if (errors.recepcion) setErrors(prev => { const n = { ...prev }; delete n.recepcion; return n; });
   };
 
-  const updateRow = (id: string, field: keyof Pick<AreaRow, "cantidad" | "unidad" | "responsable">, value: string) => {
+  const updateRow = (id: string, field: "responsable" | "observacion", value: string) => {
     setAreaRows(prev => prev.map(r => r.id === id ? { ...r, [field]: value } : r));
-    if (errors.areas) setErrors(prev => { const n = { ...prev }; delete n.areas; return n; });
   };
 
   const handleAgregar = () => {
     const newErrors: FormErrors = {};
-
     if (!recepcionSel) {
       newErrors.recepcion = "Debe seleccionar una recepción";
     } else if (addedIds.has(recepcionSel.id)) {
       newErrors.recepcion = `La recepción ${recepcionSel.id} ya fue agregada a este RT`;
     }
-
-    const negativas = areaRows.filter(r => r.cantidad !== "" && parseFloat(r.cantidad) < 0);
-    if (negativas.length > 0) {
-      newErrors.areas = "No se permiten cantidades negativas";
-    } else {
-      const rowsConCantidad = areaRows.filter(r => parseFloat(r.cantidad) > 0);
-      if (rowsConCantidad.length === 0) {
-        newErrors.areas = "Ingrese cantidad distribuida en al menos un área";
-      } else {
-        const sinUnidad = rowsConCantidad.filter(r => !r.unidad);
-        if (sinUnidad.length > 0) {
-          newErrors.areas = `Seleccione unidad para: ${sinUnidad.map(r => r.name).join(", ")}`;
-        }
-      }
-    }
-
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
 
-    const rowsConCantidad = areaRows.filter(r => parseFloat(r.cantidad) > 0);
-    const distribucionPorArea = rowsConCantidad.map(r => ({
+    const distribucionPorArea = areaRows.map(r => ({
       area: r.name,
       areaId: r.id,
-      cantidad: parseFloat(r.cantidad),
+      cantidad: r.cantidad,
       unidad: r.unidad as DistribucionRecepcion["distribucionPorArea"][0]["unidad"],
       responsable: r.responsable,
+      observacion: r.observacion,
       fechaRecibido: null,
     }));
 
@@ -152,6 +133,7 @@ function DistribucionPageContent() {
 
     setDistribuciones(prev => [...prev, nueva]);
     setRecepcionSel(null);
+    setRecepcionQuery("");
     setAreaRows(makeInitialRows());
     setObservaciones("");
     setErrors({});
@@ -168,8 +150,6 @@ function DistribucionPageContent() {
       return;
     }
     setSaveError("");
-    // PENDIENTE BACKEND: enviar payload al servidor.
-    // El servidor asignará: id (correlativo), fechaDistribucion y verificará responsableEmision.
     const payload: RT159Payload = {
       id: null,
       formato: "RT-159",
@@ -180,17 +160,15 @@ function DistribucionPageContent() {
     console.log("RT-159 payload:", payload);
   };
 
-  // ── Estilos reutilizables ─────────────────────────────────────────────────────
   const labelCls  = "block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5";
   const infoCls   = "px-3 py-2.5 bg-slate-50 border border-slate-200 rounded text-slate-600 text-sm";
   const errorCls  = "text-[11px] text-danger mt-1";
   const inputCls  = "w-full px-3 py-2 bg-white border border-slate-300 rounded focus:outline-none focus:border-primary text-sm";
 
-  // ─────────────────────────────────────────────────────────────────────────────
   return (
     <div className="space-y-4 sm:space-y-6 pb-8 sm:pb-12">
 
-      {/* ── Header ─────────────────────────────────────────────────────────────── */}
+      {/* Header */}
       <div className="bg-white p-4 sm:p-6 rounded-md border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link href="/rac" className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 border border-slate-200 hover:bg-slate-100 transition-colors">
@@ -216,7 +194,7 @@ function DistribucionPageContent() {
         </div>
       </div>
 
-      {/* ── Panel: Identificación del RT ────────────────────────────────────────── */}
+      {/* Panel: Identificación del RT */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
         <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 bg-slate-50">
           <h2 className="font-bold text-slate-800 flex items-center gap-2 text-sm">
@@ -225,20 +203,12 @@ function DistribucionPageContent() {
         </div>
         <div className="p-4 sm:p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            {/* ID del RT — generado por servidor */}
             <div>
               <label className={labelCls}>ID del RT</label>
               <div data-testid="rt-id-info" className={infoCls}>
                 <span className="italic text-slate-400">Se generará al guardar</span>
               </div>
-              <p className="text-[10px] text-slate-400 mt-1">
-                {/* PENDIENTE BACKEND: el servidor asignará el correlativo definitivo al emitir. */}
-                El servidor asignará el correlativo definitivo.
-              </p>
             </div>
-
-            {/* Responsable — usuario autenticado */}
             <div>
               <label className={labelCls}>
                 <User className="w-3 h-3 inline mr-1" aria-hidden />
@@ -247,13 +217,7 @@ function DistribucionPageContent() {
               <div data-testid="responsable-info" className={infoCls}>
                 {MOCK_RESPONSABLE_SESION}
               </div>
-              <p className="text-[10px] text-slate-400 mt-1">
-                {/* PENDIENTE BACKEND: proviene del usuario autenticado en sesión. */}
-                Tomado del usuario autenticado en sesión.
-              </p>
             </div>
-
-            {/* Fecha Distribución — del servidor */}
             <div>
               <label className={labelCls}>
                 <Calendar className="w-3 h-3 inline mr-1" aria-hidden />
@@ -262,23 +226,19 @@ function DistribucionPageContent() {
               <div data-testid="fecha-distribucion-info" className={infoCls}>
                 <span className="italic text-slate-400">Se asignará al emitir</span>
               </div>
-              <p className="text-[10px] text-slate-400 mt-1">
-                {/* PENDIENTE BACKEND: el servidor registrará la fecha y hora exactas al emitir. */}
-                El servidor registrará la fecha y hora exacta de emisión.
-              </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── Panel: Configurar Distribución ──────────────────────────────────────── */}
+      {/* Panel: Configurar Distribución */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
         <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 bg-slate-50">
           <h2 className="font-bold text-slate-800 flex items-center gap-2 text-sm">
             <Network className="w-4 h-4 text-primary" /> Configurar Distribución
           </h2>
           <p className="text-xs text-slate-500 mt-1">
-            Seleccione una recepción, configure distribución por área y agréguela al RT. Puede repetir el proceso para varias recepciones.
+            Seleccione una recepción, agregue observaciones por área y agréguela al RT.
           </p>
         </div>
 
@@ -374,8 +334,7 @@ function DistribucionPageContent() {
                   <tr>
                     <th className="px-4 py-3 text-[11px] uppercase tracking-wider">Área Destino</th>
                     <th className="px-4 py-3 text-[11px] uppercase tracking-wider">Responsable Recibe</th>
-                    <th className="px-4 py-3 text-[11px] uppercase tracking-wider w-28">Cantidad</th>
-                    <th className="px-4 py-3 text-[11px] uppercase tracking-wider w-36">Unidad</th>
+                    <th className="px-4 py-3 text-[11px] uppercase tracking-wider">Observación</th>
                     <th className="px-4 py-3 text-[11px] uppercase tracking-wider">Fecha Recibido</th>
                     <th className="px-4 py-3 text-[11px] uppercase tracking-wider text-right">Estado</th>
                   </tr>
@@ -384,12 +343,20 @@ function DistribucionPageContent() {
                   {areaRows.map(row => (
                     <tr key={row.id} data-testid={`area-row-${row.id}`} className="hover:bg-slate-50 transition-colors">
 
-                      {/* Área */}
+                      {/* Área + cantidad/unidad como etiqueta */}
                       <td className="px-4 py-3">
                         <span className="font-bold text-slate-800 flex items-center gap-2">
                           {AREA_ICONS[row.id]}
                           {row.name}
                         </span>
+                        {recepcionSel && (
+                          <span
+                            data-testid={`cantidad-label-${row.id}`}
+                            className="text-[10px] text-slate-500 mt-0.5 block"
+                          >
+                            {row.cantidad} {row.unidad}
+                          </span>
+                        )}
                       </td>
 
                       {/* Responsable recibe */}
@@ -408,44 +375,25 @@ function DistribucionPageContent() {
                         </select>
                       </td>
 
-                      {/* Cantidad */}
+                      {/* Observación por área */}
                       <td className="px-4 py-3">
                         <input
-                          data-testid={`cantidad-${row.id}`}
-                          type="number"
-                          min="0"
-                          step="1"
-                          placeholder="0"
-                          value={row.cantidad}
-                          onChange={e => updateRow(row.id, "cantidad", e.target.value)}
+                          data-testid={`observacion-${row.id}`}
+                          type="text"
+                          placeholder="Observación..."
+                          value={row.observacion}
+                          onChange={e => updateRow(row.id, "observacion", e.target.value)}
                           disabled={!recepcionSel}
-                          className="w-full px-2 py-1.5 bg-white border border-slate-300 rounded focus:outline-none focus:border-primary text-xs text-center disabled:opacity-40 disabled:cursor-not-allowed"
+                          className="w-full px-2 py-1.5 bg-white border border-slate-300 rounded focus:outline-none focus:border-primary text-xs disabled:opacity-40 disabled:cursor-not-allowed min-w-[160px]"
                         />
                       </td>
 
-                      {/* Unidad — combobox por fila */}
-                      <td className="px-4 py-3">
-                        <select
-                          data-testid={`unidad-${row.id}`}
-                          value={row.unidad}
-                          onChange={e => updateRow(row.id, "unidad", e.target.value)}
-                          disabled={!recepcionSel}
-                          className="w-full px-2 py-1.5 bg-white border border-slate-300 rounded focus:outline-none focus:border-primary text-xs disabled:opacity-40 disabled:cursor-not-allowed"
-                        >
-                          <option value="">Unidad...</option>
-                          {UNIDADES_MEDIDA.map(u => (
-                            <option key={u} value={u}>{u}</option>
-                          ))}
-                        </select>
-                      </td>
-
-                      {/* Fecha Recibido — read-only, informativa */}
+                      {/* Fecha Recibido — read-only */}
                       <td className="px-4 py-3">
                         <span
                           data-testid={`fecha-recibido-${row.id}`}
                           className="text-xs text-slate-400 italic"
                         >
-                          {/* PENDIENTE BACKEND: se registrará cuando el área confirme recepción. */}
                           Pendiente de recepción
                         </span>
                       </td>
@@ -464,9 +412,9 @@ function DistribucionPageContent() {
             {errors.areas && <p className={`${errorCls} mt-2`}>{errors.areas}</p>}
           </div>
 
-          {/* Observaciones */}
+          {/* Observaciones generales */}
           <div>
-            <label className={labelCls}>Observaciones</label>
+            <label className={labelCls}>Observaciones Generales</label>
             <textarea
               data-testid="observaciones"
               rows={3}
@@ -478,7 +426,6 @@ function DistribucionPageContent() {
             />
           </div>
 
-          {/* Info: seleccionar recepción primero */}
           {!recepcionSel && (
             <div className="p-3 bg-blue-50 border border-blue-200 text-blue-700 text-sm rounded flex items-center gap-2">
               <ShieldAlert className="w-4 h-4 shrink-0" aria-hidden />
@@ -486,7 +433,6 @@ function DistribucionPageContent() {
             </div>
           )}
 
-          {/* Botón agregar */}
           <div className="flex justify-end pt-2">
             <button
               data-testid="agregar-btn"
@@ -500,7 +446,7 @@ function DistribucionPageContent() {
         </div>
       </div>
 
-      {/* ── Tabla inferior: Distribuciones del RT ───────────────────────────────── */}
+      {/* Tabla inferior: Distribuciones del RT */}
       <div className="bg-white rounded-md border border-slate-200 shadow-sm overflow-hidden">
         <div className="px-4 sm:px-6 py-3 sm:py-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
           <h2 className="font-bold text-slate-800 flex items-center gap-2 text-sm">
@@ -528,58 +474,53 @@ function DistribucionPageContent() {
                   <th className="px-4 py-3 text-[11px] uppercase tracking-wider">Nº Recepción</th>
                   <th className="px-4 py-3 text-[11px] uppercase tracking-wider">Producto</th>
                   <th className="px-4 py-3 text-[11px] uppercase tracking-wider text-right">Cant. RAC</th>
-                  <th className="px-4 py-3 text-[11px] uppercase tracking-wider">Áreas / Cant. Distribuida</th>
+                  <th className="px-4 py-3 text-[11px] uppercase tracking-wider">Áreas / Distribución</th>
                   <th className="px-4 py-3 text-[11px] uppercase tracking-wider">Observaciones</th>
                   <th className="px-4 py-3 text-[11px] uppercase tracking-wider text-right">Acción</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {distribuciones.map((d, i) => {
-                  const totalDist = d.distribucionPorArea.reduce((acc, a) => acc + a.cantidad, 0);
-                  return (
-                    <tr key={d.recepcionId} data-testid={`dist-row-${d.recepcionId}`} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-4 py-3 text-slate-500 font-medium">{i + 1}</td>
-                      <td className="px-4 py-3 font-bold text-primary">{d.recepcionId}</td>
-                      <td className="px-4 py-3 text-slate-800 truncate max-w-[140px]" title={d.producto}>
-                        {d.producto}
-                      </td>
-                      <td className="px-4 py-3 text-right font-bold text-slate-700">
-                        {d.cantidadIngresadaRAC}{" "}
-                        <span className="text-[10px] font-normal text-slate-400">{d.unidadRAC}</span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <div className="flex flex-col gap-0.5">
-                          {d.distribucionPorArea.map(a => (
-                            <span key={a.area} className="text-xs text-slate-600">
-                              {a.area}: <strong>{a.cantidad} {a.unidad}</strong>
-                            </span>
-                          ))}
-                          <span className="text-[10px] text-slate-400 mt-0.5">Total dist.: {totalDist}</span>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-xs text-slate-500 max-w-[120px] truncate" title={d.observaciones || "—"}>
-                        {d.observaciones || <span className="italic text-slate-300">—</span>}
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <button
-                          data-testid={`eliminar-${d.recepcionId}`}
-                          type="button"
-                          onClick={() => handleEliminar(i)}
-                          title="Eliminar distribución"
-                          className="p-1.5 text-slate-400 hover:text-danger hover:bg-red-50 rounded transition-colors"
-                        >
-                          <Trash2 className="w-4 h-4" aria-hidden />
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
+                {distribuciones.map((d, i) => (
+                  <tr key={d.recepcionId} data-testid={`dist-row-${d.recepcionId}`} className="hover:bg-slate-50 transition-colors">
+                    <td className="px-4 py-3 text-slate-500 font-medium">{i + 1}</td>
+                    <td className="px-4 py-3 font-bold text-primary">{d.recepcionId}</td>
+                    <td className="px-4 py-3 text-slate-800 truncate max-w-[140px]" title={d.producto}>
+                      {d.producto}
+                    </td>
+                    <td className="px-4 py-3 text-right font-bold text-slate-700">
+                      {d.cantidadIngresadaRAC}{" "}
+                      <span className="text-[10px] font-normal text-slate-400">{d.unidadRAC}</span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex flex-col gap-0.5">
+                        {d.distribucionPorArea.map(a => (
+                          <span key={a.area} className="text-xs text-slate-600">
+                            {a.area}: <strong>{a.cantidad} {a.unidad}</strong>
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-xs text-slate-500 max-w-[120px] truncate" title={d.observaciones || "—"}>
+                      {d.observaciones || <span className="italic text-slate-300">—</span>}
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <button
+                        data-testid={`eliminar-${d.recepcionId}`}
+                        type="button"
+                        onClick={() => handleEliminar(i)}
+                        title="Eliminar distribución"
+                        className="p-1.5 text-slate-400 hover:text-danger hover:bg-red-50 rounded transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" aria-hidden />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         )}
 
-        {/* Error al emitir sin distribuciones */}
         {saveError && (
           <div className="mx-4 sm:mx-6 my-3 p-3 bg-red-50 border border-red-200 text-danger text-sm rounded flex items-center gap-2">
             <ShieldAlert className="w-4 h-4 shrink-0" aria-hidden />
