@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { ChevronDown, ChevronUp, Printer, CheckCircle2, Clock, Circle } from 'lucide-react'
@@ -68,7 +68,7 @@ function CapturaForm({ prueba }: { prueba: Prueba }) {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div>
           <label className="block text-[10px] uppercase tracking-wide text-slate-400 mb-1">Fecha de Ejecución</label>
-          <input type="date" value={form.fecha} onChange={set('fecha')}
+          <input type="date" lang="ja" value={form.fecha} onChange={set('fecha')}
             className="w-full border border-slate-200 rounded px-2.5 py-1.5 text-sm text-slate-700 focus:outline-none focus:border-[var(--color-primary)]" />
         </div>
         <div>

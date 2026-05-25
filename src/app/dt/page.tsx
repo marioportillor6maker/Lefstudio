@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -143,7 +143,7 @@ function TabDecisionesTecnicas() {
           </div>
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Fecha de Decisión</label>
-            <input type="date" className={INPUT} />
+            <input type="date" lang="ja" className={INPUT} />
           </div>
         </div>
 
@@ -249,7 +249,7 @@ function TabReanalisisComite() {
           </div>
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Fecha Límite</label>
-            <input type="date" className={INPUT} />
+            <input type="date" lang="ja" className={INPUT} />
           </div>
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Causa del Reanálisis</label>
@@ -289,7 +289,7 @@ function TabReanalisisComite() {
           </div>
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Fecha de Reunión Propuesta</label>
-            <input type="date" className={INPUT} />
+            <input type="date" lang="ja" className={INPUT} />
           </div>
         </div>
 
@@ -371,7 +371,7 @@ function TabElaboracionRT39() {
           </div>
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Fecha de Elaboración</label>
-            <input type="date" className={INPUT} />
+            <input type="date" lang="ja" className={INPUT} />
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

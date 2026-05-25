@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -816,7 +816,7 @@ export default function ProformasPagoPage() {
               <div>
                 <label className={labelCls}>Fecha Efectiva</label>
                 <input
-                  type="date"
+                  type="date" lang="ja"
                   value={fechaEfectiva}
                   onChange={e => setFechaEfectiva(e.target.value)}
                   className={inputCls}

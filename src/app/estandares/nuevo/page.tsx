@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState } from 'react';
 import { Star, Printer, XCircle, CheckCircle2 } from 'lucide-react';
 
@@ -194,7 +194,7 @@ export default function RegistroRG44() {
                 Fecha de Recepción <span className="text-red-500">*</span>
               </label>
               <input
-                type="date"
+                type="date" lang="ja"
                 value={fechaRecepcion}
                 onChange={e => setFechaRecepcion(e.target.value)}
                 placeholder="aaaa/mm/dd"
@@ -206,7 +206,7 @@ export default function RegistroRG44() {
                 Fecha de Vencimiento <span className="text-red-500">*</span>
               </label>
               <input
-                type="date"
+                type="date" lang="ja"
                 value={fechaVencimiento}
                 onChange={e => setFechaVencimiento(e.target.value)}
                 placeholder="aaaa/mm/dd"
@@ -216,7 +216,7 @@ export default function RegistroRG44() {
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">Fecha de Apertura</label>
               <input
-                type="date"
+                type="date" lang="ja"
                 value={fechaApertura}
                 onChange={e => setFechaApertura(e.target.value)}
                 placeholder="aaaa/mm/dd"

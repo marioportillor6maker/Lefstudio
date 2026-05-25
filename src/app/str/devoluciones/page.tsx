@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState } from 'react';
 import { RotateCcw, CheckCircle2, Eye } from 'lucide-react';
 
@@ -53,7 +53,7 @@ export default function Devoluciones() {
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                 Fecha de Devolución <span className="text-red-500">*</span>
               </label>
-              <input type="date" value={fecha} onChange={e => setFecha(e.target.value)} placeholder="aaaa/mm/dd"
+              <input type="date" lang="ja" value={fecha} onChange={e => setFecha(e.target.value)} placeholder="aaaa/mm/dd"
                 className="w-full border border-slate-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-[var(--color-primary)] bg-white" />
             </div>
           </div>

@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState } from 'react';
 import { XCircle, Printer, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { mockEstandares } from '@/lib/mockData';
@@ -83,7 +83,7 @@ export default function RechazoRG58() {
                 Fecha de Rechazo <span className="text-red-500">*</span>
               </label>
               <input
-                type="date"
+                type="date" lang="ja"
                 value={fechaRechazo}
                 onChange={e => setFechaRechazo(e.target.value)}
                 placeholder="aaaa/mm/dd"
@@ -146,7 +146,7 @@ export default function RechazoRG58() {
                 Fecha de Devolución / Destrucción
               </label>
               <input
-                type="date"
+                type="date" lang="ja"
                 value={fechaDevolucion}
                 onChange={e => setFechaDevolucion(e.target.value)}
                 placeholder="aaaa/mm/dd"

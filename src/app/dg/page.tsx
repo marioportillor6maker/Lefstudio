@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -130,7 +130,7 @@ function TabRevisionFinal() {
           </div>
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Fecha de Emisión</label>
-            <input type="date" className={INPUT} />
+            <input type="date" lang="ja" className={INPUT} />
           </div>
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Director General</label>
@@ -262,7 +262,7 @@ function TabEmisionCliente() {
           </div>
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Fecha de Emisión <span className="text-danger">*</span></label>
-            <input type="date" className={INPUT} />
+            <input type="date" lang="ja" className={INPUT} />
           </div>
         </div>
 
@@ -292,7 +292,7 @@ function TabEmisionCliente() {
           </div>
           <div>
             <label className="block text-[11px] font-medium text-slate-600 mb-1">Fecha de Recepción por Cliente</label>
-            <input type="date" className={INPUT} />
+            <input type="date" lang="ja" className={INPUT} />
           </div>
         </div>
 
@@ -338,7 +338,7 @@ function TabCierreArchivo() {
             </div>
             <div>
               <label className="block text-[11px] font-medium text-slate-600 mb-1">Fecha de Cierre <span className="text-danger">*</span></label>
-              <input type="date" className={INPUT} />
+              <input type="date" lang="ja" className={INPUT} />
             </div>
             <div>
               <label className="block text-[11px] font-medium text-slate-600 mb-1">Responsable del Cierre</label>

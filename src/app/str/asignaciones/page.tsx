@@ -1,6 +1,7 @@
-'use client';
+﻿'use client';
 import { useState } from 'react';
 import { UserPlus, Send, Eye, CheckCircle2, X } from 'lucide-react';
+import { formatDate } from '@/lib/formatDate';
 
 const ANALISTAS_FFQQ  = ['Karla Suazo','Jorge Matute','Ana López','Roberto Mejía','Sofía Ramos'];
 const ANALISTAS_MICRO = ['Teresa Montoya','Pedro Alvarado','Lucía Torres'];
@@ -75,7 +76,7 @@ export default function AsignacionesRT40() {
                 Fecha de Asignación <span className="text-red-500">*</span>
               </label>
               <input
-                type="date"
+                type="date" lang="ja"
                 value={fecha}
                 onChange={e => setFecha(e.target.value)}
                 className="w-full border border-slate-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-[var(--color-primary)] bg-white"
@@ -190,7 +191,7 @@ export default function AsignacionesRT40() {
             </div>
             <div className="p-6 space-y-4 text-sm">
               <div className="grid grid-cols-2 gap-3 border border-slate-100 rounded p-4">
-                {[['Recepción', recepcion],['Fecha', fecha],['Supervisor', supervisor]].map(([k,v]) => (
+                {[['Recepción', recepcion],['Fecha', formatDate(fecha)],['Supervisor', supervisor]].map(([k,v]) => (
                   <div key={k}><span className="text-xs text-slate-400">{k}: </span><span className="font-semibold text-slate-800">{v}</span></div>
                 ))}
               </div>

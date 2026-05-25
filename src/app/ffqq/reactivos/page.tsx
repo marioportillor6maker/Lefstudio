@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { Printer, Save, Plus } from 'lucide-react'
@@ -190,7 +190,7 @@ function RT86() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div><Label>Número de Barridos</Label><Field value="32" /></div>
           <div><Label>Resolución (cm⁻¹)</Label><Field value="4" /></div>
-          <div><Label>Fecha de Análisis</Label><Input type="date" placeholder="aaaa/mm/dd" /></div>
+          <div><Label>Fecha de Análisis</Label><Input type="date" lang="ja" placeholder="aaaa/mm/dd" /></div>
         </div>
       </div>
 

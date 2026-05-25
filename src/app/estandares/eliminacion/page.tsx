@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState } from 'react';
 import { Trash2, Printer, CheckCircle2 } from 'lucide-react';
 import { mockEstandares } from '@/lib/mockData';
@@ -75,7 +75,7 @@ export default function EliminacionRT45() {
                 Fecha de Eliminación <span className="text-red-500">*</span>
               </label>
               <input
-                type="date"
+                type="date" lang="ja"
                 value={fecha}
                 onChange={e => setFecha(e.target.value)}
                 placeholder="aaaa/mm/dd"

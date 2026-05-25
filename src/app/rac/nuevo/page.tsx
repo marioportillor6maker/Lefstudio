@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { ArrowLeft, CheckCircle2, ChevronRight, User, Package, Building, Hash, FileText, ClipboardCheck, Plus, Trash2 } from "lucide-react";
@@ -180,7 +180,7 @@ export default function NuevoIngresoRAC() {
                 <label htmlFor="fecha-recepcion" className="text-xs font-bold text-slate-700 uppercase">Fecha de Recepción <span className="text-danger">*</span></label>
                 <input
                   id="fecha-recepcion"
-                  type="date"
+                  type="date" lang="ja"
                   value={fechaRecepcion}
                   onChange={(e) => setFechaRecepcion(e.target.value)}
                   className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary"
@@ -324,7 +324,7 @@ export default function NuevoIngresoRAC() {
 
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-bold text-slate-700 uppercase">Fecha Expiración</label>
-                <input type="date" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
+                <input type="date" lang="ja" className="w-full h-10 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
               </div>
 
               {/* Tabla Registro Sanitario */}

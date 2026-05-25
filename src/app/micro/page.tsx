@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -105,7 +105,7 @@ function TabAceptabilidad() {
             </label>
             <div className="relative">
               <input
-                type="date"
+                type="date" lang="ja"
                 defaultValue="2024-09-01"
                 className={inputCls + " pr-8"}
               />
@@ -289,7 +289,7 @@ function TabEjecucion() {
             <div className="px-4 py-3">
               <p className="text-[10px] font-medium text-slate-500 mb-1.5">Fecha Inicio Análisis</p>
               <div className="relative">
-                <input type="date" defaultValue="2024-09-01" className={inputCls + " pr-8"} />
+                <input type="date" lang="ja" defaultValue="2024-09-01" className={inputCls + " pr-8"} />
                 <CalendarDays className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
               </div>
             </div>
@@ -344,7 +344,7 @@ function TabEjecucion() {
                     <p className="text-[10px] font-medium text-slate-500 mb-1">Fecha Siembra</p>
                     <div className="relative">
                       <input
-                        type="date"
+                        type="date" lang="ja"
                         value={p.fechaSiembra}
                         onChange={(e) => updatePrueba(p.id, "fechaSiembra", e.target.value)}
                         className={inputCls + " pr-7"}
@@ -356,7 +356,7 @@ function TabEjecucion() {
                     <p className="text-[10px] font-medium text-slate-500 mb-1">Fecha Lectura</p>
                     <div className="relative">
                       <input
-                        type="date"
+                        type="date" lang="ja"
                         value={p.fechaLectura}
                         onChange={(e) => updatePrueba(p.id, "fechaLectura", e.target.value)}
                         className={inputCls + " pr-7"}
@@ -483,7 +483,7 @@ function TabCapturaRT74() {
             <div className="px-4 py-3">
               <p className="text-[10px] font-medium text-slate-500 mb-1.5">Fecha de Elaboración</p>
               <div className="relative">
-                <input type="date" className={fieldInputCls + " pr-8"} />
+                <input type="date" lang="ja" className={fieldInputCls + " pr-8"} />
                 <CalendarDays className="w-3.5 h-3.5 absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
               </div>
             </div>
