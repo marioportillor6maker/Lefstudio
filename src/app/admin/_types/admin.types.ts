@@ -57,7 +57,7 @@ export const PERMISSION_GROUPS: { group: string; perms: string[] }[] = [
 ];
 
 // ─── Catálogos ────────────────────────────────────────────────────────────────
-export type CatalogKey = 'tramites' | 'formasFarm' | 'tiposCliente' | 'paises' | 'metodologias';
+export type CatalogKey = 'tramites' | 'formasFarm' | 'tiposCliente' | 'paises' | 'metodologias' | 'unidadesMedida';
 
 export interface CatalogItem {
   id: number;

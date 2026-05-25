@@ -77,14 +77,27 @@ export const CATALOGOS_MOCK: Record<CatalogKey, CatalogItem[]> = {
     { id: 5, nombre: 'Uniformidad',  estado: 'Activo' },
     { id: 6, nombre: 'Microbiologia',estado: 'Activo' },
   ],
+  unidadesMedida: [
+    { id: 1, nombre: 'Miligramos',                codigo: 'mg',  estado: 'Activo' },
+    { id: 2, nombre: 'Gramos',                    codigo: 'g',   estado: 'Activo' },
+    { id: 3, nombre: 'Microgramos',               codigo: 'mcg', estado: 'Activo' },
+    { id: 4, nombre: 'Mililitros',                codigo: 'mL',  estado: 'Activo' },
+    { id: 5, nombre: 'Litros',                    codigo: 'L',   estado: 'Activo' },
+    { id: 6, nombre: 'Unidades Internacionales',  codigo: 'UI',  estado: 'Activo' },
+    { id: 7, nombre: 'Porcentaje',                codigo: '%',   estado: 'Activo' },
+    { id: 8, nombre: 'Unidades',                  codigo: 'U',   estado: 'Activo' },
+    { id: 9, nombre: 'Tabletas',                  codigo: 'tab', estado: 'Activo' },
+    { id: 10, nombre: 'Capsulas',                 codigo: 'cap', estado: 'Activo' },
+  ],
 };
 
 export const CATALOG_LABELS: Record<CatalogKey, string> = {
-  tramites:     'Tipos de Tramite',
-  formasFarm:   'Formas Farmaceuticas',
-  tiposCliente: 'Tipos de Cliente',
-  paises:       'Paises de Origen',
-  metodologias: 'Metodologias Analiticas',
+  tramites:       'Tipos de Tramite',
+  formasFarm:     'Formas Farmaceuticas',
+  tiposCliente:   'Tipos de Cliente',
+  paises:         'Paises de Origen',
+  metodologias:   'Metodologias Analiticas',
+  unidadesMedida: 'Unidades de Medida',
 };
 
 // ─── Técnicas ─────────────────────────────────────────────────────────────────

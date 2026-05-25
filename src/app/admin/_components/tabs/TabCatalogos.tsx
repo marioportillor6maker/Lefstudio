@@ -10,7 +10,7 @@ import type { CatalogKey, CatalogItem, CatalogItemForm } from '../../_types/admi
 
 const EMPTY_FORM: CatalogItemForm = { nombre: '', codigo: '', descripcion: '', estado: 'Activo' };
 
-const CATALOG_KEYS: CatalogKey[] = ['tramites','formasFarm','tiposCliente','paises','metodologias'];
+const CATALOG_KEYS: CatalogKey[] = ['tramites','formasFarm','tiposCliente','paises','metodologias','unidadesMedida'];
 
 export function TabCatalogos() {
   const [catalogs, setCatalogs] = useState(CATALOGOS_MOCK);
