@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useEffect } from "react";
 import { mockIngreso360 } from "@/lib/mockData";
@@ -151,7 +151,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
             <Calendar className="w-4 h-4 text-slate-400 mt-0.5" />
             <div>
               <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold leading-tight">Fecha Recepción</p>
-              <p className="text-sm font-bold text-slate-800 mt-0.5">07/01/2024</p>
+              <p className="text-sm font-bold text-slate-800 mt-0.5">2024/01/07</p>
             </div>
           </div>
 
@@ -276,7 +276,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                     <div className="bg-slate-50/50 rounded-lg p-5 border border-slate-100 shadow-sm">
                       <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Datos del Expediente</h4>
                       <div className="space-y-3">
-                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Fecha Recepción</span><span className="text-sm font-bold text-slate-900 text-right">07/01/2024</span></div>
+                        <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Fecha Recepción</span><span className="text-sm font-bold text-slate-900 text-right">2024/01/07</span></div>
                         <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Tipo de Trámite</span><span className="text-sm font-medium text-slate-900 text-right">Control de Calidad</span></div>
                         <div className="flex justify-between items-start gap-4 border-b border-slate-100 pb-2"><span className="text-xs text-slate-500">Días Transcurridos</span><span className="text-sm font-bold text-success text-right">11 días (En tiempo)</span></div>
                         <div className="flex justify-between items-start gap-4"><span className="text-xs text-slate-500">Prioridad</span><span className="text-xs font-bold text-white bg-orange-500 px-2 py-0.5 rounded text-right">URGENTE</span></div>
@@ -362,7 +362,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">N° Recepción</p><p className="text-sm font-bold text-slate-900">REC-2024-00147</p></div>
                           <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Prioridad</p><p className="text-sm font-bold text-orange-600">URGENTE</p></div>
-                          <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Fecha de Recepción</p><p className="text-sm font-bold text-slate-900">07/01/2024 08:14</p></div>
+                          <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Fecha de Recepción</p><p className="text-sm font-bold text-slate-900">2024/01/07 08:14</p></div>
                           <div className="bg-slate-50 border border-slate-100 rounded-md p-3"><p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Tipo de Trámite</p><p className="text-sm font-bold text-slate-900">Control de Calidad</p></div>
                         </div>
                       </div>
@@ -463,21 +463,21 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                           <div className="flex justify-between items-center text-sm">
                             <span className="text-success font-bold flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4"/> RAC — Emisión a Laboratorios</span>
                             <div className="text-right">
-                              <span className="text-slate-500 mr-3 text-xs">08/01/2024</span>
+                              <span className="text-slate-500 mr-3 text-xs">2024/01/08</span>
                               <span className="text-slate-700 font-bold text-xs">María Rodríguez</span>
                             </div>
                           </div>
                           <div className="flex justify-between items-center text-sm pt-2 border-t border-slate-100">
                             <span className="text-success font-bold flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4"/> DOCT — Recibido (Expediente)</span>
                             <div className="text-right">
-                              <span className="text-slate-500 mr-3 text-xs">09/01/2024</span>
+                              <span className="text-slate-500 mr-3 text-xs">2024/01/09</span>
                               <span className="text-slate-700 font-bold text-xs">Ana Patricia Flores</span>
                             </div>
                           </div>
                           <div className="flex justify-between items-center text-sm pt-2 border-t border-slate-100">
                             <span className="text-success font-bold flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4"/> FFQQ — Recibido (Muestra)</span>
                             <div className="text-right">
-                              <span className="text-slate-500 mr-3 text-xs">17/01/2024</span>
+                              <span className="text-slate-500 mr-3 text-xs">2024/01/17</span>
                               <span className="text-slate-700 font-bold text-xs">Karla Suazo</span>
                             </div>
                           </div>
@@ -534,7 +534,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                               </div>
                             </div>
                             <div className="text-right">
-                              <p className="text-sm font-bold text-slate-900">09/01/2024</p>
+                              <p className="text-sm font-bold text-slate-900">2024/01/09</p>
                               <p className="text-[10px] text-slate-500">08:05 AM</p>
                             </div>
                           </div>
@@ -809,12 +809,12 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                         <div className="bg-white border border-slate-200 rounded-lg p-4 shadow-sm flex items-center gap-6">
                            <div className="flex-1">
                               <p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Fecha de Apertura</p>
-                              <p className="text-xs font-bold text-slate-900">12/08/2023</p>
+                              <p className="text-xs font-bold text-slate-900">2023/08/12</p>
                            </div>
                            <div className="w-[1px] h-8 bg-slate-200"></div>
                            <div className="flex-1">
                               <p className="text-[10px] text-slate-500 font-bold uppercase mb-1">Caducidad Oficial USP</p>
-                              <p className="text-xs font-bold text-slate-900">30/11/2024</p>
+                              <p className="text-xs font-bold text-slate-900">2024/11/30</p>
                            </div>
                            <div className="w-[1px] h-8 bg-slate-200"></div>
                            <div className="flex-1 text-center">
@@ -1859,18 +1859,18 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
                   <div className="space-y-6 relative before:absolute before:left-[5px] before:top-2 before:bottom-0 before:w-[2px] before:bg-slate-200">
                     
                     {[
-                      { area: "RAC", time: "07/01/2024 08:14", title: "Ingreso creado en borrador", user: "María Rodríguez", color: "purple" },
-                      { area: "RAC", time: "07/01/2024 09:47", title: "Documentación mínima verificada", user: "María Rodríguez", color: "green", meta: "Oficio y Actas adjuntas" },
-                      { area: "RAC", time: "07/01/2024 10:05", title: "Registrado en RG-41", user: "María Rodríguez", color: "blue", meta: "Correlativo LEF-2024-00147 asignado" },
-                      { area: "RAC", time: "07/01/2024 10:22", title: "RG-13 y RG-72 generados", user: "María Rodríguez", color: "blue" },
-                      { area: "FINANZAS", time: "08/01/2024 14:30", title: "Proforma Pagada / Exonerada", user: "Lic. Roberto Suazo", color: "green", meta: "Trámite institucional (SESAL)" },
-                      { area: "RAC", time: "08/01/2024 16:10", title: "Emisión de RT-159", user: "María Rodríguez", color: "blue" },
-                      { area: "DOCT", time: "09/01/2024 08:05", title: "Recibido en Documentación", user: "Ana Patricia Flores", color: "purple" },
-                      { area: "DOCT", time: "09/01/2024 11:30", title: "Solicitud RT-75 generada", user: "Ana Patricia Flores", color: "orange" },
-                      { area: "DOCT", time: "10/01/2024 09:15", title: "Contraste Histórico RT-41 finalizado", user: "Ana Patricia Flores", color: "green", meta: "3 recepciones previas encontradas" },
-                      { area: "STR", time: "11/01/2024 14:20", title: "Emisión de RT-30 (Solicitud Estándar)", user: "Roberto Paz", color: "orange", meta: "Pendiente respuesta de cliente" },
-                      { area: "STR", time: "16/01/2024 10:00", title: "Configuración RT-38 iniciada", user: "Roberto Paz", color: "purple" },
-                      { area: "FFQQ", time: "17/01/2024 08:30", title: "Recepción de Muestras FFQQ", user: "Karla Suazo", color: "blue", meta: "120 unidades conformes" }
+                      { area: "RAC", time: "2024/01/07 08:14", title: "Ingreso creado en borrador", user: "María Rodríguez", color: "purple" },
+                      { area: "RAC", time: "2024/01/07 09:47", title: "Documentación mínima verificada", user: "María Rodríguez", color: "green", meta: "Oficio y Actas adjuntas" },
+                      { area: "RAC", time: "2024/01/07 10:05", title: "Registrado en RG-41", user: "María Rodríguez", color: "blue", meta: "Correlativo LEF-2024-00147 asignado" },
+                      { area: "RAC", time: "2024/01/07 10:22", title: "RG-13 y RG-72 generados", user: "María Rodríguez", color: "blue" },
+                      { area: "FINANZAS", time: "2024/01/08 14:30", title: "Proforma Pagada / Exonerada", user: "Lic. Roberto Suazo", color: "green", meta: "Trámite institucional (SESAL)" },
+                      { area: "RAC", time: "2024/01/08 16:10", title: "Emisión de RT-159", user: "María Rodríguez", color: "blue" },
+                      { area: "DOCT", time: "2024/01/09 08:05", title: "Recibido en Documentación", user: "Ana Patricia Flores", color: "purple" },
+                      { area: "DOCT", time: "2024/01/09 11:30", title: "Solicitud RT-75 generada", user: "Ana Patricia Flores", color: "orange" },
+                      { area: "DOCT", time: "2024/01/10 09:15", title: "Contraste Histórico RT-41 finalizado", user: "Ana Patricia Flores", color: "green", meta: "3 recepciones previas encontradas" },
+                      { area: "STR", time: "2024/01/11 14:20", title: "Emisión de RT-30 (Solicitud Estándar)", user: "Roberto Paz", color: "orange", meta: "Pendiente respuesta de cliente" },
+                      { area: "STR", time: "2024/01/16 10:00", title: "Configuración RT-38 iniciada", user: "Roberto Paz", color: "purple" },
+                      { area: "FFQQ", time: "2024/01/17 08:30", title: "Recepción de Muestras FFQQ", user: "Karla Suazo", color: "blue", meta: "120 unidades conformes" }
                     ].map((ev, i) => (
                       <div key={i} className="relative pl-5">
                         <div className={`absolute left-0 top-1 w-3 h-3 rounded-full border-2 border-white shadow-sm ${

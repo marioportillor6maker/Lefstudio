@@ -1,5 +1,6 @@
 import { ArrowLeft, Printer, Download } from "lucide-react";
 import Link from "next/link";
+import { formatDate } from "@/lib/formatDate";
 
 export default function VisorDocumentoPage({ params }: { params: { tipo: string, id: string } }) {
   const isRG41 = params.tipo.toUpperCase() === "RG-41";
@@ -49,7 +50,7 @@ export default function VisorDocumentoPage({ params }: { params: { tipo: string,
               <span className="font-bold">N° Recepción:</span> {params.id}
             </div>
             <div className="border-b border-slate-300 pb-1">
-              <span className="font-bold">Fecha:</span> {new Date().toLocaleDateString('es-HN')}
+              <span className="font-bold">Fecha:</span> {formatDate(new Date())}
             </div>
             <div className="col-span-2 border-b border-slate-300 pb-1">
               <span className="font-bold">Cliente/Institución:</span> Laboratorios Industriales S.A.

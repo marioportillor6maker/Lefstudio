@@ -8,7 +8,7 @@ const METODOS = ['Destrucción química','Incineración','Empresa gestora de res
 
 // Candidatos: vencidos + agotados + bajo stock
 const CANDIDATOS_EXTRA = [
-  { id: 'RG44-2023-075', rg44No: 'RG44-2023-075', nombre: 'Paracetamol USP RS', lote: 'USP-PAR-2023Y', cantidadActual: 5, unidad: 'mg', fechaVencimiento: '15/01/2024', estado: 'Vencido' },
+  { id: 'RG44-2023-075', rg44No: 'RG44-2023-075', nombre: 'Paracetamol USP RS', lote: 'USP-PAR-2023Y', cantidadActual: 5, unidad: 'mg', fechaVencimiento: '2024/01/15', estado: 'Vencido' },
 ];
 
 export default function EliminacionRT45() {

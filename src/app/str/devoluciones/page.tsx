@@ -5,8 +5,8 @@ import { RotateCcw, CheckCircle2, Eye } from 'lucide-react';
 const MOTIVOS = ['Documentación incompleta','RT-38 con errores','Estándar no válido','Datos del cliente incorrectos','Falta certificado del fabricante','Discrepancia en pruebas','Otro'];
 
 const HISTORIAL = [
-  { caso: 'REC-2024-00143', producto: 'DICLOFENACO 75mg',  motivo: 'RT-38 con errores',  fechaDev: '14/01/2024', plazo: '17/01/2024', estado: 'Corregido' },
-  { caso: 'REC-2024-00139', producto: 'CAPTOPRIL 25mg',    motivo: 'Estándar no válido', fechaDev: '10/01/2024', plazo: '13/01/2024', estado: 'Pendiente' },
+  { caso: 'REC-2024-00143', producto: 'DICLOFENACO 75mg',  motivo: 'RT-38 con errores',  fechaDev: '2024/01/14', plazo: '2024/01/17', estado: 'Corregido' },
+  { caso: 'REC-2024-00139', producto: 'CAPTOPRIL 25mg',    motivo: 'Estándar no válido', fechaDev: '2024/01/10', plazo: '2024/01/13', estado: 'Pendiente' },
 ];
 
 export default function Devoluciones() {

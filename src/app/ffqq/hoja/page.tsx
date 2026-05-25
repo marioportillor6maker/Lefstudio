@@ -182,7 +182,7 @@ export default function FfqqHojaPage() {
             { label: 'Metodología', value: 'USP 47' },
             { label: 'Estándar', value: 'Amoxicilina Trihidrato USP RS' },
             { label: 'Analista Principal', value: 'Q.F. Karla Suazo' },
-            { label: 'Fecha Inicio', value: '18/01/2024' },
+            { label: 'Fecha Inicio', value: '2024/01/18' },
           ].map((item, i) => (
             <div key={i} className={`px-4 py-3 border-slate-100 ${['border-b border-r','border-b border-r-0 md:border-r','border-b border-r','border-b border-r-0','border-b border-r md:border-b-0','border-b border-r-0 md:border-r md:border-b-0','border-r',''][i]}`}>
               <p className="text-[10px] uppercase tracking-wide text-slate-400 mb-0.5">{item.label}</p>

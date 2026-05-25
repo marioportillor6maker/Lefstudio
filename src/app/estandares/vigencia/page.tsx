@@ -1,22 +1,22 @@
 import { AlertTriangle } from 'lucide-react';
 
 const VENCEN_30 = [
-  { nombre: 'Atorvastatina Cálcica USP RS', fecha: '28/02/2025' },
-  { nombre: 'Losartán Potásico USP RS',     fecha: '15/02/2025' },
+  { nombre: 'Atorvastatina Cálcica USP RS', fecha: '2025/02/28' },
+  { nombre: 'Losartán Potásico USP RS',     fecha: '2025/02/15' },
 ];
 const VENCEN_60 = [
-  { nombre: 'Omeprazol USP RS',  fecha: '15/03/2025' },
-  { nombre: 'Amlodipino USP RS', fecha: '30/03/2025' },
+  { nombre: 'Omeprazol USP RS',  fecha: '2025/03/15' },
+  { nombre: 'Amlodipino USP RS', fecha: '2025/03/30' },
 ];
 const VENCIDOS = [
-  { nombre: 'Ibuprofeno USP RS',  fecha: '31/01/2024' },
-  { nombre: 'Paracetamol USP RS', fecha: '15/01/2024' },
+  { nombre: 'Ibuprofeno USP RS',  fecha: '2024/01/31' },
+  { nombre: 'Paracetamol USP RS', fecha: '2024/01/15' },
 ];
 
 const MOVIMIENTOS = [
-  { fecha: '18/01/2024', estandar: 'Amoxicilina Trihidrato USP RS', tipo: 'Entrega', cantidad: -50,  saldo: 320, unidad: 'mg', responsable: 'Luis Hernández', referencia: 'RT27-2024-001' },
-  { fecha: '18/01/2024', estandar: 'Amoxicilina Trihidrato USP RS', tipo: 'Entrega', cantidad: -30,  saldo: 370, unidad: 'mg', responsable: 'Luis Hernández', referencia: 'RT27-2024-002' },
-  { fecha: '15/01/2024', estandar: 'Amoxicilina Trihidrato USP RS', tipo: 'Ingreso', cantidad: +500, saldo: 500, unidad: 'mg', responsable: 'Luis Hernández', referencia: 'RG44-2024-001' },
+  { fecha: '2024/01/18', estandar: 'Amoxicilina Trihidrato USP RS', tipo: 'Entrega', cantidad: -50,  saldo: 320, unidad: 'mg', responsable: 'Luis Hernández', referencia: 'RT27-2024-001' },
+  { fecha: '2024/01/18', estandar: 'Amoxicilina Trihidrato USP RS', tipo: 'Entrega', cantidad: -30,  saldo: 370, unidad: 'mg', responsable: 'Luis Hernández', referencia: 'RT27-2024-002' },
+  { fecha: '2024/01/15', estandar: 'Amoxicilina Trihidrato USP RS', tipo: 'Ingreso', cantidad: +500, saldo: 500, unidad: 'mg', responsable: 'Luis Hernández', referencia: 'RG44-2024-001' },
 ];
 
 export default function ControlVigencia() {

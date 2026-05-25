@@ -12,9 +12,9 @@ const DESTINOS = [
 const ANALISTAS = ['Q.F. Karla Suazo','Q.F. Jorge Matute','Q.F. Ana López','Q.F. Roberto Mejía','Q.F. Sofía Ramos'];
 
 const HISTORIAL = [
-  { rt27: 'RT27-2024-001', estandar: 'Amoxicilina Trihidrato USP RS', cantidad: '50', unidad: 'mg', destino: 'FFQQ', analista: 'Karla Suazo', fecha: '18/01/2024', recepcion: 'REC-2024-00147' },
-  { rt27: 'RT27-2024-002', estandar: 'Amoxicilina Trihidrato USP RS', cantidad: '30', unidad: 'mg', destino: 'FFQQ', analista: 'Jorge Matute', fecha: '18/01/2024', recepcion: 'REC-2024-00147' },
-  { rt27: 'RT27-2024-003', estandar: 'Metformina HCl USP RS',        cantidad: '40', unidad: 'mg', destino: 'FFQQ', analista: 'Karla Suazo', fecha: '15/01/2024', recepcion: 'REC-2024-00146' },
+  { rt27: 'RT27-2024-001', estandar: 'Amoxicilina Trihidrato USP RS', cantidad: '50', unidad: 'mg', destino: 'FFQQ', analista: 'Karla Suazo', fecha: '2024/01/18', recepcion: 'REC-2024-00147' },
+  { rt27: 'RT27-2024-002', estandar: 'Amoxicilina Trihidrato USP RS', cantidad: '30', unidad: 'mg', destino: 'FFQQ', analista: 'Jorge Matute', fecha: '2024/01/18', recepcion: 'REC-2024-00147' },
+  { rt27: 'RT27-2024-003', estandar: 'Metformina HCl USP RS',        cantidad: '40', unidad: 'mg', destino: 'FFQQ', analista: 'Karla Suazo', fecha: '2024/01/15', recepcion: 'REC-2024-00146' },
 ];
 
 export default function EntregaRT27() {

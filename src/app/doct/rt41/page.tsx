@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { RefreshCw, CheckCircle2, XCircle, Printer } from 'lucide-react';
 
 const PREVIAS = [
-  { id:'REC-2023-0201', fecha:'15/09/2023', lote:'AM2309A', resultado:'conforme' },
-  { id:'REC-2023-0034', fecha:'12/02/2023', lote:'AM2302B', resultado:'no_conforme' },
-  { id:'REC-2022-0089', fecha:'28/04/2022', lote:'AM2204C', resultado:'conforme' },
+  { id:'REC-2023-0201', fecha:'2023/09/15', lote:'AM2309A', resultado:'conforme' },
+  { id:'REC-2023-0034', fecha:'2023/02/12', lote:'AM2302B', resultado:'no_conforme' },
+  { id:'REC-2022-0089', fecha:'2022/04/28', lote:'AM2204C', resultado:'conforme' },
 ];
 
 const CAMPOS = [
@@ -40,7 +40,7 @@ export default function Rt41Page() {
             <input className={INPUT} value="REC-2024-00147 — AMOXICILINA 500mg (Lote AM2401X)" readOnly />
           </Field>
           <Field label="Fecha de Contraste">
-            <input type="text" className={INPUT} defaultValue="10/01/2024" />
+            <input type="text" className={INPUT} defaultValue="2024/01/10" />
           </Field>
           <Field label="Responsable DOCT">
             <input className={INPUT} value="Q.F. Ana Patricia Flores" readOnly />

@@ -143,14 +143,14 @@ function TabRevisionFinal() {
 }
 
 const HISTORIAL_APROBACIONES = [
-  { id: "REC-2024-00145", producto: "LOSARTÁN 50mg",    rt39: "RT39-2024-0087", fecha: "20/01/2024", director: "Q.F. Dra. Carmen Alvarado" },
-  { id: "REC-2024-00143", producto: "DICLOFENACO 75mg", rt39: "RT39-2024-0085", fecha: "18/01/2024", director: "Q.F. Dra. Carmen Alvarado" },
+  { id: "REC-2024-00145", producto: "LOSARTÁN 50mg",    rt39: "RT39-2024-0087", fecha: "2024/01/20", director: "Q.F. Dra. Carmen Alvarado" },
+  { id: "REC-2024-00143", producto: "DICLOFENACO 75mg", rt39: "RT39-2024-0085", fecha: "2024/01/18", director: "Q.F. Dra. Carmen Alvarado" },
 ];
 
 const ARCHIVADOS = [
-  { id: "REC-2024-00145", producto: "LOSARTÁN 50mg",    cliente: "IHSS",            fecha: "22/01/2024", conforme: true,  ubicacion: "Archivo B-3" },
-  { id: "REC-2024-00143", producto: "DICLOFENACO 75mg", cliente: "SESAL",           fecha: "20/01/2024", conforme: true,  ubicacion: "Archivo B-2" },
-  { id: "REC-2024-00140", producto: "AMLODIPINO 5mg",   cliente: "Hospital Escuela", fecha: "18/01/2024", conforme: false, ubicacion: "Archivo B-1" },
+  { id: "REC-2024-00145", producto: "LOSARTÁN 50mg",    cliente: "IHSS",            fecha: "2024/01/22", conforme: true,  ubicacion: "Archivo B-3" },
+  { id: "REC-2024-00143", producto: "DICLOFENACO 75mg", cliente: "SESAL",           fecha: "2024/01/20", conforme: true,  ubicacion: "Archivo B-2" },
+  { id: "REC-2024-00140", producto: "AMLODIPINO 5mg",   cliente: "Hospital Escuela", fecha: "2024/01/18", conforme: false, ubicacion: "Archivo B-1" },
 ];
 
 const VERIFICACION_CIERRE = [

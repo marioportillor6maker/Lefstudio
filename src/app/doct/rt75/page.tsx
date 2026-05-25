@@ -2,6 +2,7 @@
 import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { FolderOpen, Printer, X, CheckCircle2, Clock, XCircle } from 'lucide-react';
+import { formatDate } from '@/lib/formatDate';
 
 interface Rt75Row {
   nro: string;
@@ -13,10 +14,10 @@ interface Rt75Row {
 }
 
 const HISTORIAL: Rt75Row[] = [
-  { nro:'RT75-2024-0089', recepcion:'LEF-2024-00147', producto:'Amoxicilina 500mg Cápsulas',   fechaSol:'08/11/2024', respuesta:'10/11/2024', estado:'respondido' },
-  { nro:'RT75-2024-0088', recepcion:'LEF-2024-00143', producto:'Metformina 850mg Tabletas',    fechaSol:'24/10/2024', respuesta:'25/10/2024', estado:'respondido' },
-  { nro:'RT75-2024-0090', recepcion:'LEF-2024-00148', producto:'Ibuprofeno 400mg Tabletas',    fechaSol:'08/11/2024', respuesta:'—',          estado:'pendiente' },
-  { nro:'RT75-2024-0091', recepcion:'LEF-2024-00153', producto:'Paracetamol 500mg Tabletas',   fechaSol:'13/11/2024', respuesta:'—',          estado:'sin_historial' },
+  { nro:'RT75-2024-0089', recepcion:'LEF-2024-00147', producto:'Amoxicilina 500mg Cápsulas',   fechaSol:'2024/11/08', respuesta:'2024/11/10', estado:'respondido' },
+  { nro:'RT75-2024-0088', recepcion:'LEF-2024-00143', producto:'Metformina 850mg Tabletas',    fechaSol:'2024/10/24', respuesta:'2024/10/25', estado:'respondido' },
+  { nro:'RT75-2024-0090', recepcion:'LEF-2024-00148', producto:'Ibuprofeno 400mg Tabletas',    fechaSol:'2024/11/08', respuesta:'—',          estado:'pendiente' },
+  { nro:'RT75-2024-0091', recepcion:'LEF-2024-00153', producto:'Paracetamol 500mg Tabletas',   fechaSol:'2024/11/13', respuesta:'—',          estado:'sin_historial' },
 ];
 
 // Session mock — replace with real auth integration
@@ -35,7 +36,7 @@ function Rt75PageContent() {
   const [showPreview, setShowPreview] = useState(false);
   const [form, setForm] = useState({ prioridad: 'Normal', observaciones: '' });
 
-  const hoy = new Date().toLocaleDateString('es-HN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const hoy = formatDate(new Date());
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }));
 
   return (

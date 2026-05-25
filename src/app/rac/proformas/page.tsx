@@ -11,6 +11,7 @@ import { mockIngresosList } from "@/lib/mockData";
 import type { ProformaGenerada, FormErrors, TipoAnalisis, MetodoPago, Moneda } from "./_types/proforma.types";
 import { MOCK_PROFORMAS } from "./_data/proformaMockData";
 import { MONEDAS_CATALOG, getMoneda } from "./_data/monedasCatalog";
+import { formatDate } from "@/lib/formatDate";
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
 // ISV 15% — Artículo 15 Ley del ISV, Honduras.
@@ -139,7 +140,7 @@ th{font-size:10px;text-transform:uppercase;color:#64748b;text-align:left}
 </table>
 <p class="letras">SON: ${p.totalLetras}</p>
 ${p.observaciones ? `<p><strong>Observaciones:</strong> ${p.observaciones}</p>` : ""}
-<div class="ftr">Documento generado ${new Date().toLocaleDateString("es-HN")}. Fecha oficial proviene del servidor en producción.</div>
+<div class="ftr">Documento generado ${formatDate(new Date())}. Fecha oficial proviene del servidor en producción.</div>
 </body></html>`);
   win.document.close();
   win.focus();
@@ -271,8 +272,7 @@ export default function ProformasPagoPage() {
 
     // PENDIENTE BACKEND: fechaEmision debe venir del servidor, no generarse en cliente.
     const ahora = new Date();
-    const toFecha = (d: Date) =>
-      d.toLocaleDateString("es-HN", { day: "2-digit", month: "2-digit", year: "numeric" });
+    const toFecha = (d: Date) => formatDate(d);
     const limitDate = new Date(ahora);
     limitDate.setDate(limitDate.getDate() + parseInt(plazoDias || "15"));
 

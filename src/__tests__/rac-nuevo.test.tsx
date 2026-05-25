@@ -107,19 +107,23 @@ describe("NuevoIngresoRAC — /rac/nuevo", () => {
     });
   });
 
-  describe("Campos eliminados — step 5", () => {
-    it("Expediente card has NO Adjuntar button", () => {
+  describe("Paso 5 — tabla de documentos (estructura)", () => {
+    it("renders docs-table on step 5", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      const card = screen.getByTestId("expediente-card");
-      expect(within(card).queryByRole("button", { name: /adjuntar/i })).not.toBeInTheDocument();
+      expect(screen.getByTestId("docs-table")).toBeInTheDocument();
     });
 
-    it("Expediente card has NO file input", () => {
+    it("starts with one doc-row", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      const card = screen.getByTestId("expediente-card");
-      expect(card.querySelector("input[type='file']")).toBeNull();
+      expect(screen.getAllByTestId("doc-row")).toHaveLength(1);
+    });
+
+    it("no card with testid expediente-card (old UI gone)", () => {
+      render(<NuevoIngresoRAC />);
+      goToStep(5);
+      expect(screen.queryByTestId("expediente-card")).not.toBeInTheDocument();
     });
   });
 
@@ -134,29 +138,56 @@ describe("NuevoIngresoRAC — /rac/nuevo", () => {
   // ─────────────────────────────────────────────────────────────────────────
   // 3. CAMPOS NUEVOS
   // ─────────────────────────────────────────────────────────────────────────
-  describe("Campos nuevos — step 5", () => {
-    it("renders 'Fecha del Oficio/Solicitud' label", () => {
+  describe("Paso 5 — tabla de documentos (controles)", () => {
+    it("doc-tipo is a select", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      expect(screen.getByText(/fecha del oficio\/solicitud/i)).toBeInTheDocument();
+      expect(screen.getByTestId("doc-tipo").tagName).toBe("SELECT");
     });
 
-    it("'Fecha del Oficio/Solicitud' is a date input", () => {
+    it("doc-tipo includes Orden de Compra option", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      expect(screen.getByLabelText(/fecha del oficio\/solicitud/i)).toHaveAttribute("type", "date");
+      const sel = screen.getByTestId("doc-tipo") as HTMLSelectElement;
+      const opts = Array.from(sel.options).map(o => o.value);
+      expect(opts).toContain("Orden de Compra");
     });
 
-    it("renders 'Fecha Acta Toma de Muestra' label", () => {
+    it("doc-tipo includes all 8 TIPOS_DOC options plus empty", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      expect(screen.getByText(/fecha acta toma de muestra/i)).toBeInTheDocument();
+      const sel = screen.getByTestId("doc-tipo") as HTMLSelectElement;
+      expect(sel.options.length).toBe(9); // 8 types + placeholder
     });
 
-    it("'Fecha Acta Toma de Muestra' is a date input", () => {
+    it("doc-referencia is a text input", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      expect(screen.getByLabelText(/fecha acta toma de muestra/i)).toHaveAttribute("type", "date");
+      expect(screen.getByTestId("doc-referencia")).toHaveAttribute("type", "text");
+    });
+
+    it("doc-adjuntar label is present", () => {
+      render(<NuevoIngresoRAC />);
+      goToStep(5);
+      expect(screen.getByTestId("doc-adjuntar")).toBeInTheDocument();
+    });
+
+    it("agregar-doc button is present", () => {
+      render(<NuevoIngresoRAC />);
+      goToStep(5);
+      expect(screen.getByTestId("agregar-doc")).toBeInTheDocument();
+    });
+
+    it("fecha-oficio NOT present (old field removed)", () => {
+      render(<NuevoIngresoRAC />);
+      goToStep(5);
+      expect(screen.queryByLabelText(/fecha del oficio/i)).not.toBeInTheDocument();
+    });
+
+    it("fecha-acta NOT present (old field removed)", () => {
+      render(<NuevoIngresoRAC />);
+      goToStep(5);
+      expect(screen.queryByLabelText(/fecha acta toma de muestra/i)).not.toBeInTheDocument();
     });
   });
 
@@ -447,34 +478,42 @@ describe("NuevoIngresoRAC — /rac/nuevo", () => {
   // ─────────────────────────────────────────────────────────────────────────
   // 9. Nº DE EXPEDIENTE
   // ─────────────────────────────────────────────────────────────────────────
-  describe("Nº de Expediente — solo texto", () => {
-    it("renders Nº de Expediente text input", () => {
+  describe("Tabla dinámica de Documentos — agregar y eliminar (step 5)", () => {
+    it("agregar-doc adds a second row", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      const card = screen.getByTestId("expediente-card");
-      expect(card.querySelector("input[type='text']")).toBeInTheDocument();
+      fireEvent.click(screen.getByTestId("agregar-doc"));
+      expect(screen.getAllByTestId("doc-row")).toHaveLength(2);
     });
 
-    it("Expediente card has no Adjuntar button", () => {
+    it("delete button disabled when only one row", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      const card = screen.getByTestId("expediente-card");
-      expect(within(card).queryByRole("button", { name: /adjuntar/i })).not.toBeInTheDocument();
+      expect(screen.getByTestId("doc-eliminar")).toBeDisabled();
     });
 
-    it("Expediente card has no file input", () => {
+    it("delete button enabled when more than one row", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      expect(screen.getByTestId("expediente-card").querySelector("input[type='file']")).toBeNull();
+      fireEvent.click(screen.getByTestId("agregar-doc"));
+      const btns = screen.getAllByTestId("doc-eliminar");
+      expect(btns[0]).not.toBeDisabled();
     });
 
-    it("user can type in Expediente field", () => {
+    it("clicking delete removes a row", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      const card = screen.getByTestId("expediente-card");
-      const input = card.querySelector("input[type='text']") as HTMLInputElement;
-      fireEvent.change(input, { target: { value: "EXP-2026-001" } });
-      expect(input.value).toBe("EXP-2026-001");
+      fireEvent.click(screen.getByTestId("agregar-doc"));
+      fireEvent.click(screen.getAllByTestId("doc-eliminar")[1]);
+      expect(screen.getAllByTestId("doc-row")).toHaveLength(1);
+    });
+
+    it("user can type referencia in a row", () => {
+      render(<NuevoIngresoRAC />);
+      goToStep(5);
+      const input = screen.getByTestId("doc-referencia") as HTMLInputElement;
+      fireEvent.change(input, { target: { value: "OC-2026-0042" } });
+      expect(input.value).toBe("OC-2026-0042");
     });
   });
 
@@ -1027,54 +1066,53 @@ describe("NuevoIngresoRAC — /rac/nuevo", () => {
   // ─────────────────────────────────────────────────────────────────────────
   // 19. DOCUMENTOS — OTROS CARDS CONSERVAN ADJUNTAR
   // ─────────────────────────────────────────────────────────────────────────
-  describe("Documentos — otros cards mantienen botón Adjuntar", () => {
-    it("Orden de Compra card has Adjuntar button", () => {
+  describe("Tabla de Documentos — select contiene tipos esperados", () => {
+    it("select has Licitación option", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      // Find card containing the label text
-      const labels = screen.getAllByText(/adjuntar/i);
-      // At least one Adjuntar exists (non-Expediente cards)
-      expect(labels.length).toBeGreaterThan(0);
+      const sel = screen.getByTestId("doc-tipo") as HTMLSelectElement;
+      const opts = Array.from(sel.options).map(o => o.value);
+      expect(opts).toContain("Licitación");
     });
 
-    it("Carta / Oficio card still has Adjuntar button", () => {
+    it("select has Carta / Oficio option", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      const cartaLabel = screen.getByText(/carta \/ oficio/i);
-      const card = cartaLabel.closest("div.p-4");
-      expect(within(card!).getByRole("button", { name: /adjuntar/i })).toBeInTheDocument();
+      const sel = screen.getByTestId("doc-tipo") as HTMLSelectElement;
+      const opts = Array.from(sel.options).map(o => o.value);
+      expect(opts).toContain("Carta / Oficio");
     });
 
-    it("Acta Toma de Muestra card has Adjuntar button", () => {
+    it("select has Acta Toma de Muestra option", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      const actaLabel = screen.getByText(/^acta toma de muestra$/i);
-      const card = actaLabel.closest("div.p-4");
-      expect(within(card!).getByRole("button", { name: /adjuntar/i })).toBeInTheDocument();
+      const sel = screen.getByTestId("doc-tipo") as HTMLSelectElement;
+      const opts = Array.from(sel.options).map(o => o.value);
+      expect(opts).toContain("Acta Toma de Muestra");
     });
 
-    it("Licitación card has Adjuntar button", () => {
+    it("select has Contrato option", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      const licitLabel = screen.getByText(/licitaci[oó]n/i);
-      const card = licitLabel.closest("div.p-4");
-      expect(within(card!).getByRole("button", { name: /adjuntar/i })).toBeInTheDocument();
+      const sel = screen.getByTestId("doc-tipo") as HTMLSelectElement;
+      const opts = Array.from(sel.options).map(o => o.value);
+      expect(opts).toContain("Contrato");
     });
 
-    it("Contrato card has Adjuntar button", () => {
+    it("select has Resolución ARSA option", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      const label = screen.getByText(/^contrato$/i);
-      const card = label.closest("div.p-4");
-      expect(within(card!).getByRole("button", { name: /adjuntar/i })).toBeInTheDocument();
+      const sel = screen.getByTestId("doc-tipo") as HTMLSelectElement;
+      const opts = Array.from(sel.options).map(o => o.value);
+      expect(opts).toContain("Resolución ARSA");
     });
 
-    it("Resolución ARSA card has Adjuntar button", () => {
+    it("select has Nº de Expediente option", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      const label = screen.getByText(/resoluci[oó]n arsa/i);
-      const card = label.closest("div.p-4");
-      expect(within(card!).getByRole("button", { name: /adjuntar/i })).toBeInTheDocument();
+      const sel = screen.getByTestId("doc-tipo") as HTMLSelectElement;
+      const opts = Array.from(sel.options).map(o => o.value);
+      expect(opts).toContain("Nº de Expediente");
     });
   });
 
@@ -1148,16 +1186,16 @@ describe("NuevoIngresoRAC — /rac/nuevo", () => {
       expect(screen.getByLabelText(/cantidad para microbiol/i)).toBeInTheDocument();
     });
 
-    it("Fecha del Oficio accessible via getByLabelText", () => {
+    it("doc-tipo select is accessible via testid", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      expect(screen.getByLabelText(/fecha del oficio\/solicitud/i)).toBeInTheDocument();
+      expect(screen.getByTestId("doc-tipo")).toBeInTheDocument();
     });
 
-    it("Fecha Acta accessible via getByLabelText", () => {
+    it("doc-referencia input is accessible via testid", () => {
       render(<NuevoIngresoRAC />);
       goToStep(5);
-      expect(screen.getByLabelText(/fecha acta toma de muestra/i)).toBeInTheDocument();
+      expect(screen.getByTestId("doc-referencia")).toBeInTheDocument();
     });
   });
 

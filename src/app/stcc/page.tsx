@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
+import { formatDate } from "@/lib/formatDate";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle2, Eye, ClipboardCheck, Clock, XCircle, RotateCcw, MessageSquare, Plus, ArrowUpRight } from "lucide-react";
@@ -231,7 +232,7 @@ const OBSERVACIONES_INIT: Observacion[] = [
   {
     id: "obs-1",
     recepcion: "REC-2024-00147",
-    fecha: "20/01/2024",
+    fecha: "2024/01/20",
     tipo: "Pendiente",
     texto: "RT-87 Uniformidad de Contenido pendiente de completar. Analista: Jorge Matute.",
     resuelta: false,
@@ -239,7 +240,7 @@ const OBSERVACIONES_INIT: Observacion[] = [
   {
     id: "obs-2",
     recepcion: "REC-2024-00145",
-    fecha: "19/01/2024",
+    fecha: "2024/01/19",
     tipo: "Técnica",
     texto: "Resultados de disolución en el límite inferior. Requiere revisión adicional.",
     resuelta: false,
@@ -267,7 +268,7 @@ function TabObservaciones() {
       {
         id: `obs-${Date.now()}`,
         recepcion,
-        fecha: new Date().toLocaleDateString("es-HN"),
+        fecha: formatDate(new Date()),
         tipo,
         texto,
         resuelta: false,

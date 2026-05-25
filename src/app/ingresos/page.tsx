@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, Suspense } from 'react';
+import { formatDateTime } from '@/lib/formatDate';
 import { Search, Filter, Plus, Eye, Settings, AlertTriangle, RefreshCw, Download } from 'lucide-react';
 import Link from 'next/link';
 import { INCOME_RECORDS } from './_data/incomeMockData';
@@ -331,7 +332,7 @@ function BandejaIngresos() {
             Mostrando <strong>{filtered.length}</strong> de <strong>{INCOME_RECORDS.length}</strong> ingresos
             {checked.size > 0 && <> · <strong className="text-primary">{checked.size}</strong> seleccionados</>}
           </span>
-          <span suppressHydrationWarning className="text-[10px] text-slate-400">Actualizado: {new Date().toLocaleString('es-HN')}</span>
+          <span suppressHydrationWarning className="text-[10px] text-slate-400">Actualizado: {formatDateTime(new Date())}</span>
         </div>
       </div>
 

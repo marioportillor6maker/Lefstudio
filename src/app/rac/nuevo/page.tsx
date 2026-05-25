@@ -7,6 +7,24 @@ import { catalogoTramites } from "@/lib/mockData";
 
 const SESSION_USER = "María Rodríguez";
 
+interface DocRow {
+  id: string;
+  tipo: string;
+  referencia: string;
+  archivo: string | null;
+}
+
+const TIPOS_DOC = [
+  "Orden de Compra",
+  "Nº de Expediente",
+  "Licitación",
+  "Carta / Oficio",
+  "Acta Toma de Muestra",
+  "Contrato",
+  "Resolución ARSA",
+  "Otro",
+];
+
 interface Estandar {
   id: string;
   nombre: string;
@@ -33,6 +51,13 @@ export default function NuevoIngresoRAC() {
   const [estandares, setEstandares] = useState<Estandar[]>([]);
   const [principiosActivos, setPrincipiosActivos] = useState<PrincipioActivo[]>([]);
   const [registrosSanitarios, setRegistrosSanitarios] = useState<RegistroSanitario[]>([]);
+  const [docs, setDocs] = useState<DocRow[]>([{ id: crypto.randomUUID(), tipo: "", referencia: "", archivo: null }]);
+
+  const agregarDoc = () => setDocs(prev => [...prev, { id: crypto.randomUUID(), tipo: "", referencia: "", archivo: null }]);
+  const quitarDoc = (id: string) => setDocs(prev => prev.length > 1 ? prev.filter(d => d.id !== id) : prev);
+  const actualizarDoc = (id: string, campo: keyof Omit<DocRow, "id">, valor: string) => {
+    setDocs(prev => prev.map(d => d.id === id ? { ...d, [campo]: valor } : d));
+  };
 
   // Estándares handlers
   const agregarEstandar = () => {
@@ -520,78 +545,87 @@ export default function NuevoIngresoRAC() {
               <FileText className="w-5 h-5 text-primary" /> Paso 5: Referencias Documentales
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex flex-col gap-1.5 p-4 border border-slate-200 rounded bg-slate-50">
-                <label className="text-xs font-bold text-slate-700 uppercase">Orden de Compra</label>
-                <div className="flex gap-2 mt-1">
-                  <input type="text" placeholder="Referencia / Número" className="flex-1 h-9 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
-                  <button className="bg-white border border-slate-300 hover:bg-slate-100 px-3 rounded text-xs font-bold text-slate-700 transition-colors shadow-sm">
-                    Adjuntar
-                  </button>
-                </div>
+            <div className="bg-white border border-slate-200 rounded-lg overflow-hidden" data-testid="docs-table">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left">
+                  <thead className="bg-slate-50 border-b border-slate-200">
+                    <tr>
+                      <th className="px-4 py-2.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500 w-52">Tipo de Documento</th>
+                      <th className="px-4 py-2.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500">Nº de Referencia</th>
+                      <th className="px-4 py-2.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500 w-44">Archivo</th>
+                      <th className="px-4 py-2.5 w-10" />
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100" data-testid="docs-body">
+                    {docs.map((doc, idx) => (
+                      <tr key={doc.id} data-testid="doc-row">
+                        <td className="px-4 py-2.5">
+                          <select
+                            data-testid="doc-tipo"
+                            value={doc.tipo}
+                            onChange={e => actualizarDoc(doc.id, "tipo", e.target.value)}
+                            className="w-full h-8 px-2 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary text-slate-700"
+                          >
+                            <option value="">Seleccionar...</option>
+                            {TIPOS_DOC.map(t => (
+                              <option key={t} value={t}>{t}</option>
+                            ))}
+                          </select>
+                        </td>
+                        <td className="px-4 py-2.5">
+                          <input
+                            type="text"
+                            data-testid="doc-referencia"
+                            placeholder="Número o referencia"
+                            value={doc.referencia}
+                            onChange={e => actualizarDoc(doc.id, "referencia", e.target.value)}
+                            className="w-full h-8 px-2 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary"
+                          />
+                        </td>
+                        <td className="px-4 py-2.5">
+                          <label
+                            htmlFor={`doc-file-${idx}`}
+                            className="flex items-center gap-1.5 px-3 h-8 bg-white border border-slate-300 hover:bg-slate-50 rounded text-xs font-bold text-slate-600 cursor-pointer transition-colors"
+                            data-testid="doc-adjuntar"
+                          >
+                            {doc.archivo ? (
+                              <span className="text-emerald-600 truncate max-w-[100px]">{doc.archivo}</span>
+                            ) : (
+                              <>Adjuntar</>
+                            )}
+                          </label>
+                          <input
+                            id={`doc-file-${idx}`}
+                            type="file"
+                            className="sr-only"
+                            onChange={e => actualizarDoc(doc.id, "archivo", e.target.files?.[0]?.name ?? null as unknown as string)}
+                          />
+                        </td>
+                        <td className="px-4 py-2.5 text-center">
+                          <button
+                            type="button"
+                            data-testid="doc-eliminar"
+                            onClick={() => quitarDoc(doc.id)}
+                            className="w-7 h-7 flex items-center justify-center rounded hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors disabled:opacity-30"
+                            disabled={docs.length === 1}
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-
-              <div className="flex flex-col gap-1.5 p-4 border border-slate-200 rounded bg-slate-50" data-testid="expediente-card">
-                <label className="text-xs font-bold text-slate-700 uppercase">Nº de Expediente</label>
-                <input type="text" placeholder="Número de expediente" className="h-9 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
-              </div>
-
-              <div className="flex flex-col gap-1.5 p-4 border border-slate-200 rounded bg-slate-50">
-                <label className="text-xs font-bold text-slate-700 uppercase">Licitación</label>
-                <div className="flex gap-2 mt-1">
-                  <input type="text" placeholder="Referencia / Número" className="flex-1 h-9 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
-                  <button className="bg-white border border-slate-300 hover:bg-slate-100 px-3 rounded text-xs font-bold text-slate-700 transition-colors shadow-sm">
-                    Adjuntar
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2 p-4 border border-slate-200 rounded bg-slate-50">
-                <label className="text-xs font-bold text-slate-700 uppercase">Carta / Oficio</label>
-                <div className="flex gap-2">
-                  <input type="text" placeholder="Referencia / Número" className="flex-1 h-9 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
-                  <button className="bg-white border border-slate-300 hover:bg-slate-100 px-3 rounded text-xs font-bold text-slate-700 transition-colors shadow-sm">
-                    Adjuntar
-                  </button>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label htmlFor="fecha-oficio" className="text-[10px] font-bold text-slate-500 uppercase">Fecha del Oficio/Solicitud</label>
-                  <input id="fecha-oficio" type="date" className="h-9 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2 p-4 border border-slate-200 rounded bg-slate-50">
-                <label className="text-xs font-bold text-slate-700 uppercase">Acta Toma de Muestra</label>
-                <div className="flex gap-2">
-                  <input type="text" placeholder="Nº Acta" className="flex-1 h-9 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
-                  <button className="bg-white border border-slate-300 hover:bg-slate-100 px-3 rounded text-xs font-bold text-slate-700 transition-colors shadow-sm">
-                    Adjuntar
-                  </button>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label htmlFor="fecha-acta" className="text-[10px] font-bold text-slate-500 uppercase">Fecha Acta Toma de Muestra</label>
-                  <input id="fecha-acta" type="date" className="h-9 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1.5 p-4 border border-slate-200 rounded bg-slate-50">
-                <label className="text-xs font-bold text-slate-700 uppercase">Contrato</label>
-                <div className="flex gap-2 mt-1">
-                  <input type="text" placeholder="Referencia / Número" className="flex-1 h-9 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
-                  <button className="bg-white border border-slate-300 hover:bg-slate-100 px-3 rounded text-xs font-bold text-slate-700 transition-colors shadow-sm">
-                    Adjuntar
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1.5 p-4 border border-slate-200 rounded bg-slate-50">
-                <label className="text-xs font-bold text-slate-700 uppercase">Resolución ARSA</label>
-                <div className="flex gap-2 mt-1">
-                  <input type="text" placeholder="Referencia / Número" className="flex-1 h-9 px-3 bg-white border border-slate-300 rounded text-sm focus:border-primary focus:ring-1 focus:ring-primary" />
-                  <button className="bg-white border border-slate-300 hover:bg-slate-100 px-3 rounded text-xs font-bold text-slate-700 transition-colors shadow-sm">
-                    Adjuntar
-                  </button>
-                </div>
+              <div className="px-4 py-3 border-t border-slate-100 bg-slate-50">
+                <button
+                  type="button"
+                  data-testid="agregar-doc"
+                  onClick={agregarDoc}
+                  className="flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary-dark transition-colors"
+                >
+                  <Plus className="w-3.5 h-3.5" /> Agregar documento
+                </button>
               </div>
             </div>
           </div>

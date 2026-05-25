@@ -6,16 +6,16 @@ import type {
 
 // ─── Usuarios ─────────────────────────────────────────────────────────────────
 export const USUARIOS_MOCK: Usuario[] = [
-  { id: 'USR-001', nombre: 'Maria Rodriguez',     correo: 'mrodriguez@cqfh.hn',  rol: 'Analista RAC',         area: 'RAC',          ultimoAcceso: '25/01/2024', estado: 'Activo' },
-  { id: 'USR-002', nombre: 'Ana Patricia Flores',  correo: 'aflores@cqfh.hn',     rol: 'Analista DOCT',        area: 'DOCT',         ultimoAcceso: '25/01/2024', estado: 'Activo' },
-  { id: 'USR-003', nombre: 'Luis Hernandez',       correo: 'lhernandez@cqfh.hn',  rol: 'Analista Estandares',  area: 'Estandares',   ultimoAcceso: '24/01/2024', estado: 'Activo' },
-  { id: 'USR-004', nombre: 'Roberto Paz',          correo: 'rpaz@cqfh.hn',        rol: 'Supervisor STR',       area: 'STR',          ultimoAcceso: '25/01/2024', estado: 'Activo' },
-  { id: 'USR-005', nombre: 'Karla Suazo',          correo: 'ksuazo@cqfh.hn',      rol: 'Analista FFQQ',        area: 'FFQQ',         ultimoAcceso: '25/01/2024', estado: 'Activo' },
-  { id: 'USR-006', nombre: 'Jorge Matute',         correo: 'jmatute@cqfh.hn',     rol: 'Analista FFQQ',        area: 'FFQQ',         ultimoAcceso: '25/01/2024', estado: 'Activo' },
-  { id: 'USR-007', nombre: 'Teresa Montoya',       correo: 'tmontoya@cqfh.hn',    rol: 'Analista Micro',       area: 'Microbiologia', ultimoAcceso: '25/01/2024', estado: 'Activo' },
-  { id: 'USR-008', nombre: 'Dr. Roberto Paz',      correo: 'dt@cqfh.hn',          rol: 'Director Tecnico',     area: 'DT',           ultimoAcceso: '25/01/2024', estado: 'Activo' },
-  { id: 'USR-009', nombre: 'Dra. Carmen Alvarado', correo: 'dg@cqfh.hn',          rol: 'Director General',     area: 'DG',           ultimoAcceso: '24/01/2024', estado: 'Activo' },
-  { id: 'USR-010', nombre: 'Carlos Mejia',         correo: 'cmejia@cqfh.hn',      rol: 'Administrador',        area: 'TI',           ultimoAcceso: '23/01/2024', estado: 'Activo' },
+  { id: 'USR-001', nombre: 'Maria Rodriguez',     correo: 'mrodriguez@cqfh.hn',  rol: 'Analista RAC',         area: 'RAC',          ultimoAcceso: '2024/01/25', estado: 'Activo' },
+  { id: 'USR-002', nombre: 'Ana Patricia Flores',  correo: 'aflores@cqfh.hn',     rol: 'Analista DOCT',        area: 'DOCT',         ultimoAcceso: '2024/01/25', estado: 'Activo' },
+  { id: 'USR-003', nombre: 'Luis Hernandez',       correo: 'lhernandez@cqfh.hn',  rol: 'Analista Estandares',  area: 'Estandares',   ultimoAcceso: '2024/01/24', estado: 'Activo' },
+  { id: 'USR-004', nombre: 'Roberto Paz',          correo: 'rpaz@cqfh.hn',        rol: 'Supervisor STR',       area: 'STR',          ultimoAcceso: '2024/01/25', estado: 'Activo' },
+  { id: 'USR-005', nombre: 'Karla Suazo',          correo: 'ksuazo@cqfh.hn',      rol: 'Analista FFQQ',        area: 'FFQQ',         ultimoAcceso: '2024/01/25', estado: 'Activo' },
+  { id: 'USR-006', nombre: 'Jorge Matute',         correo: 'jmatute@cqfh.hn',     rol: 'Analista FFQQ',        area: 'FFQQ',         ultimoAcceso: '2024/01/25', estado: 'Activo' },
+  { id: 'USR-007', nombre: 'Teresa Montoya',       correo: 'tmontoya@cqfh.hn',    rol: 'Analista Micro',       area: 'Microbiologia', ultimoAcceso: '2024/01/25', estado: 'Activo' },
+  { id: 'USR-008', nombre: 'Dr. Roberto Paz',      correo: 'dt@cqfh.hn',          rol: 'Director Tecnico',     area: 'DT',           ultimoAcceso: '2024/01/25', estado: 'Activo' },
+  { id: 'USR-009', nombre: 'Dra. Carmen Alvarado', correo: 'dg@cqfh.hn',          rol: 'Director General',     area: 'DG',           ultimoAcceso: '2024/01/24', estado: 'Activo' },
+  { id: 'USR-010', nombre: 'Carlos Mejia',         correo: 'cmejia@cqfh.hn',      rol: 'Administrador',        area: 'TI',           ultimoAcceso: '2024/01/23', estado: 'Activo' },
 ];
 
 export const ROLES_LIST = ['Analista RAC','Analista DOCT','Analista Estandares','Supervisor STR','Analista FFQQ','Analista Micro','Director Tecnico','Director General','Supervisor STCC','Administrador'];

@@ -51,27 +51,27 @@ export const tipoTramiteData: TipoTramiteData[] = [
 export const ingresosTableData: IngresoRow[] = [
   {
     recepcion: 'REC-2024-00147', producto: 'AMOXICILINA 500mg',    cliente: 'SESAL',
-    tipo: 'Control Calidad', fechaRec: '07/01/2024', diasTotales: '18d', diasNum: 18,
+    tipo: 'Control Calidad', fechaRec: '2024/01/07', diasTotales: '18d', diasNum: 18,
     estado: 'En Análisis',    resultado: '—',
   },
   {
     recepcion: 'REC-2024-00146', producto: 'METFORMINA 850mg',     cliente: 'IHSS',
-    tipo: 'Licitación',       fechaRec: '06/01/2024', diasTotales: '19d', diasNum: 19,
+    tipo: 'Licitación',       fechaRec: '2024/01/06', diasTotales: '19d', diasNum: 19,
     estado: 'En Revisión DT', resultado: '—',
   },
   {
     recepcion: 'REC-2024-00145', producto: 'LOSARTÁN 50mg',        cliente: 'IHSS',
-    tipo: 'Control Calidad', fechaRec: '05/01/2024', diasTotales: '20d', diasNum: 20,
+    tipo: 'Control Calidad', fechaRec: '2024/01/05', diasTotales: '20d', diasNum: 20,
     estado: 'Emitido',        resultado: 'Conforme',
   },
   {
     recepcion: 'REC-2024-00144', producto: 'ATORVASTATINA 20mg',   cliente: 'Hospital Escuela',
-    tipo: 'Registro',         fechaRec: '04/01/2024', diasTotales: '21d', diasNum: 21,
+    tipo: 'Registro',         fechaRec: '2024/01/04', diasTotales: '21d', diasNum: 21,
     estado: 'Archivado',      resultado: 'Conforme',
   },
   {
     recepcion: 'REC-2024-00143', producto: 'DICLOFENACO 75mg',     cliente: 'SESAL',
-    tipo: 'Control Calidad', fechaRec: '03/01/2024', diasTotales: '22d', diasNum: 22,
+    tipo: 'Control Calidad', fechaRec: '2024/01/03', diasTotales: '22d', diasNum: 22,
     estado: 'Archivado',      resultado: 'Conforme',
   },
 ];
@@ -136,17 +136,17 @@ export const reanalisisMetrics: MetricCardData[] = [
 export const reanalisisTableData: ReanalisisRow[] = [
   {
     recepcion: 'REC-2024-00143', producto: 'DICLOFENACO 75mg',  prueba: 'Disolución',
-    motivo: 'Fuera especificaciones', fechaOrden: '15/01/2024',
+    motivo: 'Fuera especificaciones', fechaOrden: '2024/01/15',
     analista: 'Jorge Matute', resultado: 'Conforme',    estado: 'Resuelto',
   },
   {
     recepcion: 'REC-2024-00139', producto: 'CAPTOPRIL 25mg',    prueba: 'Valoración HPLC',
-    motivo: 'Resultado ambiguo',      fechaOrden: '12/01/2024',
+    motivo: 'Resultado ambiguo',      fechaOrden: '2024/01/12',
     analista: 'Karla Suazo',  resultado: '—',           estado: 'En Proceso',
   },
   {
     recepcion: 'REC-2024-00135', producto: 'OMEPRAZOL 20mg',    prueba: 'Uniformidad',
-    motivo: 'AV fuera de límites',    fechaOrden: '08/01/2024',
+    motivo: 'AV fuera de límites',    fechaOrden: '2024/01/08',
     analista: 'Jorge Matute', resultado: 'No Conforme', estado: 'Resuelto',
   },
 ];
@@ -163,17 +163,17 @@ export const estandaresTableData: EstandarRow[] = [
   {
     estandar: 'Amoxicilina Trihidrato USP RS',  lote: 'USP-AMX-2024A',
     cantidadInicial: '500 mg', usado: '180 mg', usadoMg: 180, saldo: '320 mg',
-    vencimiento: '31/12/2025', estado: 'Activo',
+    vencimiento: '2025/12/31', estado: 'Activo',
   },
   {
     estandar: 'Metformina HCl USP RS',          lote: 'USP-MET-2024B',
     cantidadInicial: '200 mg', usado: '0 mg',   usadoMg: 0,   saldo: '200 mg',
-    vencimiento: '30/06/2025', estado: 'Activo',
+    vencimiento: '2025/06/30', estado: 'Activo',
   },
   {
     estandar: 'Atorvastatina Cálcica USP RS',   lote: 'USP-ATV-2024C',
     cantidadInicial: '100 mg', usado: '55 mg',  usadoMg: 55,  saldo: '45 mg',
-    vencimiento: '28/02/2025', estado: 'Por Vencer',
+    vencimiento: '2025/02/28', estado: 'Por Vencer',
   },
 ];
 
@@ -189,17 +189,17 @@ export const devolucionesTableData: DevolucionRow[] = [
   {
     recepcion: 'REC-2024-00143', producto: 'DICLOFENACO 75mg',
     origen: 'STR',  destino: 'DOCT',  motivo: 'RT-38 con errores',
-    fecha: '14/01/2024', diasImpacto: '+3d', estado: 'Resuelto',
+    fecha: '2024/01/14', diasImpacto: '+3d', estado: 'Resuelto',
   },
   {
     recepcion: 'REC-2024-00141', producto: 'CAPTOPRIL 25mg',
     origen: 'STCC', destino: 'FFQQ',  motivo: 'Auxiliares incompletos',
-    fecha: '12/01/2024', diasImpacto: '+2d', estado: 'Resuelto',
+    fecha: '2024/01/12', diasImpacto: '+2d', estado: 'Resuelto',
   },
   {
     recepcion: 'REC-2024-00139', producto: 'OMEPRAZOL 20mg',
     origen: 'DT',   destino: 'STCC',  motivo: 'Conclusión incorrecta',
-    fecha: '10/01/2024', diasImpacto: '+4d', estado: 'Resuelto',
+    fecha: '2024/01/10', diasImpacto: '+4d', estado: 'Resuelto',
   },
 ];
 

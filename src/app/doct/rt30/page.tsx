@@ -2,15 +2,16 @@
 import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Send, Printer, Plus, CheckSquare, X, CheckCircle2, Bell } from 'lucide-react';
+import { formatDate } from '@/lib/formatDate';
 
 interface Item { id: string; label: string; cantidad: string; unidad: string; checked: boolean; estado: 'pendiente' | 'recibido' }
 interface Rt30Row { nro: string; recepcion: string; tipo: string; emision: string; plazo: string; diasRest: string; vencido: boolean; respuesta: string; estado: 'respondido'|'pendiente'|'vencido'|'respondido_parcialmente' }
 
 const SEGUIMIENTO: Rt30Row[] = [
-  { nro:'RT30-2024-0089', recepcion:'LEF-2024-00147', tipo:'Estándar Referencia', emision:'11/01/2024', plazo:'11/03/2024', diasRest:'52d', vencido:false, respuesta:'15/01/2024', estado:'respondido' },
-  { nro:'RT30-2024-0090', recepcion:'LEF-2024-00148', tipo:'Info. Adicional',     emision:'12/01/2024', plazo:'12/03/2024', diasRest:'38d', vencido:false, respuesta:'—',          estado:'pendiente' },
-  { nro:'RT30-2024-0091', recepcion:'LEF-2024-00153', tipo:'Metodología',          emision:'05/01/2024', plazo:'05/03/2024', diasRest:'3d',  vencido:true,  respuesta:'—',          estado:'vencido' },
-  { nro:'RT30-2024-0092', recepcion:'LEF-2024-00144', tipo:'Info. Adicional',     emision:'08/01/2024', plazo:'08/03/2024', diasRest:'20d', vencido:false, respuesta:'12/01/2024', estado:'respondido_parcialmente' },
+  { nro:'RT30-2024-0089', recepcion:'LEF-2024-00147', tipo:'Estándar Referencia', emision:'2024/01/11', plazo:'2024/03/11', diasRest:'52d', vencido:false, respuesta:'2024/01/15', estado:'respondido' },
+  { nro:'RT30-2024-0090', recepcion:'LEF-2024-00148', tipo:'Info. Adicional',     emision:'2024/01/12', plazo:'2024/03/12', diasRest:'38d', vencido:false, respuesta:'—',           estado:'pendiente' },
+  { nro:'RT30-2024-0091', recepcion:'LEF-2024-00153', tipo:'Metodología',          emision:'2024/01/05', plazo:'2024/03/05', diasRest:'3d',  vencido:true,  respuesta:'—',           estado:'vencido' },
+  { nro:'RT30-2024-0092', recepcion:'LEF-2024-00144', tipo:'Info. Adicional',     emision:'2024/01/08', plazo:'2024/03/08', diasRest:'20d', vencido:false, respuesta:'2024/01/12',  estado:'respondido_parcialmente' },
 ];
 
 const INIT_ITEMS: Item[] = [
@@ -38,7 +39,7 @@ function Rt30PageContent() {
   const [recordatorioMsg, setRecordatorioMsg] = useState('');
   const [recordatorioEnviado, setRecordatorioEnviado] = useState(false);
 
-  const hoy = new Date().toLocaleDateString('es-HN', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const hoy = formatDate(new Date());
   const toggleItem = (id: string) => setItems(items.map(i => i.id === id ? { ...i, checked: !i.checked } : i));
 
   return (

@@ -232,7 +232,8 @@ export default function BandejaRACPage() {
                 Las cantidades ingresadas se sumarán a las ya registradas para esta recepción.
               </p>
 
-              <div>
+              <div data-testid="muestra-step-4">
+                <p className="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">Paso 4</p>
                 <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3">Cantidades Recibidas</p>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="col-span-2">
@@ -275,7 +276,8 @@ export default function BandejaRACPage() {
                 </div>
               </div>
 
-              <div>
+              <div data-testid="muestra-step-5">
+                <p className="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">Paso 5</p>
                 <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3">Documentos</p>
                 <div>
                   <label className={labelCls}>Observaciones</label>

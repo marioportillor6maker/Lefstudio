@@ -114,8 +114,8 @@ const CRITERIOS = [
 ];
 
 const HISTORIAL = [
-  { id: "REC-2024-00143", descripcion: "Reanálisis — Disolución fuera de especificaciones", fecha: "15/01/2024", estado: "Resuelto" },
-  { id: "REC-2024-00139", descripcion: "Escalar a Comité — Resultado ambiguo HPLC",          fecha: "12/01/2024", estado: "En Proceso" },
+  { id: "REC-2024-00143", descripcion: "Reanálisis — Disolución fuera de especificaciones", fecha: "2024/01/15", estado: "Resuelto" },
+  { id: "REC-2024-00139", descripcion: "Escalar a Comité — Resultado ambiguo HPLC",          fecha: "2024/01/12", estado: "En Proceso" },
 ];
 
 function TabDecisionesTecnicas() {

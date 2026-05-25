@@ -12,8 +12,8 @@ const BLOQUEADOS = [
 ];
 
 const COMPRAS = [
-  { recepcion:'REC-2024-00147', item:'Amoxicilina Trihidrato USP RS', cantidad:'200 mg', proveedor:'Sigma-Aldrich',        fecha:'11/01/2024', estado:'en_proceso' },
-  { recepcion:'REC-2024-00151', item:'Ciprofloxacino HCl USP RS',     cantidad:'100 mg', proveedor:'USP Reference Standards',fecha:'15/01/2024', estado:'solicitado' },
+  { recepcion:'REC-2024-00147', item:'Amoxicilina Trihidrato USP RS', cantidad:'200 mg', proveedor:'Sigma-Aldrich',        fecha:'2024/01/11', estado:'en_proceso' },
+  { recepcion:'REC-2024-00151', item:'Ciprofloxacino HCl USP RS',     cantidad:'100 mg', proveedor:'USP Reference Standards',fecha:'2024/01/15', estado:'solicitado' },
 ];
 
 export default function ControlExpedientePage() {

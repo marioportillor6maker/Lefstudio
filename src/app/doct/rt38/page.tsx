@@ -36,7 +36,7 @@ export default function Rt38Page() {
             <input className={INPUT} defaultValue="REC-2024-00147 — AMOXICILINA 500mg" />
           </Field>
           <Field label="Fecha de Preparación">
-            <input type="text" className={INPUT} defaultValue="16/01/2024" />
+            <input type="text" className={INPUT} defaultValue="2024/01/16" />
           </Field>
           <Field label="Responsable DOCT">
             <input className={INPUT} defaultValue="Q.F. Ana Patricia Flores" readOnly />
