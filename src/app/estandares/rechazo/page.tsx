@@ -86,7 +86,7 @@ export default function RechazoRG58() {
                 type="date"
                 value={fechaRechazo}
                 onChange={e => setFechaRechazo(e.target.value)}
-                placeholder="dd/mm/aaaa"
+                placeholder="aaaa/mm/dd"
                 className="w-full border border-slate-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-[var(--color-primary)] bg-white"
               />
             </div>
@@ -149,7 +149,7 @@ export default function RechazoRG58() {
                 type="date"
                 value={fechaDevolucion}
                 onChange={e => setFechaDevolucion(e.target.value)}
-                placeholder="dd/mm/aaaa"
+                placeholder="aaaa/mm/dd"
                 className="w-full border border-slate-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-[var(--color-primary)] bg-white"
               />
             </div>

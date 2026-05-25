@@ -5,16 +5,11 @@ import Link from 'next/link';
 import type { IncomeRecord } from '../_types/income.types';
 import { EstadoBadge, TipoBadge } from './IncomeBadges';
 import { getIncomeDetail } from '../_data/incomeMockData';
+import { formatDate } from '@/lib/formatDate';
 
 interface Props {
   record: IncomeRecord | null;
   onClose: () => void;
-}
-
-function fmtDate(iso: string): string {
-  const parts = iso.split('-');
-  if (parts.length !== 3) return iso;
-  return `${parts[2]}/${parts[1]}/${parts[0]}`;
 }
 
 export function QuickPanel({ record, onClose }: Props) {
@@ -100,7 +95,7 @@ export function QuickPanel({ record, onClose }: Props) {
             {record.responsableActual && (
               <InfoRow label="Responsable" value={record.responsableActual} />
             )}
-            <InfoRow label="F. Recepción" value={fmtDate(record.fechaIngreso)} />
+            <InfoRow label="F. Recepción" value={formatDate(record.fechaIngreso)} />
             <div className="flex items-center justify-between pt-1 mt-1 border-t border-slate-100">
               <div className="flex items-center gap-1.5 text-[10px] text-slate-500">
                 <Clock className="w-3 h-3" />

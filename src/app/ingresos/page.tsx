@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, Suspense } from 'react';
-import { formatDateTime } from '@/lib/formatDate';
+import { formatDate, formatDateTime } from '@/lib/formatDate';
 import { Search, Filter, Plus, Eye, Settings, AlertTriangle, RefreshCw, Download } from 'lucide-react';
 import Link from 'next/link';
 import { INCOME_RECORDS } from './_data/incomeMockData';
@@ -43,12 +43,6 @@ const ETAPA_LABEL: Record<string, string> = {
 
 function etapa(r: IncomeRecord): string {
   return r.estadoGlobal ?? ETAPA_LABEL[r.areaActual] ?? r.areaActual;
-}
-
-function fmtDate(iso: string): string {
-  const parts = iso.split('-');
-  if (parts.length !== 3) return iso;
-  return `${parts[2]}/${parts[1]}/${parts[0]}`;
 }
 
 function BandejaIngresos() {
@@ -282,7 +276,7 @@ function BandejaIngresos() {
 
                   {/* F. Recepción */}
                   <td className="px-4 py-3 whitespace-nowrap">
-                    <p className="text-xs text-slate-600">{fmtDate(r.fechaIngreso)}</p>
+                    <p className="text-xs text-slate-600">{formatDate(r.fechaIngreso)}</p>
                   </td>
 
                   {/* Días */}

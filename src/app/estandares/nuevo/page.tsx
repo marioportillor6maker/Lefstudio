@@ -197,7 +197,7 @@ export default function RegistroRG44() {
                 type="date"
                 value={fechaRecepcion}
                 onChange={e => setFechaRecepcion(e.target.value)}
-                placeholder="dd/mm/aaaa"
+                placeholder="aaaa/mm/dd"
                 className="w-full border border-slate-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-[var(--color-primary)] bg-white"
               />
             </div>
@@ -209,7 +209,7 @@ export default function RegistroRG44() {
                 type="date"
                 value={fechaVencimiento}
                 onChange={e => setFechaVencimiento(e.target.value)}
-                placeholder="dd/mm/aaaa"
+                placeholder="aaaa/mm/dd"
                 className="w-full border border-slate-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-[var(--color-primary)] bg-white"
               />
             </div>
@@ -219,7 +219,7 @@ export default function RegistroRG44() {
                 type="date"
                 value={fechaApertura}
                 onChange={e => setFechaApertura(e.target.value)}
-                placeholder="dd/mm/aaaa"
+                placeholder="aaaa/mm/dd"
                 className="w-full border border-slate-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-[var(--color-primary)] bg-white"
               />
             </div>

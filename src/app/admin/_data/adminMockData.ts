@@ -89,6 +89,10 @@ export const CATALOGOS_MOCK: Record<CatalogKey, CatalogItem[]> = {
     { id: 9, nombre: 'Tabletas',                  codigo: 'tab', estado: 'Activo' },
     { id: 10, nombre: 'Capsulas',                 codigo: 'cap', estado: 'Activo' },
   ],
+  monedas: [
+    { id: 1, nombre: 'Lempiras', codigo: 'L',  estado: 'Activo' },
+    { id: 2, nombre: 'Dolares',  codigo: '$',  estado: 'Activo' },
+  ],
 };
 
 export const CATALOG_LABELS: Record<CatalogKey, string> = {
@@ -98,6 +102,7 @@ export const CATALOG_LABELS: Record<CatalogKey, string> = {
   paises:         'Paises de Origen',
   metodologias:   'Metodologias Analiticas',
   unidadesMedida: 'Unidades de Medida',
+  monedas:        'Monedas',
 };
 
 // ─── Técnicas ─────────────────────────────────────────────────────────────────

@@ -20,7 +20,7 @@ describe("TabCatalogos — render básico", () => {
     expect(screen.getAllByText(/tipos de tramite/i).length).toBeGreaterThan(0);
   });
 
-  it("renders all 6 catalog nav items", () => {
+  it("renders all 7 catalog nav items", () => {
     render(<TabCatalogos />);
     const labels = [
       /tipos de tramite/i,
@@ -29,6 +29,7 @@ describe("TabCatalogos — render básico", () => {
       /paises de origen/i,
       /metodologias analiticas/i,
       /unidades de medida/i,
+      /monedas/i,
     ];
     labels.forEach(l => expect(screen.getAllByText(l).length).toBeGreaterThan(0));
   });
@@ -202,5 +203,38 @@ describe("Unidades de Medida — catalog unificado", () => {
     render(<TabCatalogos />);
     clickNav(/unidades de medida/i);
     expect(screen.getByText("mcg")).toBeInTheDocument();
+  });
+});
+
+// ─── Monedas ──────────────────────────────────────────────────────────────────
+
+describe("Monedas — catalog unificado", () => {
+  it("has Monedas in nav", () => {
+    render(<TabCatalogos />);
+    expect(screen.getByText(/monedas/i)).toBeInTheDocument();
+  });
+
+  it("clicking Monedas shows Lempiras", () => {
+    render(<TabCatalogos />);
+    clickNav(/monedas/i);
+    expect(screen.getByText("Lempiras")).toBeInTheDocument();
+  });
+
+  it("clicking Monedas shows Dolares", () => {
+    render(<TabCatalogos />);
+    clickNav(/monedas/i);
+    expect(screen.getByText("Dolares")).toBeInTheDocument();
+  });
+
+  it("Lempiras has code L", () => {
+    render(<TabCatalogos />);
+    clickNav(/monedas/i);
+    expect(screen.getByText("L")).toBeInTheDocument();
+  });
+
+  it("Dolares has code $", () => {
+    render(<TabCatalogos />);
+    clickNav(/monedas/i);
+    expect(screen.getByText("$")).toBeInTheDocument();
   });
 });

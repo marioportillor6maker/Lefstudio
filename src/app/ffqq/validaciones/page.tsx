@@ -53,7 +53,7 @@ export default function FfqqValidacionesPage() {
             <label className="block text-xs text-slate-600 mb-1.5 font-medium">Fecha de Cierre</label>
             <input
               type="date"
-              placeholder="dd/mm/aaaa"
+              placeholder="aaaa/mm/dd"
               className="w-full border border-slate-200 rounded px-3 py-2 text-sm text-slate-700 focus:outline-none focus:border-[var(--color-primary)]"
             />
           </div>
