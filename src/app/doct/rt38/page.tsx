@@ -23,7 +23,7 @@ const METODOLOGIAS = [
   'Metodología Interna LEF-M-001',
 ];
 
-const VERSIONES = ['1.0', '1.1', '2.0', '2.1'];
+const ESTADOS = ['En Preparación', 'En Revisión', 'Aprobado', 'Observado', 'Rechazado'];
 
 export default function Rt38Page() {
   const searchParams  = useSearchParams();
@@ -36,7 +36,7 @@ export default function Rt38Page() {
   const [obs, setObs]             = useState('');
   const [saved, setSaved]         = useState(false);
   const [metodologia, setMetodologia] = useState(METODOLOGIAS[0]);
-  const [version, setVersion]     = useState(VERSIONES[0]);
+  const [estado, setEstado]           = useState(ESTADOS[0]);
 
   const toggle = (id: string) => setPruebas(ps => ps.map(p => p.id===id ? {...p, checked:!p.checked} : p));
 
@@ -74,13 +74,13 @@ export default function Rt38Page() {
               {METODOLOGIAS.map(m => <option key={m} value={m}>{m}</option>)}
             </select>
           </Field>
-          <Field label="Versión del RT-38">
+          <Field label="Estado del Expediente">
             <select
               className={SELECT}
-              value={version}
-              onChange={e => setVersion(e.target.value)}
+              value={estado}
+              onChange={e => setEstado(e.target.value)}
             >
-              {VERSIONES.map(v => <option key={v} value={v}>{v}</option>)}
+              {ESTADOS.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
           </Field>
         </div>
