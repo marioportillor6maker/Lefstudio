@@ -1,20 +1,9 @@
 'use client';
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { FileText, Send, Printer, CheckSquare, Square, Plus, CheckCircle2, X, ClipboardList } from 'lucide-react';
+import { FileText, Send, Printer, CheckCircle2, X, ClipboardList } from 'lucide-react';
+import { ConfigurarRT38 } from './_components/ConfigurarRT38';
 
-interface Prueba { id: string; nombre: string; tecnica: string; area: string; auxiliar: string; checked: boolean; obligatoria: boolean }
-
-const INIT_PRUEBAS: Prueba[] = [
-  { id:'p1', nombre:'Descripción / Caracteres Organolépticos', tecnica:'Visual',         area:'FFQQ', auxiliar:'RT-71', checked:true,  obligatoria:true  },
-  { id:'p2', nombre:'Identificación por Espectrofotometría IR', tecnica:'IR',            area:'FFQQ', auxiliar:'RT-86', checked:true,  obligatoria:true  },
-  { id:'p3', nombre:'Valoración por HPLC',                      tecnica:'HPLC',          area:'FFQQ', auxiliar:'RT-84', checked:true,  obligatoria:true  },
-  { id:'p4', nombre:'Disolución',                               tecnica:'Disolución',    area:'FFQQ', auxiliar:'RT-85', checked:true,  obligatoria:true  },
-  { id:'p5', nombre:'Uniformidad de Contenido',                 tecnica:'Gravimétrico',  area:'FFQQ', auxiliar:'RT-87', checked:false, obligatoria:false },
-  { id:'p6', nombre:'Prueba de Desintegración',                 tecnica:'Mecánico',      area:'FFQQ', auxiliar:'RT-55', checked:false, obligatoria:false },
-  { id:'p7', nombre:'Recuento Microbiano Total',                tecnica:'Microbiológico',area:'Micro',auxiliar:'RT-74', checked:true,  obligatoria:true  },
-  { id:'p8', nombre:'Ausencia de Patógenos',                    tecnica:'Microbiológico',area:'Micro',auxiliar:'RT-74', checked:true,  obligatoria:true  },
-];
 
 const METODOLOGIAS = [
   'USP 47 — Amoxicillin Capsules',
@@ -98,13 +87,10 @@ export default function Rt38Page() {
   const empresa       = searchParams.get('empresa')   ?? '—';
   const toma          = TOMA_MUESTRA_MOCK[recepcion] ?? DEFAULT_TOMA;
 
-  const [pruebas, setPruebas]     = useState<Prueba[]>(INIT_PRUEBAS);
   const [obs, setObs]             = useState('');
   const [saved, setSaved]         = useState(false);
   const [metodologia, setMetodologia] = useState(METODOLOGIAS[0]);
   const [estado, setEstado]           = useState(ESTADOS[0]);
-
-  const toggle = (id: string) => setPruebas(ps => ps.map(p => p.id===id ? {...p, checked:!p.checked} : p));
 
   return (
     <div className="space-y-6">
@@ -183,35 +169,6 @@ export default function Rt38Page() {
           </Field>
         </div>
 
-        {/* ── Pruebas configuradas ─────────────────────────────────────── */}
-        <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3">Pruebas Configuradas en el RT-38</h4>
-        <div className="space-y-2 mb-2">
-          {pruebas.map(p => (
-            <div key={p.id} className={`flex items-center gap-3 px-3 py-3 rounded-lg border transition-colors ${p.checked ? 'border-slate-200 bg-white' : 'border-slate-100 bg-slate-50/50'}`}>
-              <button onClick={() => !p.obligatoria && toggle(p.id)} className={p.obligatoria ? 'cursor-default' : 'cursor-pointer'}>
-                {p.checked
-                  ? <CheckSquare className="w-4 h-4 text-[var(--color-primary)]" />
-                  : <Square      className="w-4 h-4 text-slate-300" />
-                }
-              </button>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-slate-700">{p.nombre}</p>
-                <p className="text-[11px] text-slate-400 mt-0.5">
-                  Técnica: {p.tecnica} · Área: {p.area} · Auxiliar: {p.auxiliar}
-                </p>
-              </div>
-              {p.obligatoria && (
-                <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider border border-slate-200 px-1.5 py-0.5 rounded">
-                  Obligatoria
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-        <button className="flex items-center gap-1.5 text-xs font-medium px-3 py-2 text-[var(--color-primary)] hover:bg-blue-50 rounded-lg transition-colors mb-6">
-          <Plus className="w-3.5 h-3.5" /> Agregar prueba adicional
-        </button>
-
         {/* ── Observaciones ────────────────────────────────────────────── */}
         <Field label="Observaciones del Expediente Analítico">
           <textarea rows={3} className={INPUT + ' resize-none'} placeholder="Observaciones sobre la configuración del expediente analítico..." value={obs} onChange={e=>setObs(e.target.value)} />
@@ -237,6 +194,11 @@ export default function Rt38Page() {
             <button onClick={() => setSaved(false)} className="ml-auto"><X className="w-4 h-4 text-green-400" /></button>
           </div>
         )}
+      </div>
+
+      {/* ── Configurar RT-38 (grupos de ensayo) ──────────────────────── */}
+      <div className="bg-white rounded-xl border border-slate-200 p-6">
+        <ConfigurarRT38 />
       </div>
     </div>
   );
