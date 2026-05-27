@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { FileText, Send, Printer, CheckSquare, Square, Plus, CheckCircle2, X, ClipboardList } from 'lucide-react';
 
 interface Prueba { id: string; nombre: string; tecnica: string; area: string; auxiliar: string; checked: boolean; obligatoria: boolean }
@@ -24,17 +25,13 @@ const METODOLOGIAS = [
 
 const VERSIONES = ['1.0', '1.1', '2.0', '2.1'];
 
-const RAC_DATA = {
-  recepcion:    'REC-2024-00147',
-  producto:     'AMOXICILINA 500mg',
-  fabricante:   'Laboratorios Vijosa S.A.',
-  lote:         'AM2401X',
-  vencimiento:  '12/2026',
-  cantidad:     '5,000 unidades',
-  actaMuestra:  'ACTA-2024-0089',
-};
-
 export default function Rt38Page() {
+  const searchParams  = useSearchParams();
+  const recepcion     = searchParams.get('recepcion') ?? '—';
+  const producto      = searchParams.get('producto')  ?? '—';
+  const lote          = searchParams.get('lote')      ?? '—';
+  const empresa       = searchParams.get('empresa')   ?? '—';
+
   const [pruebas, setPruebas]     = useState<Prueba[]>(INIT_PRUEBAS);
   const [obs, setObs]             = useState('');
   const [saved, setSaved]         = useState(false);
@@ -52,13 +49,11 @@ export default function Rt38Page() {
           <ClipboardList className="w-4 h-4" style={{ color:'var(--color-primary)' }} />
           Datos del Expediente
         </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-          <InfoCard label="N° de Recepción"    value={RAC_DATA.recepcion} />
-          <InfoCard label="Producto"            value={RAC_DATA.producto} />
-          <InfoCard label="Fabricante"          value={RAC_DATA.fabricante} />
-          <InfoCard label="Lote del Fabricante" value={RAC_DATA.lote} />
-          <InfoCard label="Fecha de Vencimiento" value={RAC_DATA.vencimiento} />
-          <InfoCard label="Cantidad Recibida"   value={RAC_DATA.cantidad} />
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+          <InfoCard label="N° de Recepción"    value={recepcion} />
+          <InfoCard label="Producto"            value={producto} />
+          <InfoCard label="Lote del Fabricante" value={lote} />
+          <InfoCard label="Cliente / Empresa"   value={empresa} />
         </div>
       </div>
 
@@ -115,7 +110,7 @@ export default function Rt38Page() {
             <input className={INPUT} placeholder="Código o descripción del procedimiento" />
           </Field>
           <Field label="N° de Acta de Toma de Muestra">
-            <input className={INPUT} defaultValue={RAC_DATA.actaMuestra} placeholder="N° de acta (desde RAC)" />
+            <input className={INPUT} placeholder="N° de acta (desde RAC)" />
           </Field>
         </div>
 

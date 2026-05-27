@@ -196,7 +196,7 @@ export default function BandejaRACPage() {
                       </button>
                       {/* RT-38: Preparación de expediente analítico */}
                       <Link
-                        href={`/doct/rt38?recepcion=${item.id}`}
+                        href={`/doct/rt38?recepcion=${item.id}&producto=${encodeURIComponent(item.producto)}&lote=${encodeURIComponent(item.lote)}&empresa=${encodeURIComponent(item.cliente)}`}
                         className="text-[10px] font-bold px-2 py-1 rounded border border-blue-200 text-blue-700 hover:bg-blue-50 active:bg-blue-100 transition-colors tracking-wide shrink-0 flex items-center gap-1"
                         title="Preparación RT-38"
                       >
