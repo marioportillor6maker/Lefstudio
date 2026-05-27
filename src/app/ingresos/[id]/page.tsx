@@ -131,11 +131,10 @@ export default function Ingreso360Page({ params }: { params: Promise<{ id: strin
             <Beaker className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-slate-900 leading-tight">AMOXICILINA 500mg Cápsulas</h2>
+            <h2 className="text-lg font-bold text-slate-900 leading-tight">{listItem?.producto ?? 'AMOXICILINA 500mg Cápsulas'}</h2>
             <p className="text-xs text-slate-500 mt-1 flex items-center gap-2">
-              <span>500 mg</span> <span className="w-1 h-1 rounded-full bg-slate-300"></span>
-              <span>Cápsulas de gelatina dura</span> <span className="w-1 h-1 rounded-full bg-slate-300"></span>
-              <span>Lote: {data.producto.lote}</span>
+              <span>{listItem?.formaFarmaceutica ?? 'Cápsulas de gelatina dura'}</span> <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+              <span>Lote: {listItem?.lote ?? data.producto.lote}</span>
             </p>
           </div>
         </div>
@@ -144,7 +143,7 @@ export default function Ingreso360Page({ params }: { params: Promise<{ id: strin
           <div className="flex items-start gap-3">
             <Building className="w-4 h-4 text-slate-400 mt-0.5" />
             <div>
-              <p className="text-sm font-bold text-slate-800 leading-tight">SESAL — Secretaría de Salud</p>
+              <p className="text-sm font-bold text-slate-800 leading-tight">{listItem?.cliente ?? 'SESAL — Secretaría de Salud'}</p>
               <p className="text-[11px] text-slate-500 mt-0.5">Control de Calidad</p>
             </div>
           </div>
@@ -153,7 +152,7 @@ export default function Ingreso360Page({ params }: { params: Promise<{ id: strin
             <Calendar className="w-4 h-4 text-slate-400 mt-0.5" />
             <div>
               <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold leading-tight">Fecha Recepción</p>
-              <p className="text-sm font-bold text-slate-800 mt-0.5">2024/01/07</p>
+              <p className="text-sm font-bold text-slate-800 mt-0.5">{listItem?.fechaIngreso ?? '2024/01/07'}</p>
             </div>
           </div>
 
