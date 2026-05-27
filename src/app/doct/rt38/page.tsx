@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { FileText, Send, Printer, CheckSquare, Square, Plus, CheckCircle2, X } from 'lucide-react';
+import { FileText, Send, Printer, CheckSquare, Square, Plus, CheckCircle2, X, ClipboardList } from 'lucide-react';
 
 interface Prueba { id: string; nombre: string; tecnica: string; area: string; auxiliar: string; checked: boolean; obligatoria: boolean }
 
@@ -15,44 +15,111 @@ const INIT_PRUEBAS: Prueba[] = [
   { id:'p8', nombre:'Ausencia de Patógenos',                    tecnica:'Microbiológico',area:'Micro',auxiliar:'RT-74', checked:true,  obligatoria:true  },
 ];
 
+const METODOLOGIAS = [
+  'USP 47 — Amoxicillin Capsules',
+  'BP 2024 — Amoxicillin Capsules',
+  'Ph. Eur. 10 — Amoxicillin',
+  'Metodología Interna LEF-M-001',
+];
+
+const VERSIONES = ['1.0', '1.1', '2.0', '2.1'];
+
+const RAC_DATA = {
+  recepcion:    'REC-2024-00147',
+  producto:     'AMOXICILINA 500mg',
+  fabricante:   'Laboratorios Vijosa S.A.',
+  lote:         'AM2401X',
+  vencimiento:  '12/2026',
+  cantidad:     '5,000 unidades',
+  actaMuestra:  'ACTA-2024-0089',
+};
+
 export default function Rt38Page() {
-  const [pruebas, setPruebas] = useState<Prueba[]>(INIT_PRUEBAS);
-  const [obs, setObs] = useState('');
-  const [saved, setSaved] = useState(false);
+  const [pruebas, setPruebas]     = useState<Prueba[]>(INIT_PRUEBAS);
+  const [obs, setObs]             = useState('');
+  const [saved, setSaved]         = useState(false);
+  const [metodologia, setMetodologia] = useState(METODOLOGIAS[0]);
+  const [version, setVersion]     = useState(VERSIONES[0]);
 
   const toggle = (id: string) => setPruebas(ps => ps.map(p => p.id===id ? {...p, checked:!p.checked} : p));
 
   return (
     <div className="space-y-6">
+
+      {/* ── Datos del Expediente (from RAC) ──────────────────────────── */}
+      <div className="bg-white rounded-xl border border-slate-200 p-6">
+        <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
+          <ClipboardList className="w-4 h-4" style={{ color:'var(--color-primary)' }} />
+          Datos del Expediente
+        </h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+          <InfoCard label="N° de Recepción"    value={RAC_DATA.recepcion} />
+          <InfoCard label="Producto"            value={RAC_DATA.producto} />
+          <InfoCard label="Fabricante"          value={RAC_DATA.fabricante} />
+          <InfoCard label="Lote del Fabricante" value={RAC_DATA.lote} />
+          <InfoCard label="Fecha de Vencimiento" value={RAC_DATA.vencimiento} />
+          <InfoCard label="Cantidad Recibida"   value={RAC_DATA.cantidad} />
+        </div>
+      </div>
+
+      {/* ── Preparación RT-38 ─────────────────────────────────────────── */}
       <div className="bg-white rounded-xl border border-slate-200 p-6">
         <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2 mb-5">
           <FileText className="w-4 h-4" style={{ color:'var(--color-primary)' }} />
           Preparación de Expediente Analítico — RT-38
         </h3>
 
-        {/* Header fields */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-          <Field label="Recepción *">
-            <input className={INPUT} defaultValue="REC-2024-00147 — AMOXICILINA 500mg" />
-          </Field>
-          <Field label="Fecha de Preparación">
-            <input type="text" className={INPUT} defaultValue="2024/01/16" />
-          </Field>
-          <Field label="Responsable DOCT">
-            <input className={INPUT} defaultValue="Q.F. Ana Patricia Flores" readOnly />
-          </Field>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <Field label="Metodología de Referencia">
-            <input className={INPUT} defaultValue="USP 47 — Amoxicillin Capsules" />
+            <select
+              className={SELECT}
+              value={metodologia}
+              onChange={e => setMetodologia(e.target.value)}
+            >
+              {METODOLOGIAS.map(m => <option key={m} value={m}>{m}</option>)}
+            </select>
           </Field>
           <Field label="Versión del RT-38">
-            <input className={INPUT} defaultValue="1.0" />
-          </Field>
-          <Field label="Estado del Expediente">
-            <input className={INPUT} value="En Preparación" readOnly />
+            <select
+              className={SELECT}
+              value={version}
+              onChange={e => setVersion(e.target.value)}
+            >
+              {VERSIONES.map(v => <option key={v} value={v}>{v}</option>)}
+            </select>
           </Field>
         </div>
 
-        {/* Pruebas configuradas */}
+        {/* ── Toma de Muestra ─────────────────────────────────────────── */}
+        <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3">Toma de Muestra</h4>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+          <Field label="Responsable del LEF-CQF">
+            <input className={INPUT} placeholder="Nombre del responsable LEF-CQF" />
+          </Field>
+          <Field label="Responsable del Ente Externo">
+            <input className={INPUT} placeholder="Nombre del responsable externo" />
+          </Field>
+          <Field label="Lugar de Toma de Muestra">
+            <input className={INPUT} placeholder="Lugar donde se tomó la muestra" />
+          </Field>
+          <Field label="Tamaño del Lote">
+            <input className={INPUT} placeholder="Ej. 50,000 unidades" />
+          </Field>
+          <Field label="Cantidad Tomada">
+            <input className={INPUT} placeholder="Ej. 200 unidades" />
+          </Field>
+          <Field label="Fecha de Toma de Muestra">
+            <input type="date" className={INPUT} />
+          </Field>
+          <Field label="Procedimiento">
+            <input className={INPUT} placeholder="Código o descripción del procedimiento" />
+          </Field>
+          <Field label="N° de Acta de Toma de Muestra">
+            <input className={INPUT} defaultValue={RAC_DATA.actaMuestra} placeholder="N° de acta (desde RAC)" />
+          </Field>
+        </div>
+
+        {/* ── Pruebas configuradas ─────────────────────────────────────── */}
         <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3">Pruebas Configuradas en el RT-38</h4>
         <div className="space-y-2 mb-2">
           {pruebas.map(p => (
@@ -81,12 +148,12 @@ export default function Rt38Page() {
           <Plus className="w-3.5 h-3.5" /> Agregar prueba adicional
         </button>
 
-        {/* Observaciones */}
+        {/* ── Observaciones ────────────────────────────────────────────── */}
         <Field label="Observaciones del Expediente Analítico">
           <textarea rows={3} className={INPUT + ' resize-none'} placeholder="Observaciones sobre la configuración del expediente analítico..." value={obs} onChange={e=>setObs(e.target.value)} />
         </Field>
 
-        {/* Actions */}
+        {/* ── Actions ──────────────────────────────────────────────────── */}
         <div className="flex gap-3 mt-5">
           <button onClick={() => setSaved(true)} className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold text-white" style={{ backgroundColor:'var(--color-primary)' }}>
             <CheckCircle2 className="w-3.5 h-3.5" /> Finalizar RT-38
@@ -120,4 +187,14 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-const INPUT = 'w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-1 placeholder:text-slate-300';
+function InfoCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg bg-slate-50 border border-slate-100 px-3 py-2.5">
+      <p className="text-[9px] font-semibold text-slate-400 uppercase tracking-wide mb-0.5">{label}</p>
+      <p className="text-xs font-semibold text-slate-700">{value}</p>
+    </div>
+  );
+}
+
+const INPUT  = 'w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-1 placeholder:text-slate-300';
+const SELECT = 'w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-1 appearance-none cursor-pointer';
