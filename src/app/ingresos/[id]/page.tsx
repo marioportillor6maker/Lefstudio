@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, use } from "react";
 import { mockIngreso360, mockIngresosList } from "@/lib/mockData";
 import { 
   AlertCircle, CheckCircle2, Clock, FileText, Beaker, 
@@ -11,9 +11,10 @@ import {
   Bug, Ban, Wind, Thermometer, Lock, Building2, PauseCircle, QrCode, Receipt
 } from "lucide-react";
 
-export default function Ingreso360Page({ params }: { params: { id: string } }) {
+export default function Ingreso360Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const data = mockIngreso360;
-  const listItem = mockIngresosList.find(i => i.id === params.id);
+  const listItem = mockIngresosList.find(i => i.id === id);
   const [activeTab, setActiveTab] = useState("resumen");
   const [sideTab, setSideTab] = useState("timeline");
 
