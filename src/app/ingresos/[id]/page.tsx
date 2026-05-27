@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { useState, useRef, useEffect } from "react";
-import { mockIngreso360 } from "@/lib/mockData";
+import { mockIngreso360, mockIngresosList } from "@/lib/mockData";
 import { 
   AlertCircle, CheckCircle2, Clock, FileText, Beaker, 
   History, Download, Activity, FileCheck, ShieldAlert, Files,
@@ -12,7 +12,8 @@ import {
 } from "lucide-react";
 
 export default function Ingreso360Page({ params }: { params: { id: string } }) {
-  const data = mockIngreso360; 
+  const data = mockIngreso360;
+  const listItem = mockIngresosList.find(i => i.id === params.id);
   const [activeTab, setActiveTab] = useState("resumen");
   const [sideTab, setSideTab] = useState("timeline");
 
@@ -73,14 +74,14 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
           
           <div className="flex flex-col">
             <span className="text-[10px] text-primary-light uppercase tracking-wider font-bold mb-0.5">Correlativo</span>
-            <span className="font-bold text-white text-sm tracking-wide">LEF-2024-00147</span>
+            <span className="font-bold text-white text-sm tracking-wide">{listItem?.id ?? 'LEF-2024-00147'}</span>
           </div>
 
           <div className="w-[1px] h-8 bg-primary-dark hidden md:block"></div>
 
           <div className="flex flex-col">
             <span className="text-[10px] text-primary-light uppercase tracking-wider font-bold mb-0.5">Nº Recepción</span>
-            <span className="font-bold text-white text-sm tracking-wide">{data.id}</span>
+            <span className="font-bold text-white text-sm tracking-wide">{listItem?.id ?? data.id}</span>
           </div>
 
           <div className="w-[1px] h-8 bg-primary-dark hidden md:block"></div>
@@ -88,7 +89,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
           <div className="flex flex-col">
             <span className="text-[10px] text-primary-light uppercase tracking-wider font-bold mb-0.5">Estado Global</span>
             <span className="inline-flex items-center text-xs font-bold text-white bg-white/20 px-2 py-0.5 rounded">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent mr-1.5"></span> En Análisis FFQQ
+              <span className="w-1.5 h-1.5 rounded-full bg-accent mr-1.5"></span> {listItem?.estado ?? 'En Análisis FFQQ'}
             </span>
           </div>
 
@@ -96,7 +97,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
 
           <div className="flex flex-col hidden lg:flex">
             <span className="text-[10px] text-primary-light uppercase tracking-wider font-bold mb-0.5">Etapa Actual</span>
-            <span className="font-bold text-white text-sm">Análisis FFQQ</span>
+            <span className="font-bold text-white text-sm">{listItem?.etapa ?? 'Análisis FFQQ'}</span>
           </div>
 
           <div className="w-[1px] h-8 bg-primary-dark hidden lg:block"></div>
@@ -104,7 +105,7 @@ export default function Ingreso360Page({ params }: { params: { id: string } }) {
           <div className="flex flex-col hidden lg:flex">
             <span className="text-[10px] text-primary-light uppercase tracking-wider font-bold mb-0.5">Responsable Actual</span>
             <span className="font-bold text-white text-sm flex items-center gap-1.5">
-              <User className="w-3.5 h-3.5 text-primary-light" /> Karla Suazo
+              <User className="w-3.5 h-3.5 text-primary-light" /> {listItem?.responsable ?? 'Karla Suazo'}
             </span>
           </div>
         </div>
