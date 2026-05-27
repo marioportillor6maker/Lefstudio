@@ -92,28 +92,28 @@ export default function Rt38Page() {
         <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3">Toma de Muestra</h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
           <Field label="Responsable del LEF-CQF">
-            <input className={INPUT} placeholder="Nombre del responsable LEF-CQF" />
+            <input className={INPUT} defaultValue="Q.F. Ana Patricia Flores" />
           </Field>
           <Field label="Responsable del Ente Externo">
-            <input className={INPUT} placeholder="Nombre del responsable externo" />
+            <input className={INPUT} defaultValue="Ing. Roberto Méndez" />
           </Field>
           <Field label="Lugar de Toma de Muestra">
-            <input className={INPUT} placeholder="Lugar donde se tomó la muestra" />
+            <input className={INPUT} defaultValue="Almacén Central — Bodega 3" />
           </Field>
           <Field label="Tamaño del Lote">
-            <input className={INPUT} placeholder="Ej. 50,000 unidades" />
+            <input className={INPUT} defaultValue="50,000 unidades" />
           </Field>
           <Field label="Cantidad Tomada">
-            <input className={INPUT} placeholder="Ej. 200 unidades" />
+            <input className={INPUT} defaultValue="200 unidades" />
           </Field>
           <Field label="Fecha de Toma de Muestra">
-            <input type="date" className={INPUT} />
+            <input type="date" className={INPUT} defaultValue="2024-01-16" />
           </Field>
           <Field label="Procedimiento">
-            <input className={INPUT} placeholder="Código o descripción del procedimiento" />
+            <input className={INPUT} defaultValue="PNO-LEF-001 — Toma de Muestra de Sólidos Orales" />
           </Field>
           <Field label="N° de Acta de Toma de Muestra">
-            <input className={INPUT} placeholder="N° de acta (desde RAC)" />
+            <input className={INPUT} defaultValue="ACTA-2024-0089" />
           </Field>
         </div>
 
