@@ -6,7 +6,7 @@ const TABS = [
   { label: 'Bandeja DOCT',     href: '/doct' },
   { label: 'Solicitudes RT-75',href: '/doct/rt75' },
   { label: 'Solicitudes RT-30',href: '/doct/rt30' },
-  { label: 'RT-38',            href: '/doct/rt38' },
+  { label: 'Preparación RT-38',href: '/doct/rt38' },
 ];
 
 export function DoctNav() {
