@@ -64,7 +64,10 @@ export default function Rt38Page() {
           Preparación de Expediente Analítico — RT-38
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+          <Field label="Responsable DOCT">
+            <input className={INPUT} defaultValue="Q.F. Ana Patricia Flores" readOnly />
+          </Field>
           <Field label="Metodología de Referencia">
             <select
               className={SELECT}
