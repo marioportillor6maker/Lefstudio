@@ -14,70 +14,7 @@ const METODOLOGIAS = [
 
 const ESTADOS = ['En Preparación', 'En Revisión', 'Aprobado', 'Observado', 'Rechazado'];
 
-interface TomaMuestra {
-  responsableLEF: string;
-  responsableExterno: string;
-  lugar: string;
-  tamanoLote: string;
-  cantidadTomada: string;
-  fecha: string;
-  procedimiento: string;
-  acta: string;
-}
 
-const TOMA_MUESTRA_MOCK: Record<string, TomaMuestra> = {
-  'REC-2024-1030': {
-    responsableLEF:      'Q.F. Carlos Reyes',
-    responsableExterno:  'Ing. Patricia Solís',
-    lugar:               'Bodega Principal — Estante B2',
-    tamanoLote:          '85,000 tabletas',
-    cantidadTomada:      '300 tabletas',
-    fecha:               '2024-01-10',
-    procedimiento:       'PNO-LEF-002 — Toma de Muestra de Tabletas',
-    acta:                'ACTA-2024-0091',
-  },
-  'REC-2024-1029': {
-    responsableLEF:      'Q.F. Mónica Álvarez',
-    responsableExterno:  'Lic. Juan Hernández',
-    lugar:               'Almacén Secundario — Zona Fría',
-    tamanoLote:          '60,000 tabletas',
-    cantidadTomada:      '150 tabletas',
-    fecha:               '2024-01-08',
-    procedimiento:       'PNO-LEF-002 — Toma de Muestra de Tabletas',
-    acta:                'ACTA-2024-0090',
-  },
-  'REC-2024-1028': {
-    responsableLEF:      'Q.F. Ana Patricia Flores',
-    responsableExterno:  'Ing. Roberto Méndez',
-    lugar:               'Almacén Central — Bodega 3',
-    tamanoLote:          '20,000 frascos',
-    cantidadTomada:      '120 frascos',
-    fecha:               '2024-01-16',
-    procedimiento:       'PNO-LEF-003 — Toma de Muestra de Líquidos',
-    acta:                'ACTA-2024-0089',
-  },
-  'REC-2024-1024': {
-    responsableLEF:      'Q.F. Diego Martínez',
-    responsableExterno:  'Téc. Sandra López',
-    lugar:               'Bodega Auxiliar — Nivel 1',
-    tamanoLote:          '100,000 tabletas',
-    cantidadTomada:      '400 tabletas',
-    fecha:               '2024-01-11',
-    procedimiento:       'PNO-LEF-002 — Toma de Muestra de Tabletas',
-    acta:                'ACTA-2024-0092',
-  },
-};
-
-const DEFAULT_TOMA: TomaMuestra = {
-  responsableLEF:      'Q.F. Ana Patricia Flores',
-  responsableExterno:  'Ing. Roberto Méndez',
-  lugar:               'Almacén Central — Bodega 3',
-  tamanoLote:          '50,000 unidades',
-  cantidadTomada:      '200 unidades',
-  fecha:               '2024-01-16',
-  procedimiento:       'PNO-LEF-001 — Toma de Muestra de Sólidos Orales',
-  acta:                'ACTA-2024-0089',
-};
 
 export default function Rt38Page() {
   const searchParams  = useSearchParams();
@@ -85,8 +22,6 @@ export default function Rt38Page() {
   const producto      = searchParams.get('producto')  ?? '—';
   const lote          = searchParams.get('lote')      ?? '—';
   const empresa       = searchParams.get('empresa')   ?? '—';
-  const toma          = TOMA_MUESTRA_MOCK[recepcion] ?? DEFAULT_TOMA;
-
   const [obs, setObs]             = useState('');
   const [saved, setSaved]         = useState(false);
   const [metodologia, setMetodologia] = useState(METODOLOGIAS[0]);
@@ -144,28 +79,28 @@ export default function Rt38Page() {
         <h4 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-3">Toma de Muestra</h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
           <Field label="Responsable del LEF-CQF">
-            <input className={INPUT} defaultValue={toma.responsableLEF} />
+            <input className={INPUT} />
           </Field>
           <Field label="Responsable del Ente Externo">
-            <input className={INPUT} defaultValue={toma.responsableExterno} />
+            <input className={INPUT} />
           </Field>
           <Field label="Lugar de Toma de Muestra">
-            <input className={INPUT} defaultValue={toma.lugar} />
+            <input className={INPUT} />
           </Field>
           <Field label="Tamaño del Lote">
-            <input className={INPUT} defaultValue={toma.tamanoLote} />
+            <input className={INPUT} />
           </Field>
           <Field label="Cantidad Tomada">
-            <input className={INPUT} defaultValue={toma.cantidadTomada} />
+            <input className={INPUT} />
           </Field>
           <Field label="Fecha de Toma de Muestra">
-            <input type="date" className={INPUT} defaultValue={toma.fecha} />
+            <input type="date" className={INPUT} />
           </Field>
           <Field label="Procedimiento">
-            <input className={INPUT} defaultValue={toma.procedimiento} />
+            <input className={INPUT} />
           </Field>
           <Field label="N° de Acta de Toma de Muestra">
-            <input className={INPUT} defaultValue={toma.acta} />
+            <input className={INPUT} />
           </Field>
         </div>
 
