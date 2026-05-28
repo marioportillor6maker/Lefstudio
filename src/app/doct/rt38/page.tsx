@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { FileText, Send, Printer, CheckCircle2, X, ClipboardList } from 'lucide-react';
 import { ConfigurarRT38 } from './_components/ConfigurarRT38';
@@ -16,7 +16,7 @@ const ESTADOS = ['En Preparación', 'En Revisión', 'Aprobado', 'Observado', 'Re
 
 
 
-export default function Rt38Page() {
+function Rt38Content() {
   const searchParams  = useSearchParams();
   const recepcion     = searchParams.get('recepcion') ?? '—';
   const producto      = searchParams.get('producto')  ?? '—';
@@ -159,3 +159,11 @@ function InfoCard({ label, value }: { label: string; value: string }) {
 
 const INPUT  = 'w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-1 placeholder:text-slate-300';
 const SELECT = 'w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-1 appearance-none cursor-pointer';
+
+export default function Rt38Page() {
+  return (
+    <Suspense>
+      <Rt38Content />
+    </Suspense>
+  );
+}
