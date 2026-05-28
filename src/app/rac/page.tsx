@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   Search, Filter, Plus, Eye, CheckCircle2, DollarSign,
-  ListTodo, SlidersHorizontal, X, Layers, FileText,
+  ListTodo, SlidersHorizontal, X, Layers,
 } from "lucide-react";
 import { mockIngresosList } from "@/lib/mockData";
 
@@ -194,14 +194,6 @@ export default function BandejaRACPage() {
                       >
                         RT-44
                       </button>
-                      {/* RT-38: Preparación de expediente analítico */}
-                      <Link
-                        href={`/doct/rt38?recepcion=${item.id}&producto=${encodeURIComponent(item.producto)}&lote=${encodeURIComponent(item.lote)}&empresa=${encodeURIComponent(item.cliente)}`}
-                        className="text-[10px] font-bold px-2 py-1 rounded border border-blue-200 text-blue-700 hover:bg-blue-50 active:bg-blue-100 transition-colors tracking-wide shrink-0 flex items-center gap-1"
-                        title="Preparación RT-38"
-                      >
-                        <FileText className="w-3 h-3" /> RT-38
-                      </Link>
                       {/* + Muestra: registrar cantidades adicionales recibidas */}
                       <button
                         onClick={() => openMuestra(item.id)}

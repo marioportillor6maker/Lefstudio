@@ -143,6 +143,12 @@ export default function BandejaDoctPage() {
                       >
                         RT-159
                       </Link>
+                      <Link
+                        href={`/doct/rt38?recepcion=${encodeURIComponent(row.recepcion)}&producto=${encodeURIComponent(row.producto)}&empresa=${encodeURIComponent(row.empresa)}`}
+                        className="inline-flex items-center text-xs font-semibold text-blue-700 border border-blue-200 rounded-md px-2 py-1 whitespace-nowrap hover:bg-blue-50"
+                      >
+                        RT-38
+                      </Link>
                     </div>
                   </td>
                 </tr>
