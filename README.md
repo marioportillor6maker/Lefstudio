@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started  _ _ _  _ _
+## Getting Started  _ __ _  _ _
 
 First, run the development server:
 
