@@ -40,6 +40,16 @@ Generated: 2026-05-15
 - Before writing any Next.js code, read the relevant guide in `node_modules/next/dist/docs/`
 - Heed all deprecation notices — APIs, conventions, and file structure may differ
 
+### Dev Task Board
+- Archivo: `docs/dev-task-board.md`
+- Actualizar estado en CADA commit que toque un módulo
+- Estados: `[ ]` pendiente · `[-]` en progreso · `[x]` done · `[!]` deuda técnica
+
+### Self-Improving Skills
+- Protocolo: `.claude/skills/_shared/self-improving-protocol.md`
+- Cada skill DEBE tener: `learnings.md` + `eval.json` junto a su `SKILL.md`
+- Al ejecutar un skill: leer learnings → ejecutar → auto-evaluar → actualizar learnings
+
 ### Stack Context
 - Next.js 16.2.4 + React 19 + TypeScript 5 + Tailwind CSS v4
 - App Router, Screaming Architecture (`_components/`, `_data/`, `_types/` per feature)
